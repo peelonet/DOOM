@@ -18,18 +18,10 @@
 //  Refresh, visplane stuff (floor, ceilings).
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __R_PLANE__
 #define __R_PLANE__
 
-
 #include "r_data.h"
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
 
 // Visplane related.
 extern  short*    lastopening;

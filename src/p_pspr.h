@@ -18,8 +18,6 @@
 //  Sprite animation.
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __P_PSPR__
 #define __P_PSPR__
 
@@ -37,11 +35,6 @@
 // i.e. the Thing Atrributes table
 // and the Frame Sequence table.
 #include "info.h"
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
 
 //
 // Frame flags:

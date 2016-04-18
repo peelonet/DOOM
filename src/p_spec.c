@@ -24,10 +24,6 @@
 //  Line Tag handling. Line and Sector triggers.
 //
 //-----------------------------------------------------------------------------
-
-static const char
-rcsid[] = "$Id: p_spec.c,v 1.6 1997/02/03 22:45:12 b1 Exp $";
-
 #include <stdlib.h>
 
 #include "doomdef.h"
@@ -59,7 +55,7 @@ rcsid[] = "$Id: p_spec.c,v 1.6 1997/02/03 22:45:12 b1 Exp $";
 //
 typedef struct
 {
-  boolean istexture;
+  int   istexture;
   int   picnum;
   int   basepic;
   int   numpics;
@@ -72,7 +68,7 @@ typedef struct
 //
 typedef struct
 {
-  boolean istexture;  // if false, it is a flat
+  int   istexture;  // if false, it is a flat
   char  endname[9];
   char  startname[9];
   int   speed;

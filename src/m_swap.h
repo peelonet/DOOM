@@ -18,16 +18,8 @@
 //  Endianess handling, swapping 16bit and 32bit.
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __M_SWAP__
 #define __M_SWAP__
-
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
 
 // Endianess handling.
 // WAD files are stored little endian.
@@ -40,9 +32,6 @@ long  SwapLONG(long);
 #define SHORT(x)  (x)
 #define LONG(x)         (x)
 #endif
-
-
-
 
 #endif
 //-----------------------------------------------------------------------------

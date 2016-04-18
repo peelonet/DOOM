@@ -18,8 +18,6 @@
 //
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __D_PLAYER__
 #define __D_PLAYER__
 
@@ -39,13 +37,6 @@
 // is buffered within the player data struct,
 // as commands per game tick.
 #include "d_ticcmd.h"
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
-
 
 //
 // Player states.

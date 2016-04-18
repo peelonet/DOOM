@@ -21,11 +21,6 @@
 //  all OS independend parts.
 //
 //-----------------------------------------------------------------------------
-
-
-static const char rcsid[] = "$Id: d_net.c,v 1.3 1997/02/03 22:01:47 b1 Exp $";
-
-
 #include "m_menu.h"
 #include "i_system.h"
 #include "i_video.h"
@@ -504,8 +499,7 @@ void CheckAbort (void)
   }
 
   I_StartTic ();
-  for ( ; eventtail != eventhead
-        ; eventtail = (++eventtail) & (MAXEVENTS - 1) )
+  for (; eventtail != eventhead; eventtail = ((eventtail + 1) & (MAXEVENTS - 1)))
   {
     ev = &events[eventtail];
     if (ev->type == ev_keydown && ev->data1 == KEY_ESCAPE)

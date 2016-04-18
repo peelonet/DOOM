@@ -19,10 +19,6 @@
 // DESCRIPTION:
 //
 //-----------------------------------------------------------------------------
-
-static const char
-rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -42,14 +38,7 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
 #include "doomstat.h"
 
-#ifdef __GNUG__
-#pragma implementation "i_net.h"
-#endif
 #include "i_net.h"
-
-
-
-
 
 // For some odd reason...
 #define ntohl(x) \
@@ -61,7 +50,7 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 #define ntohs(x) \
         ((unsigned short int)((((unsigned short int)(x) & 0x00ff) << 8) | \
                               (((unsigned short int)(x) & 0xff00) >> 8))) \
- 
+
 #define htonl(x) ntohl(x)
 #define htons(x) ntohs(x)
 
@@ -171,8 +160,14 @@ void PacketGet (void)
   doomdata_t    sw;
 
   fromlen = sizeof(fromaddress);
-  c = recvfrom (insocket, &sw, sizeof(sw), 0
-                , (struct sockaddr*)&fromaddress, &fromlen );
+  c = recvfrom(
+      insocket,
+      &sw,
+      sizeof(sw),
+      0,
+      (struct sockaddr*) &fromaddress,
+      (unsigned int*) &fromlen
+  );
   if (c == -1 )
   {
     if (errno != EWOULDBLOCK)

@@ -18,16 +18,10 @@
 //  System specific interface stuff.
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __D_TICCMD__
 #define __D_TICCMD__
 
 #include "doomtype.h"
-
-#ifdef __GNUG__
-#pragma interface
-#endif
 
 // The data sampled per tick (single player)
 // and transmitted to other peers (multiplayer).

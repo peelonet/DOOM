@@ -19,11 +19,6 @@
 // DESCRIPTION: Door animation code (opening/closing)
 //
 //-----------------------------------------------------------------------------
-
-static const char
-rcsid[] = "$Id: p_doors.c,v 1.4 1997/02/03 16:47:53 b1 Exp $";
-
-
 #include "z_zone.h"
 #include "doomdef.h"
 #include "p_local.h"
@@ -38,22 +33,6 @@ rcsid[] = "$Id: p_doors.c,v 1.4 1997/02/03 16:47:53 b1 Exp $";
 // Data.
 #include "dstrings.h"
 #include "sounds.h"
-
-#if 0
-//
-// Sliding door frame information
-//
-slidename_t slideFrameNames[MAXSLIDEDOORS] =
-{
-  {
-    "GDOORF1", "GDOORF2", "GDOORF3", "GDOORF4", // front
-    "GDOORB1", "GDOORB2", "GDOORB3", "GDOORB4"
-  },  // back
-
-  {"\0", "\0", "\0", "\0"}
-};
-#endif
-
 
 //
 // VERTICAL DOORS
