@@ -27,7 +27,6 @@
 #include <malloc.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include <alloca.h>
 #define O_BINARY    0
 
 #include "doomtype.h"
@@ -193,7 +192,7 @@ void W_AddFile (char* filename)
     header.numlumps = LONG(header.numlumps);
     header.infotableofs = LONG(header.infotableofs);
     length = header.numlumps * sizeof(filelump_t);
-    fileinfo = alloca (length);
+    fileinfo = Z_Malloc(length, PU_STATIC, NULL);
     lseek (handle, header.infotableofs, SEEK_SET);
     read (handle, fileinfo, length);
     numlumps += header.numlumps;
@@ -258,7 +257,7 @@ void W_Reload (void)
   lumpcount = LONG(header.numlumps);
   header.infotableofs = LONG(header.infotableofs);
   length = lumpcount * sizeof(filelump_t);
-  fileinfo = alloca (length);
+  fileinfo = Z_Malloc(length, PU_STATIC, NULL);
   lseek (handle, header.infotableofs, SEEK_SET);
   read (handle, fileinfo, length);
 
