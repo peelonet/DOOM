@@ -18,22 +18,12 @@
 //  Refresh/render internal state variables (global).
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __R_STATE__
 #define __R_STATE__
 
 // Need data structure definitions.
 #include "d_player.h"
 #include "r_data.h"
-
-
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 
 //
 // Refresh internal data structures,

@@ -18,18 +18,10 @@
 //  System specific interface stuff.
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __I_VIDEO__
 #define __I_VIDEO__
 
-
 #include "doomtype.h"
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
 
 // Called by D_DoomMain,
 // determines the hardware configuration

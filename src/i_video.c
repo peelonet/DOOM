@@ -20,10 +20,6 @@
 //  DOOM graphics stuff for X11, UNIX.
 //
 //-----------------------------------------------------------------------------
-
-static const char
-rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
-
 #include <ctype.h>
 
 #include <SDL/SDL.h>
@@ -177,8 +173,6 @@ void I_StartFrame (void)
 
 }
 
-static int  lastmousex = 0;
-static int  lastmousey = 0;
 boolean   mousemoved = false;
 boolean   shmFinished;
 

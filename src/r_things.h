@@ -18,15 +18,8 @@
 //  Rendering of moving objects, sprites.
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __R_THINGS__
 #define __R_THINGS__
-
-
-#ifdef __GNUG__
-#pragma interface
-#endif
 
 #define MAXVISSPRITES   128
 

@@ -19,13 +19,6 @@
 // DESCRIPTION:  none
 //
 //-----------------------------------------------------------------------------
-
-
-static const char
-rcsid[] = "$Id: s_sound.c,v 1.6 1997/02/03 22:45:12 b1 Exp $";
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -694,7 +687,7 @@ S_ChangeMusic
 ( int     musicnum,
   int     looping )
 {
-  musicinfo_t*  music;
+  musicinfo_t* music = NULL;
   char    namebuf[9];
 
   if ( (musicnum <= mus_None)

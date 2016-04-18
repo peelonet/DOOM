@@ -20,13 +20,6 @@
 //  Handling interactions (i.e., collisions).
 //
 //-----------------------------------------------------------------------------
-
-
-static const char
-rcsid[] = "$Id: p_inter.c,v 1.4 1997/02/03 22:45:11 b1 Exp $";
-
-
-// Data.
 #include "doomdef.h"
 #include "dstrings.h"
 #include "sounds.h"
@@ -42,9 +35,6 @@ rcsid[] = "$Id: p_inter.c,v 1.4 1997/02/03 22:45:11 b1 Exp $";
 
 #include "s_sound.h"
 
-#ifdef __GNUG__
-#pragma implementation "p_inter.h"
-#endif
 #include "p_inter.h"
 
 
@@ -83,7 +73,7 @@ P_GiveAmmo
     return false;
   }
 
-  if (ammo < 0 || ammo > NUMAMMO)
+  if (!ammo || ammo > NUMAMMO)
   {
     I_Error ("P_GiveAmmo: bad type %i", ammo);
   }

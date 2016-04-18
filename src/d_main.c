@@ -24,9 +24,6 @@
 //
 //-----------------------------------------------------------------------------
 
-
-static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
-
 #define BGCOLOR   7
 #define FGCOLOR   8
 
@@ -148,7 +145,7 @@ int     eventtail;
 void D_PostEvent (event_t* ev)
 {
   events[eventhead] = *ev;
-  eventhead = (++eventhead) & (MAXEVENTS - 1);
+  eventhead = ((eventhead + 1) & (MAXEVENTS - 1));
 }
 
 
@@ -167,7 +164,7 @@ void D_ProcessEvents (void)
     return;
   }
 
-  for ( ; eventtail != eventhead ; eventtail = (++eventtail) & (MAXEVENTS - 1) )
+  for (; eventtail != eventhead; eventtail = ((eventtail + 1) & (MAXEVENTS - 1)))
   {
     ev = &events[eventtail];
     if (M_Responder (ev))
@@ -1200,17 +1197,6 @@ void D_DoomMain (void)
 
   printf ("ST_Init: Init status bar.\n");
   ST_Init ();
-
-  // check for a driver that wants intermission stats
-  p = M_CheckParm ("-statcopy");
-  if (p && p < myargc - 1)
-  {
-    // for statistics driver
-    extern  void* statcopy;
-
-    statcopy = (void*)atoi(myargv[p + 1]);
-    printf ("External statistics registered.\n");
-  }
 
   // start the apropriate game based on parms
   p = M_CheckParm ("-record");

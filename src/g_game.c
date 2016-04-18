@@ -19,11 +19,6 @@
 // DESCRIPTION:  none
 //
 //-----------------------------------------------------------------------------
-
-
-static const char
-rcsid[] = "$Id: g_game.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
-
 #include <string.h>
 #include <stdlib.h>
 
@@ -113,7 +108,7 @@ int             starttime;            // for comparative timing purposes
 
 boolean         viewactive;
 
-boolean         deathmatch;             // only if started as net death
+int             deathmatch;             // only if started as net death
 boolean         netgame;                // only true if packets are broadcast
 boolean         playeringame[MAXPLAYERS];
 player_t        players[MAXPLAYERS];
@@ -211,10 +206,6 @@ char    savedescription[32];
 
 mobj_t*   bodyque[BODYQUESIZE];
 int   bodyqueslot;
-
-void*   statcopy;       // for statistics driver
-
-
 
 int G_CmdChecksum (ticcmd_t* cmd)
 {
@@ -553,8 +544,14 @@ void G_DoLoadLevel (void)
   joyxmove = joyymove = 0;
   mousex = mousey = 0;
   sendpause = sendsave = paused = false;
-  memset (mousebuttons, 0, sizeof(mousebuttons));
-  memset (joybuttons, 0, sizeof(joybuttons));
+  for (i = 0; i < 4; ++i)
+  {
+    mousearray[i] = false;
+  }
+  for (i = 0; i < 5; ++i)
+  {
+    joyarray[i] = false;
+  }
 }
 
 
@@ -1265,11 +1262,6 @@ void G_DoCompleted (void)
   viewactive = false;
   automapactive = false;
 
-  if (statcopy)
-  {
-    memcpy (statcopy, &wminfo, sizeof(wminfo));
-  }
-
   WI_Start (&wminfo);
 }
 
@@ -1350,7 +1342,7 @@ void G_DoLoadGame (void)
   // skip the description field
   memset (vcheck, 0, sizeof(vcheck));
   sprintf (vcheck, "version %i", VERSION);
-  if (strcmp (save_p, vcheck))
+  if (strcmp((const char*) save_p, vcheck))
   {
     return;  // bad version
   }

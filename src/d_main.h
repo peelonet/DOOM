@@ -20,18 +20,10 @@
 //  System specific interface stuff.
 //
 //-----------------------------------------------------------------------------
-
-
 #ifndef __D_MAIN__
 #define __D_MAIN__
 
 #include "d_event.h"
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 
 #define MAXWADFILES             20
 extern char*    wadfiles[MAXWADFILES];

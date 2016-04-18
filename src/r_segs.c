@@ -20,15 +20,6 @@
 //  All the clipping: columns, horizontal spans, sky columns.
 //
 //-----------------------------------------------------------------------------
-
-
-static const char
-rcsid[] = "$Id: r_segs.c,v 1.3 1997/01/29 20:10:19 b1 Exp $";
-
-
-
-
-
 #include <stdlib.h>
 
 #include "i_system.h"
@@ -439,7 +430,7 @@ R_StoreWallRange
 
   // calculate rw_distance for scale calculation
   rw_normalangle = curline->angle + ANG90;
-  offsetangle = abs(rw_normalangle - rw_angle1);
+  offsetangle = rw_normalangle - rw_angle1;
 
   if (offsetangle > ANG90)
   {
