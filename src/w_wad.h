@@ -23,11 +23,7 @@
 #ifndef __W_WAD__
 #define __W_WAD__
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
+#include <inttypes.h>
 
 //
 // TYPES
@@ -36,18 +32,16 @@ typedef struct
 {
   // Should be "IWAD" or "PWAD".
   char    identification[4];
-  int     numlumps;
-  int     infotableofs;
-
+  int32_t numlumps;
+  int32_t infotableofs;
 } wadinfo_t;
 
 
 typedef struct
 {
-  int     filepos;
-  int     size;
+  int32_t filepos;
+  int32_t size;
   char    name[8];
-
 } filelump_t;
 
 //
@@ -55,10 +49,10 @@ typedef struct
 //
 typedef struct
 {
-  char  name[8];
-  int   handle;
-  int   position;
-  int   size;
+  char    name[8];
+  int32_t handle;
+  int32_t position;
+  int32_t size;
 } lumpinfo_t;
 
 
