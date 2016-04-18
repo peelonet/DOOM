@@ -269,7 +269,35 @@ typedef enum
 
 #define KEY_LALT  KEY_RALT
 
+// New keys:
+#define KEY_CAPSLOCK    (0x80+0x3a)
+#define KEY_SCRLCK      (0x80+0x46)
 
+#define KEY_HOME        (0x80+0x47)
+#define KEY_END         (0x80+0x4f)
+#define KEY_PGUP        (0x80+0x49)
+#define KEY_PGDN        (0x80+0x51)
+#define KEY_INS         (0x80+0x52)
+#define KEY_DEL         (0x80+0x53)
+
+#define KEYP_0          0
+#define KEYP_1          KEY_END
+#define KEYP_2          KEY_DOWNARROW
+#define KEYP_3          KEY_PGDN
+#define KEYP_4          KEY_LEFTARROW
+#define KEYP_5          '5'
+#define KEYP_6          KEY_RIGHTARROW
+#define KEYP_7          KEY_HOME
+#define KEYP_8          KEY_UPARROW
+#define KEYP_9          KEY_PGUP
+
+#define KEYP_DIVIDE     '/'
+#define KEYP_PLUS       '+'
+#define KEYP_MINUS      '-'
+#define KEYP_MULTIPLY   '*'
+#define KEYP_PERIOD     0
+#define KEYP_EQUALS     KEY_EQUALS
+#define KEYP_ENTER      KEY_ENTER
 
 // DOOM basic types (boolean),
 //  and max/min values.

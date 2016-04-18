@@ -24,6 +24,8 @@
 static const char
 rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 
+#include <ctype.h>
+
 #include <SDL/SDL.h>
 
 #include "d_main.h"
@@ -34,124 +36,127 @@ static boolean initialized = false;
 static SDL_Surface* window;
 static SDL_Color palette_out[256];
 
-//
-//  Translates the key currently in X_event
-//
-
-int xlatekey(SDL_keysym* key)
+/**
+ * Translates SDL key symbol.
+ */
+static int translate_key(SDL_keysym* key)
 {
-  int rc;
-
   switch (key->sym)
   {
-  case XK_Left:
-    rc = KEY_LEFTARROW;
-    break;
-  case XK_Right:
-    rc = KEY_RIGHTARROW;
-    break;
-  case XK_Down:
-    rc = KEY_DOWNARROW;
-    break;
-  case XK_Up:
-    rc = KEY_UPARROW;
-    break;
-  case XK_Escape:
-    rc = KEY_ESCAPE;
-    break;
-  case XK_Return:
-    rc = KEY_ENTER;
-    break;
-  case XK_Tab:
-    rc = KEY_TAB;
-    break;
-  case XK_F1:
-    rc = KEY_F1;
-    break;
-  case XK_F2:
-    rc = KEY_F2;
-    break;
-  case XK_F3:
-    rc = KEY_F3;
-    break;
-  case XK_F4:
-    rc = KEY_F4;
-    break;
-  case XK_F5:
-    rc = KEY_F5;
-    break;
-  case XK_F6:
-    rc = KEY_F6;
-    break;
-  case XK_F7:
-    rc = KEY_F7;
-    break;
-  case XK_F8:
-    rc = KEY_F8;
-    break;
-  case XK_F9:
-    rc = KEY_F9;
-    break;
-  case XK_F10:
-    rc = KEY_F10;
-    break;
-  case XK_F11:
-    rc = KEY_F11;
-    break;
-  case XK_F12:
-    rc = KEY_F12;
-    break;
+  case SDLK_BACKSPACE:
+    return KEY_BACKSPACE;
+  case SDLK_TAB:
+    return KEY_TAB;
+  case SDLK_PAUSE:
+    return KEY_PAUSE;
+  case SDLK_ESCAPE:
+    return KEY_ESCAPE;
+  case SDLK_MINUS:
+    return KEY_MINUS;
 
-  case XK_BackSpace:
-  case XK_Delete:
-    rc = KEY_BACKSPACE;
-    break;
+  case SDLK_INSERT:
+    return KEY_INS;
+  case SDLK_HOME:
+    return KEY_HOME;
+  case SDLK_END:
+    return KEY_END;
+  case SDLK_PAGEUP:
+    return KEY_PGUP;
+  case SDLK_PAGEDOWN:
+    return KEY_PGDN;
+  case SDLK_EQUALS:
+    return KEY_EQUALS;
+  case SDLK_UP:
+    return KEY_UPARROW;
+  case SDLK_DOWN:
+    return KEY_DOWNARROW;
+  case SDLK_RIGHT:
+    return KEY_RIGHTARROW;
+  case SDLK_LEFT:
+    return KEY_LEFTARROW;
 
-  case XK_Pause:
-    rc = KEY_PAUSE;
-    break;
+  case SDLK_F1:
+    return KEY_F1;
+  case SDLK_F2:
+    return KEY_F2;
+  case SDLK_F3:
+    return KEY_F3;
+  case SDLK_F4:
+    return KEY_F4;
+  case SDLK_F5:
+    return KEY_F5;
+  case SDLK_F6:
+    return KEY_F6;
+  case SDLK_F7:
+    return KEY_F7;
+  case SDLK_F8:
+    return KEY_F8;
+  case SDLK_F9:
+    return KEY_F9;
+  case SDLK_F10:
+    return KEY_F10;
+  case SDLK_F11:
+    return KEY_F11;
+  case SDLK_F12:
+    return KEY_F12;
 
-  case XK_KP_Equal:
-  case XK_equal:
-    rc = KEY_EQUALS;
-    break;
+  case SDLK_LSHIFT:
+  case SDLK_RSHIFT:
+    return KEY_RSHIFT;
 
-  case XK_KP_Subtract:
-  case XK_minus:
-    rc = KEY_MINUS;
-    break;
+  case SDLK_LCTRL:
+  case SDLK_RCTRL:
+    return KEY_RCTRL;
 
-  case XK_Shift_L:
-  case XK_Shift_R:
-    rc = KEY_RSHIFT;
-    break;
+  case SDLK_LALT:
+  case SDLK_RALT:
+  case SDLK_LMETA:
+  case SDLK_RMETA:
+    return KEY_RALT;
 
-  case XK_Control_L:
-  case XK_Control_R:
-    rc = KEY_RCTRL;
-    break;
+  case SDLK_KP0:
+    return KEYP_0;
+  case SDLK_KP1:
+    return KEYP_1;
+  case SDLK_KP2:
+    return KEYP_2;
+  case SDLK_KP3:
+    return KEYP_3;
+  case SDLK_KP4:
+    return KEYP_4;
+  case SDLK_KP5:
+    return KEYP_5;
+  case SDLK_KP6:
+    return KEYP_6;
+  case SDLK_KP7:
+    return KEYP_7;
+  case SDLK_KP8:
+    return KEYP_8;
+  case SDLK_KP9:
+    return KEYP_9;
+  case SDLK_KP_PERIOD:
+    return KEYP_PERIOD;
+  case SDLK_KP_DIVIDE:
+    return KEYP_DIVIDE;
+  case SDLK_KP_MULTIPLY:
+    return KEYP_MULTIPLY;
+  case SDLK_KP_MINUS:
+    return KEYP_MINUS;
+  case SDLK_KP_PLUS:
+    return KEYP_PLUS;
+  case SDLK_KP_ENTER:
+    return KEYP_ENTER;
+  case SDLK_KP_EQUALS:
+    return KEYP_EQUALS;
 
-  case XK_Alt_L:
-  case XK_Meta_L:
-  case XK_Alt_R:
-  case XK_Meta_R:
-    rc = KEY_RALT;
-    break;
+  case SDLK_CAPSLOCK:
+    return KEY_CAPSLOCK;
+  case SDLK_SCROLLOCK:
+    return KEY_SCRLCK;
 
   default:
-    if (rc >= XK_space && rc <= XK_asciitilde)
-    {
-      rc = rc - XK_space + ' ';
-    }
-    if (rc >= 'A' && rc <= 'Z')
-    {
-      rc = rc - 'A' + 'a';
-    }
-    break;
+    return tolower(key->sym);
   }
-
-  return rc;
-
 }
 
 void I_ShutdownGraphics()
@@ -188,13 +193,13 @@ static void I_GetEvent()
     {
     case SDL_KEYDOWN:
       doom_event.type = ev_keydown;
-      doom_event.data1 = xlatekey(&sdl_event.key.keysym);
+      doom_event.data1 = translate_key(&sdl_event.key.keysym);
       D_PostEvent(&doom_event);
       break;
 
     case SDL_KEYUP:
       doom_event.type = ev_keyup;
-      doom_event.data1 = xlatekey(&sdl_event.key.keysym);
+      doom_event.data1 = translate_key(&sdl_event.key.keysym);
       D_PostEvent(&doom_event);
       break;
 
