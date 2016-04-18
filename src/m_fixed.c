@@ -65,12 +65,6 @@ FixedDiv2
 ( fixed_t a,
   fixed_t b )
 {
-#if 0
-  long long c;
-  c = ((long long)a << 16) / ((long long)b);
-  return (fixed_t) c;
-#endif
-
   double c;
 
   c = ((double)a) / ((double)b) * FRACUNIT;
