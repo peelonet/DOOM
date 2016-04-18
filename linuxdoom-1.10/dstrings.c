@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -17,8 +17,8 @@
 // $Log:$
 //
 // DESCRIPTION:
-//	Globally defined strings.
-// 
+//  Globally defined strings.
+//
 //-----------------------------------------------------------------------------
 
 static const char
@@ -32,7 +32,7 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
 
 
-char* endmsg[NUM_QUITMESSAGES+1]=
+char* endmsg[NUM_QUITMESSAGES + 1] =
 {
   // DOOM1
   QUITMSG,
@@ -67,6 +67,6 @@ char* endmsg[NUM_QUITMESSAGES+1]=
 };
 
 
-  
+
 
 

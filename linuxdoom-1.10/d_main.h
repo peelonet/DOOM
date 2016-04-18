@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -17,7 +17,7 @@
 // $Log:$
 //
 // DESCRIPTION:
-//	System specific interface stuff.
+//  System specific interface stuff.
 //
 //-----------------------------------------------------------------------------
 
@@ -34,9 +34,9 @@
 
 
 #define MAXWADFILES             20
-extern char*		wadfiles[MAXWADFILES];
+extern char*    wadfiles[MAXWADFILES];
 
-void D_AddFile (char *file);
+void D_AddFile (char* file);
 
 
 
@@ -51,7 +51,7 @@ void D_DoomMain (void);
 // Called by IO functions when input is detected.
 void D_PostEvent (event_t* ev);
 
-	
+
 
 //
 // BASE LEVEL

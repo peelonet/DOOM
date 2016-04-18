@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -29,7 +29,7 @@
 #endif
 
 
-boolean	P_GivePower(player_t*, int);
+boolean P_GivePower(player_t*, int);
 
 
 
