@@ -30,7 +30,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "doomtype.h"
 #include "m_swap.h"
 #include "i_system.h"
 #include "z_zone.h"

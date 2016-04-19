@@ -22,6 +22,7 @@
 //   e.g. inline assembly, different algorithms.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
 

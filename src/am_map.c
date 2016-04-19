@@ -20,6 +20,7 @@
 // DESCRIPTION:  the automap code
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 #include <limits.h>
 #include <string.h>
@@ -220,7 +221,7 @@ static int  grid = 0;
 
 static int  leveljuststarted = 1;   // kluge until AM_LevelInit() is called
 
-boolean     automapactive = false;
+bool     automapactive = false;
 static int  finit_width = SCREENWIDTH;
 static int  finit_height = SCREENHEIGHT - 32;
 
@@ -289,9 +290,9 @@ static int followplayer = 1; // specifies whether to follow the player around
 static unsigned char cheat_amap_seq[] = { 0xb2, 0x26, 0x26, 0x2e, 0xff };
 static cheatseq_t cheat_amap = { cheat_amap_seq, 0 };
 
-static boolean stopped = true;
+static bool stopped = true;
 
-extern boolean viewactive;
+extern bool viewactive;
 
 void
 V_MarkRect
@@ -650,7 +651,7 @@ void AM_maxOutWindowScale(void)
 //
 // Handle events (user inputs) in automap mode
 //
-boolean
+bool
 AM_Responder
 ( event_t*  ev )
 {
@@ -939,7 +940,7 @@ void AM_clearFB(int color)
 // faster reject and precalculated slopes.  If the speed is needed,
 // use a hash algorithm to handle  the common cases.
 //
-boolean
+bool
 AM_clipMline
 ( mline_t*  ml,
   fline_t*  fl )

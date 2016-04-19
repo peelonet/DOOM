@@ -22,6 +22,7 @@
 //  Pending weapon.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "doomdef.h"
@@ -44,7 +45,7 @@
 // 16 pixels of bob
 #define MAXBOB  0x100000
 
-boolean   onground;
+bool   onground;
 
 
 //

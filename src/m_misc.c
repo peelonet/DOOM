@@ -24,6 +24,7 @@
 //
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
 #include <ctype.h>
@@ -64,7 +65,7 @@ int
 M_DrawText
 ( int   x,
   int   y,
-  boolean direct,
+  bool direct,
   char*   string )
 {
   int   c;
@@ -109,7 +110,7 @@ M_DrawText
 #define O_BINARY 0
 #endif
 
-boolean M_WriteFile(const char* filename, void* source, int length)
+bool M_WriteFile(const char* filename, void* source, int length)
 {
   FILE* handle = fopen(filename, "wb");
   size_t count;
@@ -318,7 +319,7 @@ void M_LoadDefaults (void)
   char  strparm[100];
   char* newstring;
   int   parm;
-  boolean isstring;
+  bool isstring;
 
   // set everything to base values
   numdefaults = sizeof(defaults) / sizeof(defaults[0]);

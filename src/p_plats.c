@@ -20,6 +20,7 @@
 //  Plats (i.e. elevator platforms) code, raising/lowering.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "i_system.h"

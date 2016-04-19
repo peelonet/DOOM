@@ -19,6 +19,7 @@
 // DESCRIPTION: Door animation code (opening/closing)
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "z_zone.h"

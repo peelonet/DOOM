@@ -22,6 +22,7 @@
 //  Does palette indicators as well (red pain/berserk, bright pickup)
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "i_system.h"
@@ -265,7 +266,7 @@
 static player_t*  plyr;
 
 // ST_Start() has just been called
-static boolean    st_firsttime;
+static bool    st_firsttime;
 
 // used to execute ST_Init() only once
 static int    veryfirsttime = 1;
@@ -286,25 +287,25 @@ static st_chatstateenum_t st_chatstate;
 static st_stateenum_t st_gamestate;
 
 // whether left-side main status bar is active
-static boolean    st_statusbaron;
+static bool    st_statusbaron;
 
 // whether status bar chat is active
-static boolean    st_chat;
+static bool    st_chat;
 
 // value of st_chat before message popped up
-static boolean    st_oldchat;
+static bool    st_oldchat;
 
 // whether chat window has the cursor on
-static boolean    st_cursoron;
+static bool    st_cursoron;
 
 // !deathmatch
-static boolean    st_notdeathmatch;
+static bool    st_notdeathmatch;
 
 // !deathmatch && st_statusbaron
-static boolean    st_armson;
+static bool    st_armson;
 
 // !deathmatch
-static boolean    st_fragson;
+static bool    st_fragson;
 
 // main bar left
 static patch_t*   sbar;
@@ -373,7 +374,7 @@ static int  st_fragscount;
 static int  st_oldhealth = -1;
 
 // used for evil grin
-static boolean  oldweaponsowned[NUMWEAPONS];
+static bool  oldweaponsowned[NUMWEAPONS];
 
 // count until face changes
 static int  st_facecount = 0;
@@ -511,7 +512,7 @@ void ST_refreshBackground(void)
 
 // Respond to keyboard input events,
 //  intercept cheats.
-boolean
+bool
 ST_Responder (event_t* ev)
 {
   int   i;
@@ -797,7 +798,7 @@ void ST_updateFaceWidget(void)
   angle_t diffang;
   static int  lastattackdown = -1;
   static int  priority = 0;
-  boolean doevilgrin;
+  bool doevilgrin;
 
   if (priority < 10)
   {
@@ -1118,7 +1119,7 @@ void ST_doPaletteStuff(void)
 
 }
 
-void ST_drawWidgets(boolean refresh)
+void ST_drawWidgets(bool refresh)
 {
   int   i;
 
@@ -1176,7 +1177,7 @@ void ST_diffDraw(void)
   ST_drawWidgets(false);
 }
 
-void ST_Drawer (boolean fullscreen, boolean refresh)
+void ST_Drawer (bool fullscreen, bool refresh)
 {
 
   st_statusbaron = (!fullscreen) || automapactive;
@@ -1525,7 +1526,7 @@ void ST_createWidgets(void)
 
 }
 
-static boolean  st_stopped = true;
+static bool  st_stopped = true;
 
 
 void ST_Start (void)

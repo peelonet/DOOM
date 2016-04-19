@@ -21,6 +21,7 @@
 //  Muzzle flash?
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "z_zone.h"

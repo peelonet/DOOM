@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -85,14 +86,14 @@ void D_DoomLoop (void);
 char*   wadfiles[MAXWADFILES];
 
 
-boolean   devparm;  // started game with -devparm
-boolean         nomonsters; // checkparm of -nomonsters
-boolean         respawnparm;  // checkparm of -respawn
-boolean         fastparm; // checkparm of -fast
+bool   devparm;  // started game with -devparm
+bool         nomonsters; // checkparm of -nomonsters
+bool         respawnparm;  // checkparm of -respawn
+bool         fastparm; // checkparm of -fast
 
-boolean         drone;
+bool         drone;
 
-boolean   singletics = false; // debug flag to cancel adaptiveness
+bool   singletics = false; // debug flag to cancel adaptiveness
 
 
 
@@ -100,16 +101,16 @@ boolean   singletics = false; // debug flag to cancel adaptiveness
 //extern  int sfxVolume;
 //extern  int musicVolume;
 
-extern  boolean inhelpscreens;
+extern  bool inhelpscreens;
 
 skill_t   startskill;
 int             startepisode;
 int   startmap;
-boolean   autostart;
+bool   autostart;
 
 FILE*   debugfile;
 
-boolean   advancedemo;
+bool   advancedemo;
 
 
 
@@ -145,7 +146,7 @@ GameMission_t gamemission = doom;
 Language_t   language = english;
 
 // Set if homebrew PWAD stuff has been added.
-boolean modifiedgame;
+bool modifiedgame;
 
 
 //
@@ -195,25 +196,25 @@ void D_ProcessEvents (void)
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_DEMOSCREEN;
-extern  boolean setsizeneeded;
+extern  bool setsizeneeded;
 extern  int             showMessages;
 void R_ExecuteSetViewSize (void);
 
 void D_Display (void)
 {
-  static  boolean   viewactivestate = false;
-  static  boolean   menuactivestate = false;
-  static  boolean   inhelpscreensstate = false;
-  static  boolean   fullscreen = false;
+  static  bool   viewactivestate = false;
+  static  bool   menuactivestate = false;
+  static  bool   inhelpscreensstate = false;
+  static  bool   fullscreen = false;
   static  gamestate_t   oldgamestate = -1;
   static  int     borderdrawcount;
   int       nowtime;
   int       tics;
   int       wipestart;
   int       y;
-  boolean     done;
-  boolean     wipe;
-  boolean     redrawsbar;
+  bool     done;
+  bool     wipe;
+  bool     redrawsbar;
 
   if (nodrawers)
   {
@@ -386,7 +387,7 @@ void D_Display (void)
 //
 //  D_DoomLoop
 //
-extern  boolean         demorecording;
+extern  bool         demorecording;
 
 void D_DoomLoop (void)
 {

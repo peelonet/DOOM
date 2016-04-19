@@ -21,8 +21,6 @@
 #ifndef __I_VIDEO__
 #define __I_VIDEO__
 
-#include "doomtype.h"
-
 // Called by D_DoomMain,
 // determines the hardware configuration
 // and sets up the video mode

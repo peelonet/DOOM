@@ -19,6 +19,7 @@
 // DESCRIPTION:  Ceiling aninmation (lowering, crushing, raising)
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "z_zone.h"

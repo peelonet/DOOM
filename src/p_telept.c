@@ -20,6 +20,7 @@
 //  Teleportation.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "doomdef.h"

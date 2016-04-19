@@ -21,6 +21,7 @@
 //
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
 #include <limits.h>
@@ -37,13 +38,13 @@
 // OPTIMIZE: closed two sided lines as single sided
 
 // True if any of the segs textures might be visible.
-boolean   segtextured;
+bool   segtextured;
 
 // False if the back side is the same plane.
-boolean   markfloor;
-boolean   markceiling;
+bool   markfloor;
+bool   markceiling;
 
-boolean   maskedtexture;
+bool   maskedtexture;
 int   toptexture;
 int   bottomtexture;
 int   midtexture;

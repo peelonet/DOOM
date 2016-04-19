@@ -23,15 +23,11 @@
 #ifndef __M_MISC__
 #define __M_MISC__
 
-
-#include "doomtype.h"
 //
 // MISC
 //
 
-
-
-boolean
+bool
 M_WriteFile
 ( char const* name,
   void*   source,
@@ -53,7 +49,7 @@ int
 M_DrawText
 ( int   x,
   int   y,
-  boolean direct,
+  bool direct,
   char*   string );
 
 

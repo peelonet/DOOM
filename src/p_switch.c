@@ -21,6 +21,7 @@
 //  Switches, buttons. Two-state animation. Exits.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "i_system.h"
@@ -270,7 +271,7 @@ P_ChangeSwitchTexture
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-boolean
+bool
 P_UseSpecialLine
 ( mobj_t* thing,
   line_t* line,

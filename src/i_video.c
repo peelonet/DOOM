@@ -20,6 +20,7 @@
 //  DOOM graphics stuff for X11, UNIX.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
 #include <ctype.h>
 
 #include <SDL/SDL.h>
@@ -28,7 +29,7 @@
 #include "i_system.h"
 #include "v_video.h"
 
-static boolean initialized = false;
+static bool initialized = false;
 static SDL_Surface* window;
 static SDL_Color palette_out[256];
 
@@ -173,8 +174,8 @@ void I_StartFrame (void)
 
 }
 
-boolean   mousemoved = false;
-boolean   shmFinished;
+bool   mousemoved = false;
+bool   shmFinished;
 
 static void I_GetEvent()
 {
