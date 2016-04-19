@@ -70,22 +70,22 @@ typedef struct
   int16_t colormap;
 } mappatch_t;
 
-
-//
-// Texture definition.
-// A DOOM wall texture is a list of patches
-// which are to be combined in a predefined order.
-//
+/**
+ * Texture definition.
+ *
+ * A DOOM wall texture is a list of patches which are to be combined in a
+ * predefined order.
+ */
 typedef struct
 {
-  char name[8];
-  int8_t masked;
-  int16_t width;
-  int16_t height;
-  void**    columndirectory;  // OBSOLETE
-  int16_t patchcount;
+  char        name[8];
+  int8_t      masked;
+  int16_t     width;
+  int16_t     height;
+  int         obsolete;
+  int16_t     patchcount;
   mappatch_t  patches[1];
-} maptexture_t;
+} MapTexture;
 
 
 // A single patch from a texture definition,
@@ -427,7 +427,7 @@ R_GetColumn
 //
 void R_InitTextures (void)
 {
-  maptexture_t* mtexture;
+  MapTexture* mtexture;
   texture_t*    texture;
   mappatch_t*   mpatch;
   texpatch_t*   patch;
@@ -545,7 +545,7 @@ void R_InitTextures (void)
       I_Error ("R_InitTextures: bad texture directory");
     }
 
-    mtexture = (maptexture_t*) ( (uint8_t*)maptex + offset);
+    mtexture = (MapTexture*) ( (uint8_t*)maptex + offset);
 
     texture = textures[i] =
                 Z_Malloc (sizeof(texture_t)
