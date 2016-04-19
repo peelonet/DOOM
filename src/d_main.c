@@ -595,7 +595,7 @@ static void D_AddFile(const char* filename)
 {
   int numwadfiles;
 
-  for (numwadfiles = 0; wadfiles[numwadfiles]; ++numwadfiles);
+  for (numwadfiles = 0; wadfiles[numwadfiles]; numwadfiles++);
   wadfiles[numwadfiles] = strdup(filename);
 }
 
@@ -674,7 +674,7 @@ static void IdentifyVersion()
 
   for (int i = 0; supported_iwads[i].filename; ++i)
   {
-    char* filename = (char*) malloc(strlen(doomwaddir) + strlen(supported_iwads[i].filename + 2));
+    char* filename = (char*) malloc(strlen(doomwaddir) + strlen(supported_iwads[i].filename) + 2);
 
     sprintf(filename, "%s/%s", doomwaddir, supported_iwads[i].filename);
     if (M_FileExists(filename))
