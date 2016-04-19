@@ -22,6 +22,10 @@
 //   e.g. inline assembly, different algorithms.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
+
 #include "doomdef.h"
 
 #include "i_system.h"
@@ -54,20 +58,20 @@
 //
 
 
-byte*   viewimage;
+uint8_t*   viewimage;
 int   viewwidth;
 int   scaledviewwidth;
 int   viewheight;
 int   viewwindowx;
 int   viewwindowy;
-byte*   ylookup[MAXHEIGHT];
+uint8_t*   ylookup[MAXHEIGHT];
 int   columnofs[MAXWIDTH];
 
 // Color tables for different players,
 //  translate a limited part to another
 //  (color ramps used for  suit colors).
 //
-byte    translations[3][256];
+uint8_t    translations[3][256];
 
 
 
@@ -84,7 +88,7 @@ fixed_t     dc_iscale;
 fixed_t     dc_texturemid;
 
 // first pixel in a column (possibly virtual)
-byte*     dc_source;
+uint8_t*     dc_source;
 
 // just for profiling
 int     dccount;
@@ -99,7 +103,7 @@ int     dccount;
 void R_DrawColumn (void)
 {
   int     count;
-  byte*   dest;
+  uint8_t*   dest;
   fixed_t   frac;
   fixed_t   fracstep;
 
@@ -149,8 +153,8 @@ void R_DrawColumn (void)
 void R_DrawColumnLow (void)
 {
   int     count;
-  byte*   dest;
-  byte*   dest2;
+  uint8_t*   dest;
+  uint8_t*   dest2;
   fixed_t   frac;
   fixed_t   fracstep;
 
@@ -226,7 +230,7 @@ int fuzzpos = 0;
 void R_DrawFuzzColumn (void)
 {
   int     count;
-  byte*   dest;
+  uint8_t*   dest;
   fixed_t   frac;
   fixed_t   fracstep;
 
@@ -329,13 +333,13 @@ void R_DrawFuzzColumn (void)
 //  of the BaronOfHell, the HellKnight, uses
 //  identical sprites, kinda brightened up.
 //
-byte* dc_translation;
-byte* translationtables;
+uint8_t* dc_translation;
+uint8_t* translationtables;
 
 void R_DrawTranslatedColumn (void)
 {
   int     count;
-  byte*   dest;
+  uint8_t*   dest;
   fixed_t   frac;
   fixed_t   fracstep;
 
@@ -453,7 +457,7 @@ fixed_t     ds_xstep;
 fixed_t     ds_ystep;
 
 // start of a 64*64 tile image
-byte*     ds_source;
+uint8_t*     ds_source;
 
 // just for profiling
 int     dscount;
@@ -465,7 +469,7 @@ void R_DrawSpan (void)
 {
   fixed_t   xfrac;
   fixed_t   yfrac;
-  byte*   dest;
+  uint8_t*   dest;
   int     count;
   int     spot;
 
@@ -514,7 +518,7 @@ void R_DrawSpanLow (void)
 {
   fixed_t   xfrac;
   fixed_t   yfrac;
-  byte*   dest;
+  uint8_t*   dest;
   int     count;
   int     spot;
 
@@ -609,8 +613,8 @@ R_InitBuffer
 //
 void R_FillBackScreen (void)
 {
-  byte* src;
-  byte* dest;
+  uint8_t* src;
+  uint8_t* dest;
   int   x;
   int   y;
   patch_t*  patch;

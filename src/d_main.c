@@ -23,18 +23,15 @@
 //  and call the startup functions.
 //
 //-----------------------------------------------------------------------------
-
-#define BGCOLOR   7
-#define FGCOLOR   8
-
-
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
 
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -69,8 +66,10 @@
 #include "p_setup.h"
 #include "r_local.h"
 
-
 #include "d_main.h"
+
+#define BGCOLOR   7
+#define FGCOLOR   8
 
 //
 // D-DoomLoop()
@@ -87,14 +86,14 @@ void D_DoomLoop (void);
 char*   wadfiles[MAXWADFILES];
 
 
-boolean   devparm;  // started game with -devparm
-boolean         nomonsters; // checkparm of -nomonsters
-boolean         respawnparm;  // checkparm of -respawn
-boolean         fastparm; // checkparm of -fast
+bool   devparm;  // started game with -devparm
+bool         nomonsters; // checkparm of -nomonsters
+bool         respawnparm;  // checkparm of -respawn
+bool         fastparm; // checkparm of -fast
 
-boolean         drone;
+bool         drone;
 
-boolean   singletics = false; // debug flag to cancel adaptiveness
+bool   singletics = false; // debug flag to cancel adaptiveness
 
 
 
@@ -102,16 +101,16 @@ boolean   singletics = false; // debug flag to cancel adaptiveness
 //extern  int sfxVolume;
 //extern  int musicVolume;
 
-extern  boolean inhelpscreens;
+extern  bool inhelpscreens;
 
 skill_t   startskill;
 int             startepisode;
 int   startmap;
-boolean   autostart;
+bool   autostart;
 
 FILE*   debugfile;
 
-boolean   advancedemo;
+bool   advancedemo;
 
 
 
@@ -136,6 +135,18 @@ void D_DoAdvanceDemo (void);
 event_t         events[MAXEVENTS];
 int             eventhead;
 int     eventtail;
+
+// These were moved from doomstat.c to here.
+
+// Game Mode - identify IWAD as shareware, retail etc.
+GameMode_t gamemode = indetermined;
+GameMission_t gamemission = doom;
+
+// Language.
+Language_t   language = english;
+
+// Set if homebrew PWAD stuff has been added.
+bool modifiedgame;
 
 
 //
@@ -185,25 +196,25 @@ void D_ProcessEvents (void)
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_DEMOSCREEN;
-extern  boolean setsizeneeded;
+extern  bool setsizeneeded;
 extern  int             showMessages;
 void R_ExecuteSetViewSize (void);
 
 void D_Display (void)
 {
-  static  boolean   viewactivestate = false;
-  static  boolean   menuactivestate = false;
-  static  boolean   inhelpscreensstate = false;
-  static  boolean   fullscreen = false;
+  static  bool   viewactivestate = false;
+  static  bool   menuactivestate = false;
+  static  bool   inhelpscreensstate = false;
+  static  bool   fullscreen = false;
   static  gamestate_t   oldgamestate = -1;
   static  int     borderdrawcount;
   int       nowtime;
   int       tics;
   int       wipestart;
   int       y;
-  boolean     done;
-  boolean     wipe;
-  boolean     redrawsbar;
+  bool     done;
+  bool     wipe;
+  bool     redrawsbar;
 
   if (nodrawers)
   {
@@ -331,8 +342,8 @@ void D_Display (void)
     {
       y = viewwindowy + 4;
     }
-    V_DrawPatchDirect(viewwindowx + (scaledviewwidth - 68) / 2,
-                      y, 0, W_CacheLumpName ("M_PAUSE", PU_CACHE));
+    V_DrawPatch(viewwindowx + (scaledviewwidth - 68) / 2,
+                y, 0, W_CacheLumpName ("M_PAUSE", PU_CACHE));
   }
 
 
@@ -376,7 +387,7 @@ void D_Display (void)
 //
 //  D_DoomLoop
 //
-extern  boolean         demorecording;
+extern  bool         demorecording;
 
 void D_DoomLoop (void)
 {

@@ -25,6 +25,9 @@
 //
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
 #include <limits.h>
 
 #include "doomdef.h"
@@ -1131,7 +1134,7 @@ void P_PlayerInSpecialSector (player_t* player)
 // P_UpdateSpecials
 // Animate planes, scroll walls, etc.
 //
-boolean   levelTimer;
+bool   levelTimer;
 int   levelTimeCount;
 
 void P_UpdateSpecials (void)

@@ -23,6 +23,9 @@
 //
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include <math.h>
 
 #include "doomdef.h"
@@ -604,7 +607,7 @@ void R_InitLightTables (void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-boolean   setsizeneeded;
+bool   setsizeneeded;
 int   setblocks;
 int   setdetail;
 

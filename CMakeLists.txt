@@ -19,7 +19,6 @@ set(
   src/d_main.c
   src/d_net.c
   src/doomdef.c
-  src/doomstat.c
   src/dstrings.c
   src/f_finale.c
   src/f_wipe.c

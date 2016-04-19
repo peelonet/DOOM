@@ -19,8 +19,11 @@
 // DESCRIPTION:  none
 //
 //-----------------------------------------------------------------------------
-#include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -71,7 +74,7 @@
 
 
 
-boolean G_CheckDemoStatus (void);
+bool G_CheckDemoStatus (void);
 void  G_ReadDemoTiccmd (ticcmd_t* cmd);
 void  G_WriteDemoTiccmd (ticcmd_t* cmd);
 void  G_PlayerReborn (int player);
@@ -92,25 +95,25 @@ void  G_DoSaveGame (void);
 gameaction_t    gameaction;
 gamestate_t     gamestate;
 skill_t         gameskill;
-boolean   respawnmonsters;
+bool   respawnmonsters;
 int             gameepisode;
 int             gamemap;
 
-boolean         paused;
-boolean         sendpause;              // send a pause event next tic
-boolean         sendsave;               // send a save event next tic
-boolean         usergame;               // ok to save / end game
+bool         paused;
+bool         sendpause;              // send a pause event next tic
+bool         sendsave;               // send a save event next tic
+bool         usergame;               // ok to save / end game
 
-boolean         timingdemo;             // if true, exit with report on completion
-boolean         nodrawers;              // for comparative timing purposes
-boolean         noblit;                 // for comparative timing purposes
+bool         timingdemo;             // if true, exit with report on completion
+bool         nodrawers;              // for comparative timing purposes
+bool         noblit;                 // for comparative timing purposes
 int             starttime;            // for comparative timing purposes
 
-boolean         viewactive;
+bool         viewactive;
 
 int             deathmatch;             // only if started as net death
-boolean         netgame;                // only true if packets are broadcast
-boolean         playeringame[MAXPLAYERS];
+bool         netgame;                // only true if packets are broadcast
+bool         playeringame[MAXPLAYERS];
 player_t        players[MAXPLAYERS];
 
 int             consoleplayer;          // player taking events and displaying
@@ -120,21 +123,21 @@ int             levelstarttic;          // gametic at level start
 int             totalkills, totalitems, totalsecret;    // for intermission
 
 char            demoname[32];
-boolean         demorecording;
-boolean         demoplayback;
-boolean   netdemo;
-byte*   demobuffer;
-byte*   demo_p;
-byte*   demoend;
-boolean         singledemo;             // quit after playing a demo from cmdline
+bool         demorecording;
+bool         demoplayback;
+bool   netdemo;
+uint8_t*   demobuffer;
+uint8_t*   demo_p;
+uint8_t*   demoend;
+bool         singledemo;             // quit after playing a demo from cmdline
 
-boolean         precache = true;        // if true, load all graphics at start
+bool         precache = true;        // if true, load all graphics at start
 
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 short   consistancy[MAXPLAYERS][BACKUPTICS];
 
-byte*   savebuffer;
+uint8_t*   savebuffer;
 
 
 //
@@ -175,11 +178,11 @@ fixed_t   angleturn[3] = {640, 1280, 320};  // + slow turn
 
 #define NUMKEYS   256
 
-boolean         gamekeydown[NUMKEYS];
+bool         gamekeydown[NUMKEYS];
 int             turnheld;       // for accelerative turning
 
-boolean   mousearray[4];
-boolean*  mousebuttons = &mousearray[1];    // allow [-1]
+bool   mousearray[4];
+bool*  mousebuttons = &mousearray[1];    // allow [-1]
 
 // mouse values are used once
 int             mousex;
@@ -195,8 +198,8 @@ int   dclicks2;
 // joystick values are repeated
 int             joyxmove;
 int   joyymove;
-boolean         joyarray[5];
-boolean*  joybuttons = &joyarray[1];    // allow [-1]
+bool         joyarray[5];
+bool*  joybuttons = &joyarray[1];    // allow [-1]
 
 int   savegameslot;
 char    savedescription[32];
@@ -230,8 +233,8 @@ int G_CmdChecksum (ticcmd_t* cmd)
 void G_BuildTiccmd (ticcmd_t* cmd)
 {
   int   i;
-  boolean strafe;
-  boolean bstrafe;
+  bool strafe;
+  bool bstrafe;
   int   speed;
   int   tspeed;
   int   forward;
@@ -559,7 +562,7 @@ void G_DoLoadLevel (void)
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
 //
-boolean G_Responder (event_t* ev)
+bool G_Responder (event_t* ev)
 {
   // allow spy mode changes even during the demo
   if (gamestate == GS_LEVEL && ev->type == ev_keydown
@@ -924,7 +927,7 @@ void G_PlayerReborn (int player)
 //
 void P_SpawnPlayer (mapthing_t* mthing);
 
-boolean
+bool
 G_CheckSpot
 ( int   playernum,
   mapthing_t* mthing )
@@ -1090,7 +1093,7 @@ int cpars[32] =
 //
 // G_DoCompleted
 //
-boolean   secretexit;
+bool   secretexit;
 extern char*  pagename;
 
 void G_ExitLevel (void)
@@ -1304,7 +1307,7 @@ void G_DoWorldDone (void)
 // G_InitFromSavegame
 // Can be called by the startup code or the menu task.
 //
-extern boolean setsizeneeded;
+extern bool setsizeneeded;
 void R_ExecuteSetViewSize (void);
 
 char  savename[256];
@@ -1815,7 +1818,7 @@ void G_TimeDemo (char* name)
 ===================
 */
 
-boolean G_CheckDemoStatus (void)
+bool G_CheckDemoStatus (void)
 {
   int             endtime;
 

@@ -21,8 +21,6 @@
 #ifndef __D_TICCMD__
 #define __D_TICCMD__
 
-#include "doomtype.h"
-
 // The data sampled per tick (single player)
 // and transmitted to other peers (multiplayer).
 // Mainly movements/button commands per game tick,
@@ -33,11 +31,9 @@ typedef struct
   char  sidemove; // *2048 for move
   short angleturn;  // <<16 for angle delta
   short consistancy;  // checks for net game
-  byte  chatchar;
-  byte  buttons;
+  uint8_t  chatchar;
+  uint8_t  buttons;
 } ticcmd_t;
-
-
 
 #endif
 //-----------------------------------------------------------------------------

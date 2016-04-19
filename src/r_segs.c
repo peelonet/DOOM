@@ -21,6 +21,9 @@
 //
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
 #include <limits.h>
 
 #include "i_system.h"
@@ -35,13 +38,13 @@
 // OPTIMIZE: closed two sided lines as single sided
 
 // True if any of the segs textures might be visible.
-boolean   segtextured;
+bool   segtextured;
 
 // False if the back side is the same plane.
-boolean   markfloor;
-boolean   markceiling;
+bool   markfloor;
+bool   markceiling;
 
-boolean   maskedtexture;
+bool   maskedtexture;
 int   toptexture;
 int   bottomtexture;
 int   midtexture;
@@ -185,7 +188,7 @@ R_RenderMaskedSegRange
 
       // draw the texture
       col = (column_t*)(
-              (byte*)R_GetColumn(texnum, maskedtexturecol[dc_x]) - 3);
+              (uint8_t*)R_GetColumn(texnum, maskedtexturecol[dc_x]) - 3);
 
       R_DrawMaskedColumn (col);
       maskedtexturecol[dc_x] = SHRT_MAX;

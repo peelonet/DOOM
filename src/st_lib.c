@@ -20,6 +20,8 @@
 //  The status bar widget code.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
+#include <stdint.h>
 #include <ctype.h>
 
 #include "doomdef.h"
@@ -39,7 +41,7 @@
 
 
 // in AM_map.c
-extern boolean    automapactive;
+extern bool    automapactive;
 
 
 
@@ -64,7 +66,7 @@ STlib_initNum
   int     y,
   patch_t**   pl,
   int*      num,
-  boolean*    on,
+  bool*    on,
   int     width )
 {
   n->x  = x;
@@ -85,7 +87,7 @@ STlib_initNum
 void
 STlib_drawNum
 ( st_number_t*  n,
-  boolean refresh )
+  bool refresh )
 {
 
   int   numdigits = n->width;
@@ -159,7 +161,7 @@ STlib_drawNum
 void
 STlib_updateNum
 ( st_number_t*    n,
-  boolean   refresh )
+  bool   refresh )
 {
   if (*n->on)
   {
@@ -176,7 +178,7 @@ STlib_initPercent
   int     y,
   patch_t**   pl,
   int*      num,
-  boolean*    on,
+  bool*    on,
   patch_t*    percent )
 {
   STlib_initNum(&p->n, x, y, pl, num, on, 3);
@@ -208,7 +210,7 @@ STlib_initMultIcon
   int     y,
   patch_t**   il,
   int*      inum,
-  boolean*    on )
+  bool*    on )
 {
   i->x  = x;
   i->y  = y;
@@ -223,7 +225,7 @@ STlib_initMultIcon
 void
 STlib_updateMultIcon
 ( st_multicon_t*  mi,
-  boolean   refresh )
+  bool   refresh )
 {
   int     w;
   int     h;
@@ -261,8 +263,8 @@ STlib_initBinIcon
   int     x,
   int     y,
   patch_t*    i,
-  boolean*    val,
-  boolean*    on )
+  bool*    val,
+  bool*    on )
 {
   b->x  = x;
   b->y  = y;
@@ -277,7 +279,7 @@ STlib_initBinIcon
 void
 STlib_updateBinIcon
 ( st_binicon_t*   bi,
-  boolean   refresh )
+  bool   refresh )
 {
   int     x;
   int     y;

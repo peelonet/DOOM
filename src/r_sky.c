@@ -24,7 +24,9 @@
 //
 //
 //-----------------------------------------------------------------------------
-// Needed for FRACUNIT.
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "m_fixed.h"
 #include "r_data.h"
 #include "r_sky.h"

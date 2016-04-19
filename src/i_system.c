@@ -21,9 +21,11 @@
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdarg.h>
 #include <string.h>
 
-#include <stdarg.h>
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -65,10 +67,10 @@ int  I_GetHeapSize (void)
   return mb_used * 1024 * 1024;
 }
 
-byte* I_ZoneBase (int*  size)
+uint8_t* I_ZoneBase (int*  size)
 {
   *size = mb_used * 1024 * 1024;
-  return (byte*) malloc (*size);
+  return (uint8_t*) malloc (*size);
 }
 
 
@@ -130,19 +132,11 @@ void I_WaitVBL(int count)
 #endif
 }
 
-void I_BeginRead(void)
+uint8_t* I_AllocLow(int length)
 {
-}
+  uint8_t* mem;
 
-void I_EndRead(void)
-{
-}
-
-byte* I_AllocLow(int length)
-{
-  byte* mem;
-
-  mem = (byte*)malloc (length);
+  mem = (uint8_t*)malloc (length);
   memset (mem, 0, length);
   return mem;
 }
@@ -151,7 +145,7 @@ byte* I_AllocLow(int length)
 //
 // I_Error
 //
-extern boolean demorecording;
+extern bool demorecording;
 
 void I_Error (char* error, ...)
 {

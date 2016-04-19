@@ -20,6 +20,10 @@
 //  Mission begin melt/wipe screen special effect.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
+
 #include "z_zone.h"
 #include "i_video.h"
 #include "v_video.h"
@@ -34,11 +38,11 @@
 //
 
 // when zero, stop the wipe
-static boolean  go = 0;
+static bool  go = false;
 
-static byte*  wipe_scr_start;
-static byte*  wipe_scr_end;
-static byte*  wipe_scr;
+static uint8_t*  wipe_scr_start;
+static uint8_t*  wipe_scr_end;
+static uint8_t*  wipe_scr;
 
 
 void
@@ -81,9 +85,9 @@ wipe_doColorXForm
   int height,
   int ticks )
 {
-  boolean changed;
-  byte* w;
-  byte* e;
+  bool changed;
+  uint8_t* w;
+  uint8_t* e;
   int   newval;
 
   changed = false;
@@ -191,7 +195,7 @@ wipe_doMelt
 
   short*  s;
   short*  d;
-  boolean done = true;
+  bool done = true;
 
   width /= 2;
 
@@ -294,7 +298,6 @@ wipe_ScreenWipe
   if (!go)
   {
     go = 1;
-    // wipe_scr = (byte *) Z_Malloc(width*height, PU_STATIC, 0); // DEBUG
     wipe_scr = screens[0];
     (*wipes[wipeno * 3])(width, height, ticks);
   }
@@ -302,7 +305,6 @@ wipe_ScreenWipe
   // do a piece of wipe-in
   V_MarkRect(0, 0, width, height);
   rc = (*wipes[wipeno * 3 + 1])(width, height, ticks);
-  //  V_DrawBlock(x, y, 0, width, height, wipe_scr); // DEBUG
 
   // final stuff
   if (rc)

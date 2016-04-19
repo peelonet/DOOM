@@ -20,6 +20,9 @@
 //  Moving object handling. Spawn functions.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
 #include <limits.h>
 
 #include "i_system.h"
@@ -48,7 +51,7 @@ void P_SpawnMapThing (mapthing_t* mthing);
 //
 int test;
 
-boolean
+bool
 P_SetMobjState
 ( mobj_t* mobj,
   statenum_t  state )

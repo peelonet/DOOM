@@ -21,6 +21,9 @@
 //  Thinker, Ticker.
 //
 //-----------------------------------------------------------------------------
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "z_zone.h"
 #include "p_local.h"
 

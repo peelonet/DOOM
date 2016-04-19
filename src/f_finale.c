@@ -20,6 +20,9 @@
 //  Game completion, final screen animation.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
 #include <ctype.h>
 
 // Functions.
@@ -36,11 +39,6 @@
 
 #include "doomstat.h"
 #include "r_state.h"
-
-// ?
-//#include "doomstat.h"
-//#include "r_local.h"
-//#include "f_finale.h"
 
 // Stage of animation:
 //  0 = text, 1 = art screen, 2 = character cast
@@ -82,7 +80,7 @@ char* finaleflat;
 
 void  F_StartCast (void);
 void  F_CastTicker (void);
-boolean F_CastResponder (event_t* ev);
+bool F_CastResponder (event_t* ev);
 void  F_CastDrawer (void);
 
 //
@@ -187,7 +185,7 @@ void F_StartFinale (void)
 
 
 
-boolean F_Responder (event_t* event)
+bool F_Responder (event_t* event)
 {
   if (finalestage == 2)
   {
@@ -267,8 +265,8 @@ extern  patch_t* hu_font[HU_FONTSIZE];
 
 void F_TextWrite (void)
 {
-  byte* src;
-  byte* dest;
+  uint8_t* src;
+  uint8_t* dest;
 
   int   x, y, w;
   int   count;
@@ -376,10 +374,10 @@ castinfo_t  castorder[] =
 int   castnum;
 int   casttics;
 state_t*  caststate;
-boolean   castdeath;
+bool   castdeath;
 int   castframes;
 int   castonmelee;
-boolean   castattacking;
+bool   castattacking;
 
 
 //
@@ -565,7 +563,7 @@ stopattack:
 // F_CastResponder
 //
 
-boolean F_CastResponder (event_t* ev)
+bool F_CastResponder (event_t* ev)
 {
   if (ev->type != ev_keydown)
   {
@@ -657,7 +655,7 @@ void F_CastDrawer (void)
   spritedef_t*  sprdef;
   spriteframe_t*  sprframe;
   int     lump;
-  boolean   flip;
+  bool   flip;
   patch_t*    patch;
 
   // erase the entire screen to a background
@@ -669,7 +667,7 @@ void F_CastDrawer (void)
   sprdef = &sprites[caststate->sprite];
   sprframe = &sprdef->spriteframes[ caststate->frame & FF_FRAMEMASK];
   lump = sprframe->lump[0];
-  flip = (boolean)sprframe->flip[0];
+  flip = (bool)sprframe->flip[0];
 
   patch = W_CacheLumpNum (lump + firstspritelump, PU_CACHE);
   if (flip)
@@ -693,18 +691,18 @@ F_DrawPatchCol
   int   col )
 {
   column_t* column;
-  byte* source;
-  byte* dest;
-  byte* desttop;
+  uint8_t* source;
+  uint8_t* dest;
+  uint8_t* desttop;
   int   count;
 
-  column = (column_t*)((byte*)patch + LONG(patch->columnofs[col]));
+  column = (column_t*)((uint8_t*)patch + LONG(patch->columnofs[col]));
   desttop = screens[0] + x;
 
   // step through the posts in a column
   while (column->topdelta != 0xff )
   {
-    source = (byte*)column + 3;
+    source = (uint8_t*)column + 3;
     dest = desttop + column->topdelta * SCREENWIDTH;
     count = column->length;
 
@@ -713,7 +711,7 @@ F_DrawPatchCol
       *dest = *source++;
       dest += SCREENWIDTH;
     }
-    column = (column_t*)(  (byte*)column + column->length + 4 );
+    column = (column_t*)(  (uint8_t*)column + column->length + 4 );
   }
 }
 

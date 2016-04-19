@@ -21,6 +21,10 @@
 //  all OS independend parts.
 //
 //-----------------------------------------------------------------------------
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
 #include <limits.h>
 
 #include "m_menu.h"
@@ -37,6 +41,7 @@
 #define NCMD_KILL   0x10000000  // kill game
 #define NCMD_CHECKSUM   0x0fffffff
 
+extern FILE* debugfile;
 
 doomcom_t*  doomcom;
 doomdata_t* netbuffer;    // points inside doomcom
@@ -58,8 +63,8 @@ ticcmd_t  localcmds[BACKUPTICS];
 
 ticcmd_t        netcmds[MAXPLAYERS][BACKUPTICS];
 int           nettics[MAXNETNODES];
-boolean   nodeingame[MAXNETNODES];    // set false as nodes leave game
-boolean   remoteresend[MAXNETNODES];    // set when local needs tics
+bool   nodeingame[MAXNETNODES];    // set false as nodes leave game
+bool   remoteresend[MAXNETNODES];    // set when local needs tics
 int   resendto[MAXNETNODES];      // set when remote needs tics
 int   resendcount[MAXNETNODES];
 
@@ -76,7 +81,7 @@ void D_ProcessEvents (void);
 void G_BuildTiccmd (ticcmd_t* cmd);
 void D_DoAdvanceDemo (void);
 
-boolean   reboundpacket;
+bool   reboundpacket;
 doomdata_t  reboundstore;
 
 
@@ -175,7 +180,7 @@ HSendPacket
 
     for (i = 0 ; i < doomcom->datalength ; i++)
     {
-      fprintf (debugfile, "%i ", ((byte*)netbuffer)[i]);
+      fprintf (debugfile, "%i ", ((uint8_t*)netbuffer)[i]);
     }
 
     fprintf (debugfile, "\n");
@@ -188,7 +193,7 @@ HSendPacket
 // HGetPacket
 // Returns false if no packet is waiting
 //
-boolean HGetPacket (void)
+bool HGetPacket (void)
 {
   if (reboundpacket)
   {
@@ -261,7 +266,7 @@ boolean HGetPacket (void)
 
       for (i = 0 ; i < doomcom->datalength ; i++)
       {
-        fprintf (debugfile, "%i ", ((byte*)netbuffer)[i]);
+        fprintf (debugfile, "%i ", ((uint8_t*)netbuffer)[i]);
       }
       fprintf (debugfile, "\n");
     }
@@ -518,7 +523,7 @@ void CheckAbort (void)
 void D_ArbitrateNetStart (void)
 {
   int   i;
-  boolean gotinfo[MAXNETNODES];
+  bool gotinfo[MAXNETNODES];
 
   autostart = true;
   memset (gotinfo, 0, sizeof(gotinfo));
@@ -704,7 +709,7 @@ int frameon;
 int frameskip[4];
 int oldnettics;
 
-extern  boolean advancedemo;
+extern  bool advancedemo;
 
 void TryRunTics (void)
 {

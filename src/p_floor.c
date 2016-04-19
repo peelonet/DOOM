@@ -20,6 +20,8 @@
 //  Floor animation: raising stairs.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+#include <stdbool.h>
 #include <limits.h>
 
 #include "z_zone.h"
@@ -47,11 +49,11 @@ T_MovePlane
 ( sector_t* sector,
   fixed_t speed,
   fixed_t dest,
-  boolean crush,
+  bool crush,
   int   floorOrCeiling,
   int   direction )
 {
-  boolean flag;
+  bool flag;
   fixed_t lastpos;
 
   switch (floorOrCeiling)

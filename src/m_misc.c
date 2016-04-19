@@ -23,14 +23,13 @@
 //  PCX Screenshots.
 //
 //-----------------------------------------------------------------------------
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
 #include <stdlib.h>
-#include <unistd.h>
-
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
 #include <ctype.h>
 
+#include <unistd.h>
 
 #include "doomdef.h"
 
@@ -66,7 +65,7 @@ int
 M_DrawText
 ( int   x,
   int   y,
-  boolean direct,
+  bool direct,
   char*   string )
 {
   int   c;
@@ -89,7 +88,7 @@ M_DrawText
     }
     if (direct)
     {
-      V_DrawPatchDirect(x, y, 0, hu_font[c]);
+      V_DrawPatch(x, y, 0, hu_font[c]);
     }
     else
     {
@@ -111,69 +110,50 @@ M_DrawText
 #define O_BINARY 0
 #endif
 
-boolean
-M_WriteFile
-( char const* name,
-  void*   source,
-  int   length )
+bool M_WriteFile(const char* filename, void* source, int length)
 {
-  int   handle;
-  int   count;
+  FILE* handle = fopen(filename, "wb");
+  size_t count;
 
-  handle = open ( name, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
-
-  if (handle == -1)
+  if (!handle)
   {
     return false;
   }
 
-  count = write (handle, source, length);
-  close (handle);
+  count = fwrite(source, sizeof(char), length, handle);
+  fclose(handle);
 
-  if (count < length)
-  {
-    return false;
-  }
-
-  return true;
+  return count >= length;
 }
 
-
-//
-// M_ReadFile
-//
-int
-M_ReadFile
-( char const* name,
-  byte**  buffer )
+int M_ReadFile(const char* filename, uint8_t** buffer)
 {
-  int handle, count, length;
-  struct stat fileinfo;
-  byte*    buf;
+  FILE* handle = fopen(filename, "rb");
+  size_t length;
+  size_t count;
+  uint8_t* buf;
 
-  handle = open (name, O_RDONLY | O_BINARY, 0666);
-  if (handle == -1)
+  if (!handle)
   {
-    I_Error ("Couldn't read file %s", name);
+    I_Error("Couldn't read file %s", filename);
   }
-  if (fstat (handle, &fileinfo) == -1)
-  {
-    I_Error ("Couldn't read file %s", name);
-  }
-  length = fileinfo.st_size;
-  buf = Z_Malloc (length, PU_STATIC, NULL);
-  count = read (handle, buf, length);
-  close (handle);
+
+  fseek(handle, 0L, SEEK_END);
+  length = ftell(handle);
+  fseek(handle, 0L, SEEK_SET);
+  buf = Z_Malloc(length, PU_STATIC, NULL);
+  count = fread(buf, sizeof(char), length, handle);
+  fclose(handle);
 
   if (count < length)
   {
-    I_Error ("Couldn't read file %s", name);
+    I_Error("Couldn't read file %s", filename);
   }
 
   *buffer = buf;
+
   return length;
 }
-
 
 //
 // DEFAULTS
@@ -328,7 +308,7 @@ void M_SaveDefaults (void)
 //
 // M_LoadDefaults
 //
-extern byte scantokey[128];
+extern uint8_t scantokey[128];
 
 void M_LoadDefaults (void)
 {
@@ -339,7 +319,7 @@ void M_LoadDefaults (void)
   char  strparm[100];
   char* newstring;
   int   parm;
-  boolean isstring;
+  bool isstring;
 
   // set everything to base values
   numdefaults = sizeof(defaults) / sizeof(defaults[0]);
@@ -444,15 +424,15 @@ typedef struct
 void
 WritePCXfile
 ( char*   filename,
-  byte*   data,
+  uint8_t*   data,
   int   width,
   int   height,
-  byte*   palette )
+  uint8_t*   palette )
 {
   int   i;
   int   length;
   pcx_t*  pcx;
-  byte* pack;
+  uint8_t* pack;
 
   pcx = Z_Malloc (width * height * 2 + 1000, PU_STATIC, NULL);
 
@@ -497,7 +477,7 @@ WritePCXfile
   }
 
   // write output file
-  length = pack - (byte*)pcx;
+  length = pack - (uint8_t*)pcx;
   M_WriteFile (filename, pcx, length);
 
   Z_Free (pcx);
@@ -510,7 +490,7 @@ WritePCXfile
 void M_ScreenShot (void)
 {
   int   i;
-  byte* linear;
+  uint8_t* linear;
   char  lbmname[12];
 
   // munge planar buffer to linear

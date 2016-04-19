@@ -19,8 +19,9 @@
 // DESCRIPTION:  none
 //
 //-----------------------------------------------------------------------------
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
 
 #include "i_system.h"
 #include "i_sound.h"
@@ -111,7 +112,7 @@ int     snd_MusicVolume = 15;
 
 
 // whether songs are mus_paused
-static boolean    mus_paused;
+static bool    mus_paused;
 
 // music currently being played
 static musicinfo_t* mus_playing = 0;

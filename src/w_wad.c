@@ -20,21 +20,25 @@
 //  Handles WAD file header, directory, lump I/O.
 //
 //-----------------------------------------------------------------------------
-#include <ctype.h>
-#include <sys/types.h>
+#include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
-#include <unistd.h>
-#include <malloc.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#define O_BINARY    0
+#include <ctype.h>
 
-#include "doomtype.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 #include "m_swap.h"
 #include "i_system.h"
 #include "z_zone.h"
 
 #include "w_wad.h"
+
+#if !defined(O_BINARY)
+# define O_BINARY 0
+#endif
 
 
 
@@ -436,8 +440,6 @@ int W_LumpLength (int lump)
   return lumpinfo[lump].size;
 }
 
-
-
 //
 // W_ReadLump
 // Loads the lump into the given buffer,
@@ -458,8 +460,6 @@ W_ReadLump
   }
 
   l = lumpinfo + lump;
-
-  // ??? I_BeginRead ();
 
   if (l->handle == -1)
   {
@@ -485,13 +485,11 @@ W_ReadLump
   {
     close (handle);
   }
-
-  // ??? I_EndRead ();
 }
 
 void* W_CacheLumpNum(int lump, int tag)
 {
-  byte* result;
+  uint8_t* result;
 
   if (lump >= numlumps)
   {
@@ -500,12 +498,12 @@ void* W_CacheLumpNum(int lump, int tag)
 
   if (!lumpcache[lump])
   {
-    result = (byte*) Z_Malloc(W_LumpLength(lump), tag, &lumpcache[lump]);
+    result = (uint8_t*) Z_Malloc(W_LumpLength(lump), tag, &lumpcache[lump]);
     W_ReadLump(lump, lumpcache[lump]);
   }
   else
   {
-    result = (byte*) lumpcache[lump];
+    result = (uint8_t*) lumpcache[lump];
     Z_ChangeTag(lumpcache[lump], tag);
   }
 
@@ -551,7 +549,7 @@ void W_Profile (void)
     }
     else
     {
-      block = (memblock_t*) ( (byte*)ptr - sizeof(memblock_t));
+      block = (memblock_t*) ( (uint8_t*)ptr - sizeof(memblock_t));
       if (block->tag < PU_PURGELEVEL)
       {
         ch = 'S';
