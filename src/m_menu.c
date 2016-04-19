@@ -21,13 +21,10 @@
 //  Sliders and icons. Kinda widget stuff.
 //
 //-----------------------------------------------------------------------------
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
 #include <ctype.h>
-
 
 #include "doomdef.h"
 #include "dstrings.h"
@@ -499,42 +496,28 @@ menu_t  SaveDef =
   0
 };
 
-
-//
-// M_ReadSaveStrings
-//  read the strings from the savegame files
-//
-void M_ReadSaveStrings(void)
+/**
+ * Read the strings from the savegame files.
+ */
+void M_ReadSaveStrings()
 {
-  int             handle;
-  int             count;
-  int             i;
-  char    name[256];
-
-  for (i = 0; i < load_end; i++)
+  for (int i = 0; i < load_end; ++i)
   {
-    if (M_CheckParm("-cdrom"))
-    {
-      sprintf(name, "c:\\doomdata\\"SAVEGAMENAME"%d.dsg", i);
-    }
-    else
-    {
-      sprintf(name, SAVEGAMENAME"%d.dsg", i);
-    }
+    char filename[256];
+    FILE* handle;
 
-    handle = open (name, O_RDONLY | 0, 0666);
-    if (handle == -1)
+    snprintf(filename, 256, SAVEGAMENAME "%d.dsg", i);
+    if (!(handle = fopen(filename, "rb")))
     {
       strcpy(&savegamestrings[i][0], EMPTYSTRING);
       LoadMenu[i].status = 0;
       continue;
     }
-    count = read (handle, &savegamestrings[i], SAVESTRINGSIZE);
-    close (handle);
+    fread(&savegamestrings[i], sizeof(char), SAVESTRINGSIZE, handle);
+    fclose(handle);
     LoadMenu[i].status = 1;
   }
 }
-
 
 //
 // M_LoadGame & Cie.

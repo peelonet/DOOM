@@ -22,7 +22,7 @@
 //  Does palette indicators as well (red pain/berserk, bright pickup)
 //
 //-----------------------------------------------------------------------------
-#include <stdio.h>
+#include <stdint.h>
 
 #include "i_system.h"
 #include "i_video.h"

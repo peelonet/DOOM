@@ -19,6 +19,7 @@
 // DESCRIPTION:  heads-up text and input code
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
 #include <ctype.h>
 
 #include "doomdef.h"

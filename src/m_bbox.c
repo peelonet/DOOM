@@ -23,10 +23,9 @@
 //  PCX Screenshots.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+
 #include "m_bbox.h"
-
-
-
 
 void M_ClearBox (fixed_t* box)
 {

@@ -21,6 +21,9 @@
 //  all OS independend parts.
 //
 //-----------------------------------------------------------------------------
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
 #include <limits.h>
 
 #include "m_menu.h"
@@ -37,6 +40,7 @@
 #define NCMD_KILL   0x10000000  // kill game
 #define NCMD_CHECKSUM   0x0fffffff
 
+extern FILE* debugfile;
 
 doomcom_t*  doomcom;
 doomdata_t* netbuffer;    // points inside doomcom

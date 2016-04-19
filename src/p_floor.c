@@ -20,6 +20,7 @@
 //  Floor animation: raising stairs.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
 #include <limits.h>
 
 #include "z_zone.h"

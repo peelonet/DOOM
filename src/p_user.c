@@ -22,6 +22,8 @@
 //  Pending weapon.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+
 #include "doomdef.h"
 #include "d_event.h"
 

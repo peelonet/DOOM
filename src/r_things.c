@@ -20,8 +20,9 @@
 //  Refresh of things, i.e. objects represented by sprites.
 //
 //-----------------------------------------------------------------------------
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
 #include <limits.h>
 
 #include "doomdef.h"

@@ -22,6 +22,10 @@
 //  Functions to blit a block to the screen.
 //
 //-----------------------------------------------------------------------------
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+
 #include "i_system.h"
 #include "r_local.h"
 

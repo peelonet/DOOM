@@ -20,6 +20,9 @@
 //  BSP traversal, handling of LineSegs for rendering.
 //
 //-----------------------------------------------------------------------------
+#include <stdlib.h>
+#include <stdint.h>
+
 #include "doomdef.h"
 
 #include "m_bbox.h"

@@ -23,8 +23,6 @@
 #ifndef __M_FIXED__
 #define __M_FIXED__
 
-#include <inttypes.h>
-
 //
 // Fixed point, 32bit as 16.16.
 //

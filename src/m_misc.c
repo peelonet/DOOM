@@ -23,14 +23,12 @@
 //  PCX Screenshots.
 //
 //-----------------------------------------------------------------------------
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
 #include <stdlib.h>
-#include <unistd.h>
-
+#include <stdint.h>
+#include <string.h>
 #include <ctype.h>
 
+#include <unistd.h>
 
 #include "doomdef.h"
 
@@ -111,69 +109,50 @@ M_DrawText
 #define O_BINARY 0
 #endif
 
-boolean
-M_WriteFile
-( char const* name,
-  void*   source,
-  int   length )
+boolean M_WriteFile(const char* filename, void* source, int length)
 {
-  int   handle;
-  int   count;
+  FILE* handle = fopen(filename, "wb");
+  size_t count;
 
-  handle = open ( name, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
-
-  if (handle == -1)
+  if (!handle)
   {
     return false;
   }
 
-  count = write (handle, source, length);
-  close (handle);
+  count = fwrite(source, sizeof(char), length, handle);
+  fclose(handle);
 
-  if (count < length)
-  {
-    return false;
-  }
-
-  return true;
+  return count >= length;
 }
 
-
-//
-// M_ReadFile
-//
-int
-M_ReadFile
-( char const* name,
-  byte**  buffer )
+int M_ReadFile(const char* filename, byte** buffer)
 {
-  int handle, count, length;
-  struct stat fileinfo;
-  byte*    buf;
+  FILE* handle = fopen(filename, "rb");
+  size_t length;
+  size_t count;
+  byte* buf;
 
-  handle = open (name, O_RDONLY | O_BINARY, 0666);
-  if (handle == -1)
+  if (!handle)
   {
-    I_Error ("Couldn't read file %s", name);
+    I_Error("Couldn't read file %s", filename);
   }
-  if (fstat (handle, &fileinfo) == -1)
-  {
-    I_Error ("Couldn't read file %s", name);
-  }
-  length = fileinfo.st_size;
-  buf = Z_Malloc (length, PU_STATIC, NULL);
-  count = read (handle, buf, length);
-  close (handle);
+
+  fseek(handle, 0L, SEEK_END);
+  length = ftell(handle);
+  fseek(handle, 0L, SEEK_SET);
+  buf = Z_Malloc(length, PU_STATIC, NULL);
+  count = fread(buf, sizeof(char), length, handle);
+  fclose(handle);
 
   if (count < length)
   {
-    I_Error ("Couldn't read file %s", name);
+    I_Error("Couldn't read file %s", filename);
   }
 
   *buffer = buf;
+
   return length;
 }
-
 
 //
 // DEFAULTS

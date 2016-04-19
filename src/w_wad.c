@@ -459,8 +459,6 @@ W_ReadLump
 
   l = lumpinfo + lump;
 
-  // ??? I_BeginRead ();
-
   if (l->handle == -1)
   {
     // reloadable file, so use open / read / close
@@ -485,8 +483,6 @@ W_ReadLump
   {
     close (handle);
   }
-
-  // ??? I_EndRead ();
 }
 
 void* W_CacheLumpNum(int lump, int tag)

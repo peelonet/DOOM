@@ -20,6 +20,8 @@
 //  Handling interactions (i.e., collisions).
 //
 //-----------------------------------------------------------------------------
+#include <stdlib.h>
+#include <stdint.h>
 #include <limits.h>
 
 #include "doomdef.h"

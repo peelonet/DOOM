@@ -22,6 +22,9 @@
 //   e.g. inline assembly, different algorithms.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+#include <string.h>
+
 #include "doomdef.h"
 
 #include "i_system.h"

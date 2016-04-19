@@ -20,6 +20,7 @@
 //  The status bar widget code.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
 #include <ctype.h>
 
 #include "doomdef.h"

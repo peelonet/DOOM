@@ -23,18 +23,14 @@
 //  and call the startup functions.
 //
 //-----------------------------------------------------------------------------
-
-#define BGCOLOR   7
-#define FGCOLOR   8
-
-
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
 
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -69,8 +65,10 @@
 #include "p_setup.h"
 #include "r_local.h"
 
-
 #include "d_main.h"
+
+#define BGCOLOR   7
+#define FGCOLOR   8
 
 //
 // D-DoomLoop()
@@ -136,6 +134,18 @@ void D_DoAdvanceDemo (void);
 event_t         events[MAXEVENTS];
 int             eventhead;
 int     eventtail;
+
+// These were moved from doomstat.c to here.
+
+// Game Mode - identify IWAD as shareware, retail etc.
+GameMode_t gamemode = indetermined;
+GameMission_t gamemission = doom;
+
+// Language.
+Language_t   language = english;
+
+// Set if homebrew PWAD stuff has been added.
+boolean modifiedgame;
 
 
 //

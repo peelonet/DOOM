@@ -20,6 +20,8 @@
 //  Teleportation.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+
 #include "doomdef.h"
 
 #include "s_sound.h"

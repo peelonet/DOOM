@@ -19,8 +19,10 @@
 // DESCRIPTION:  none
 //
 //-----------------------------------------------------------------------------
-#include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
 
 #include "doomdef.h"
 #include "doomstat.h"

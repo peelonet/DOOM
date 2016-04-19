@@ -20,6 +20,9 @@
 //  Mission begin melt/wipe screen special effect.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+#include <string.h>
+
 #include "z_zone.h"
 #include "i_video.h"
 #include "v_video.h"

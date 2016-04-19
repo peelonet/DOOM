@@ -20,8 +20,9 @@
 // DESCRIPTION:  the automap code
 //
 //-----------------------------------------------------------------------------
-#include <stdio.h>
+#include <stdint.h>
 #include <limits.h>
+#include <string.h>
 
 #include "z_zone.h"
 #include "doomdef.h"

@@ -20,6 +20,9 @@
 //  System interface for sound.
 //
 //-----------------------------------------------------------------------------
+#include <stdio.h>
+#include <stdint.h>
+
 #include "doomstat.h"
 #include "sounds.h"
 #include "w_wad.h"

@@ -21,9 +21,10 @@
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <stdarg.h>
 #include <string.h>
 
-#include <stdarg.h>
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -128,14 +129,6 @@ void I_WaitVBL(int count)
   usleep (count * (1000000 / 70) );
 #endif
 #endif
-}
-
-void I_BeginRead(void)
-{
-}
-
-void I_EndRead(void)
-{
 }
 
 byte* I_AllocLow(int length)

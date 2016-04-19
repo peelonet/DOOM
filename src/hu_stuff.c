@@ -19,6 +19,8 @@
 // DESCRIPTION:  Heads-up displays
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+#include <string.h>
 #include <ctype.h>
 
 #include "doomdef.h"

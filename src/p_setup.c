@@ -21,6 +21,8 @@
 //  set up initial state and misc. LUTs.
 //
 //-----------------------------------------------------------------------------
+#include <stdint.h>
+#include <string.h>
 #include <math.h>
 
 #include "z_zone.h"
