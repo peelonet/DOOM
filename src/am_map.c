@@ -20,9 +20,8 @@
 // DESCRIPTION:  the automap code
 //
 //-----------------------------------------------------------------------------
-
 #include <stdio.h>
-
+#include <limits.h>
 
 #include "z_zone.h"
 #include "doomdef.h"
@@ -318,7 +317,7 @@ AM_getIslope
   dx = ml->b.x - ml->a.x;
   if (!dy)
   {
-    is->islp = (dx < 0 ? -MAXINT : MAXINT);
+    is->islp = (dx < 0 ? -INT_MAX : INT_MAX);
   }
   else
   {
@@ -326,7 +325,7 @@ AM_getIslope
   }
   if (!dx)
   {
-    is->slp = (dy < 0 ? -MAXINT : MAXINT);
+    is->slp = (dy < 0 ? -INT_MAX : INT_MAX);
   }
   else
   {
@@ -408,8 +407,8 @@ void AM_findMinMaxBoundaries(void)
   fixed_t a;
   fixed_t b;
 
-  min_x = min_y =  MAXINT;
-  max_x = max_y = -MAXINT;
+  min_x = min_y =  INT_MAX;
+  max_x = max_y = -INT_MAX;
 
   for (i = 0; i < numvertexes; i++)
   {
@@ -455,7 +454,7 @@ void AM_changeWindowLoc(void)
   if (m_paninc.x || m_paninc.y)
   {
     followplayer = 0;
-    f_oldloc.x = MAXINT;
+    f_oldloc.x = INT_MAX;
   }
 
   m_x += m_paninc.x;
@@ -495,7 +494,7 @@ void AM_initVariables(void)
   automapactive = true;
   fb = screens[0];
 
-  f_oldloc.x = MAXINT;
+  f_oldloc.x = INT_MAX;
   amclock = 0;
   lightlev = 0;
 
@@ -748,7 +747,7 @@ AM_Responder
       break;
     case AM_FOLLOWKEY:
       followplayer = !followplayer;
-      f_oldloc.x = MAXINT;
+      f_oldloc.x = INT_MAX;
       plr->message = followplayer ? AMSTR_FOLLOWON : AMSTR_FOLLOWOFF;
       break;
     case AM_GRIDKEY:

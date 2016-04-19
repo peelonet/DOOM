@@ -25,6 +25,7 @@
 //
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
+#include <limits.h>
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -404,7 +405,7 @@ P_FindLowestCeilingSurrounding(sector_t* sec)
   int     i;
   line_t*   check;
   sector_t*   other;
-  fixed_t   height = MAXINT;
+  fixed_t   height = INT_MAX;
 
   for (i = 0 ; i < sec->linecount ; i++)
   {

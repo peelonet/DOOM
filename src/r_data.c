@@ -22,6 +22,8 @@
 //  generation of lookups, caching, retrieval by name.
 //
 //-----------------------------------------------------------------------------
+#include <stdlib.h>
+
 #include "i_system.h"
 #include "z_zone.h"
 
@@ -58,11 +60,11 @@
 //
 typedef struct
 {
-  short originx;
-  short originy;
-  short patch;
-  short stepdir;
-  short colormap;
+  int16_t originx;
+  int16_t originy;
+  int16_t patch;
+  int16_t stepdir;
+  int16_t colormap;
 } mappatch_t;
 
 
@@ -73,12 +75,12 @@ typedef struct
 //
 typedef struct
 {
-  char    name[8];
-  boolean   masked;
-  short   width;
-  short   height;
+  char name[8];
+  int8_t masked;
+  int16_t width;
+  int16_t height;
   void**    columndirectory;  // OBSOLETE
-  short   patchcount;
+  int16_t patchcount;
   mappatch_t  patches[1];
 } maptexture_t;
 
@@ -91,9 +93,9 @@ typedef struct
   // Block origin (allways UL),
   // which has allready accounted
   // for the internal origin of the patch.
-  int   originx;
-  int   originy;
-  int   patch;
+  int32_t originx;
+  int32_t originy;
+  int32_t patch;
 } texpatch_t;
 
 
@@ -104,12 +106,12 @@ typedef struct
 {
   // Keep name for switch changing, etc.
   char  name[8];
-  short width;
-  short height;
+  int16_t width;
+  int16_t height;
 
   // All the patches[patchcount]
   //  are drawn back to front into the cached texture.
-  short patchcount;
+  int16_t patchcount;
   texpatch_t  patches[1];
 
 } texture_t;
@@ -460,7 +462,8 @@ void R_InitTextures (void)
   names = W_CacheLumpName ("PNAMES", PU_STATIC);
   nummappatches = LONG ( *((int*)names) );
   name_p = names + 4;
-  patchlookup = Z_Malloc(nummappatches * sizeof(*patchlookup), PU_STATIC, NULL);
+  patchlookup = (int*) malloc(nummappatches * sizeof(int));
+  //patchlookup = Z_Malloc(nummappatches * sizeof(*patchlookup), PU_STATIC, NULL);
 
   for (i = 0 ; i < nummappatches ; i++)
   {

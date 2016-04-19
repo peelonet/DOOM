@@ -36,10 +36,6 @@ typedef enum {false, true} boolean;
 typedef unsigned char byte;
 #endif
 
-
-// Predefined with some OS.
-#include <values.h>
-
 #endif
 //-----------------------------------------------------------------------------
 //
