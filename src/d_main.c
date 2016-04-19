@@ -341,8 +341,8 @@ void D_Display (void)
     {
       y = viewwindowy + 4;
     }
-    V_DrawPatchDirect(viewwindowx + (scaledviewwidth - 68) / 2,
-                      y, 0, W_CacheLumpName ("M_PAUSE", PU_CACHE));
+    V_DrawPatch(viewwindowx + (scaledviewwidth - 68) / 2,
+                y, 0, W_CacheLumpName ("M_PAUSE", PU_CACHE));
   }
 
 

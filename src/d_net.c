@@ -179,7 +179,7 @@ HSendPacket
 
     for (i = 0 ; i < doomcom->datalength ; i++)
     {
-      fprintf (debugfile, "%i ", ((byte*)netbuffer)[i]);
+      fprintf (debugfile, "%i ", ((uint8_t*)netbuffer)[i]);
     }
 
     fprintf (debugfile, "\n");
@@ -265,7 +265,7 @@ boolean HGetPacket (void)
 
       for (i = 0 ; i < doomcom->datalength ; i++)
       {
-        fprintf (debugfile, "%i ", ((byte*)netbuffer)[i]);
+        fprintf (debugfile, "%i ", ((uint8_t*)netbuffer)[i]);
       }
       fprintf (debugfile, "\n");
     }

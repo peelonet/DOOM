@@ -66,10 +66,10 @@ int  I_GetHeapSize (void)
   return mb_used * 1024 * 1024;
 }
 
-byte* I_ZoneBase (int*  size)
+uint8_t* I_ZoneBase (int*  size)
 {
   *size = mb_used * 1024 * 1024;
-  return (byte*) malloc (*size);
+  return (uint8_t*) malloc (*size);
 }
 
 
@@ -131,11 +131,11 @@ void I_WaitVBL(int count)
 #endif
 }
 
-byte* I_AllocLow(int length)
+uint8_t* I_AllocLow(int length)
 {
-  byte* mem;
+  uint8_t* mem;
 
-  mem = (byte*)malloc (length);
+  mem = (uint8_t*)malloc (length);
   memset (mem, 0, length);
   return mem;
 }

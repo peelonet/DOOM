@@ -26,7 +26,7 @@
 #include "r_state.h"
 
 // Retrieve column data for span blitting.
-byte*
+uint8_t*
 R_GetColumn
 ( int   tex,
   int   col );

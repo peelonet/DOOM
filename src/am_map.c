@@ -233,7 +233,7 @@ static int  f_w;
 static int  f_h;
 
 static int  lightlev;     // used for funky strobing effect
-static byte*  fb;       // pseudo-frame buffer
+static uint8_t*  fb;       // pseudo-frame buffer
 static int  amclock;
 
 static mpoint_t m_paninc; // how far the window pans each tic (map coords)
@@ -292,9 +292,6 @@ static cheatseq_t cheat_amap = { cheat_amap_seq, 0 };
 static boolean stopped = true;
 
 extern boolean viewactive;
-//extern byte screens[][SCREENWIDTH*SCREENHEIGHT];
-
-
 
 void
 V_MarkRect

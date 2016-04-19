@@ -36,10 +36,6 @@
 
 extern boolean  automapactive;  // in AM_map.c
 
-void HUlib_init(void)
-{
-}
-
 void HUlib_clearTextLine(hu_textline_t* t)
 {
   t->len = 0;
@@ -123,7 +119,7 @@ HUlib_drawTextLine
       {
         break;
       }
-      V_DrawPatchDirect(x, l->y, FG, l->f[c - l->sc]);
+      V_DrawPatch(x, l->y, FG, l->f[c - l->sc]);
       x += w;
     }
     else
@@ -140,7 +136,7 @@ HUlib_drawTextLine
   if (drawcursor
       && x + SHORT(l->f['_' - l->sc]->width) <= SCREENWIDTH)
   {
-    V_DrawPatchDirect(x, l->y, FG, l->f['_' - l->sc]);
+    V_DrawPatch(x, l->y, FG, l->f['_' - l->sc]);
   }
 }
 

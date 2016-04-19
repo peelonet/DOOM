@@ -1058,7 +1058,7 @@ void ST_doPaletteStuff(void)
 {
 
   int   palette;
-  byte* pal;
+  uint8_t* pal;
   int   cnt;
   int   bzc;
 
@@ -1112,7 +1112,7 @@ void ST_doPaletteStuff(void)
   if (palette != st_palette)
   {
     st_palette = palette;
-    pal = (byte*) W_CacheLumpNum (lu_palette, PU_CACHE) + palette * 768;
+    pal = (uint8_t*) W_CacheLumpNum (lu_palette, PU_CACHE) + palette * 768;
     I_SetPalette (pal);
   }
 
@@ -1558,5 +1558,5 @@ void ST_Init (void)
 {
   veryfirsttime = 0;
   ST_loadData();
-  screens[4] = (byte*) Z_Malloc(ST_WIDTH * ST_HEIGHT, PU_STATIC, 0);
+  screens[4] = (uint8_t*) Z_Malloc(ST_WIDTH * ST_HEIGHT, PU_STATIC, 0);
 }

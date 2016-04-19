@@ -33,7 +33,6 @@ typedef bool boolean;
 #else
 typedef enum {false, true} boolean;
 #endif
-typedef unsigned char byte;
 #endif
 
 #endif

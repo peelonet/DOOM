@@ -267,7 +267,7 @@ void I_FinishUpdate()
 //
 // I_ReadScreen
 //
-void I_ReadScreen (byte* scr)
+void I_ReadScreen (uint8_t* scr)
 {
   memcpy (scr, screens[0], SCREENWIDTH * SCREENHEIGHT);
 }
@@ -275,7 +275,7 @@ void I_ReadScreen (byte* scr)
 //
 // I_SetPalette
 //
-void I_SetPalette(const byte* palette)
+void I_SetPalette(const uint8_t* palette)
 {
   int i;
 

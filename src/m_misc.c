@@ -87,7 +87,7 @@ M_DrawText
     }
     if (direct)
     {
-      V_DrawPatchDirect(x, y, 0, hu_font[c]);
+      V_DrawPatch(x, y, 0, hu_font[c]);
     }
     else
     {
@@ -125,12 +125,12 @@ boolean M_WriteFile(const char* filename, void* source, int length)
   return count >= length;
 }
 
-int M_ReadFile(const char* filename, byte** buffer)
+int M_ReadFile(const char* filename, uint8_t** buffer)
 {
   FILE* handle = fopen(filename, "rb");
   size_t length;
   size_t count;
-  byte* buf;
+  uint8_t* buf;
 
   if (!handle)
   {
@@ -307,7 +307,7 @@ void M_SaveDefaults (void)
 //
 // M_LoadDefaults
 //
-extern byte scantokey[128];
+extern uint8_t scantokey[128];
 
 void M_LoadDefaults (void)
 {
@@ -423,15 +423,15 @@ typedef struct
 void
 WritePCXfile
 ( char*   filename,
-  byte*   data,
+  uint8_t*   data,
   int   width,
   int   height,
-  byte*   palette )
+  uint8_t*   palette )
 {
   int   i;
   int   length;
   pcx_t*  pcx;
-  byte* pack;
+  uint8_t* pack;
 
   pcx = Z_Malloc (width * height * 2 + 1000, PU_STATIC, NULL);
 
@@ -476,7 +476,7 @@ WritePCXfile
   }
 
   // write output file
-  length = pack - (byte*)pcx;
+  length = pack - (uint8_t*)pcx;
   M_WriteFile (filename, pcx, length);
 
   Z_Free (pcx);
@@ -489,7 +489,7 @@ WritePCXfile
 void M_ScreenShot (void)
 {
   int   i;
-  byte* linear;
+  uint8_t* linear;
   char  lbmname[12];
 
   // munge planar buffer to linear
