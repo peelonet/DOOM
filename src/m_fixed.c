@@ -20,7 +20,7 @@
 //  Fixed point implementation.
 //
 //-----------------------------------------------------------------------------
-#include "stdlib.h"
+#include <stdlib.h>
 
 #include "doomtype.h"
 #include "i_system.h"
@@ -53,7 +53,7 @@ FixedDiv
 {
   if ( (abs(a) >> 14) >= abs(b))
   {
-    return (a ^ b) < 0 ? MININT : MAXINT;
+    return (a ^ b) < 0 ? INT32_MIN : INT32_MAX;
   }
   return FixedDiv2 (a, b);
 }

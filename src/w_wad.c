@@ -47,10 +47,8 @@
 
 // Location of each lump on disk.
 lumpinfo_t*   lumpinfo;
-int     numlumps;
-
-void**      lumpcache;
-
+static int numlumps = 0;
+static void** lumpcache;
 
 #define strcmpi strcasecmp
 
@@ -491,42 +489,28 @@ W_ReadLump
   // ??? I_EndRead ();
 }
 
-
-
-
-//
-// W_CacheLumpNum
-//
-void*
-W_CacheLumpNum
-( int   lump,
-  int   tag )
+void* W_CacheLumpNum(int lump, int tag)
 {
-  byte* ptr;
+  byte* result;
 
-  if ((unsigned)lump >= numlumps)
+  if (lump >= numlumps)
   {
-    I_Error ("W_CacheLumpNum: %i >= numlumps", lump);
+    I_Error("W_CacheLumpNum: %d >= numlumps", lump);
   }
 
   if (!lumpcache[lump])
   {
-    // read the lump in
-
-    //printf ("cache miss on lump %i\n",lump);
-    ptr = Z_Malloc (W_LumpLength (lump), tag, &lumpcache[lump]);
-    W_ReadLump (lump, lumpcache[lump]);
+    result = (byte*) Z_Malloc(W_LumpLength(lump), tag, &lumpcache[lump]);
+    W_ReadLump(lump, lumpcache[lump]);
   }
   else
   {
-    //printf ("cache hit on lump %i\n",lump);
-    Z_ChangeTag (lumpcache[lump], tag);
+    result = (byte*) lumpcache[lump];
+    Z_ChangeTag(lumpcache[lump], tag);
   }
 
   return lumpcache[lump];
 }
-
-
 
 //
 // W_CacheLumpName
