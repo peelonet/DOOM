@@ -522,4 +522,7 @@ void M_ScreenShot (void)
   players[consoleplayer].message = "screen shot";
 }
 
-
+bool M_FileExists(const char* filename)
+{
+  return !access(filename, F_OK);
+}
