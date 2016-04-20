@@ -355,76 +355,38 @@ int W_NumLumps (void)
   return numlumps;
 }
 
-
-
-//
-// W_CheckNumForName
-// Returns -1 if name not found.
-//
-
-int W_CheckNumForName (char* name)
+/**
+ * Returns -1 if name not found.
+ */
+int W_CheckNumForName(const char* name)
 {
-  union
+  // Scan backwards so patch lump files take precedence.
+  for (int i = numlumps - 1; i >= 0; --i)
   {
-    char  s[9];
-    int x[2];
-
-  } name8;
-
-  int   v1;
-  int   v2;
-  lumpinfo_t* lump_p;
-
-  // make the name into two integers for easy compares
-  strncpy (name8.s, name, 8);
-
-  // in case the name was a fill 8 chars
-  name8.s[8] = 0;
-
-  // case insensitive
-  strupr (name8.s);
-
-  v1 = name8.x[0];
-  v2 = name8.x[1];
-
-
-  // scan backwards so patch lump files take precedence
-  lump_p = lumpinfo + numlumps;
-
-  while (lump_p-- != lumpinfo)
-  {
-    if ( *(int*)lump_p->name == v1
-         && *(int*)&lump_p->name[4] == v2)
+    if (!strncasecmp(lumpinfo[i].name, name, 8))
     {
-      return lump_p - lumpinfo;
+      return i;
     }
   }
 
-  // TFB. Not found.
+  // TBF. Not found.
   return -1;
 }
 
-
-
-
-//
-// W_GetNumForName
-// Calls W_CheckNumForName, but bombs out if not found.
-//
-int W_GetNumForName (char* name)
+/**
+ * Calls W_CheckNumForName, but bombs out if not found.
+ */
+int W_GetNumForName(const char* name)
 {
-  int i;
+  const int index = W_CheckNumForName(name);
 
-  i = W_CheckNumForName (name);
-
-  if (i == -1)
+  if (index < 0)
   {
-    I_Error ("W_GetNumForName: %s not found!", name);
+    I_Error("W_GetNumForName: %s not found!", name);
   }
 
-  return i;
+  return index;
 }
-
 
 //
 // W_LumpLength
