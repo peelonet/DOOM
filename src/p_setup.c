@@ -710,9 +710,6 @@ P_SetupLevel
   {
     R_PrecacheLevel ();
   }
-
-  //printf ("free memory: 0x%x\n", Z_FreeMemory());
-
 }
 
 
