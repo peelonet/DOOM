@@ -199,13 +199,13 @@ bool P_CheckAmmo (player_t* player)
   {
     if (player->weaponowned[wp_plasma]
         && player->ammo[am_cell]
-        && (gamemode != shareware) )
+        && (gamemode != GAME_MODE_SHAREWARE) )
     {
       player->pendingweapon = wp_plasma;
     }
     else if (player->weaponowned[wp_supershotgun]
              && player->ammo[am_shell] > 2
-             && (gamemode == commercial) )
+             && (gamemode == GAME_MODE_COMMERCIAL) )
     {
       player->pendingweapon = wp_supershotgun;
     }
@@ -234,7 +234,7 @@ bool P_CheckAmmo (player_t* player)
     }
     else if (player->weaponowned[wp_bfg]
              && player->ammo[am_cell] > 40
-             && (gamemode != shareware) )
+             && (gamemode != GAME_MODE_SHAREWARE) )
     {
       player->pendingweapon = wp_bfg;
     }

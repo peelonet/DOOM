@@ -89,7 +89,7 @@ void  F_CastDrawer (void);
 void F_StartFinale (void)
 {
   gameaction = ga_nothing;
-  gamestate = GS_FINALE;
+  gamestate = GAME_STATE_FINALE;
   viewactive = false;
   automapactive = false;
 
@@ -100,9 +100,9 @@ void F_StartFinale (void)
   {
 
   // DOOM 1 - E1, E3 or E4, but each nine missions
-  case shareware:
-  case registered:
-  case retail:
+  case GAME_MODE_SHAREWARE:
+  case GAME_MODE_REGISTERED:
+  case GAME_MODE_RETAIL:
   {
     S_ChangeMusic(mus_victor, true);
 
@@ -132,7 +132,7 @@ void F_StartFinale (void)
   }
 
   // DOOM II and missions packs with E1, M34
-  case commercial:
+  case GAME_MODE_COMMERCIAL:
   {
     S_ChangeMusic(mus_read_m, true);
 
@@ -204,7 +204,7 @@ void F_Ticker (void)
   int   i;
 
   // check for skipping
-  if ( (gamemode == commercial)
+  if ( (gamemode == GAME_MODE_COMMERCIAL)
        && ( finalecount > 50) )
   {
     // go on to the next level
@@ -236,7 +236,7 @@ void F_Ticker (void)
     return;
   }
 
-  if ( gamemode == commercial)
+  if ( gamemode == GAME_MODE_COMMERCIAL)
   {
     return;
   }
@@ -378,13 +378,6 @@ bool   castdeath;
 int   castframes;
 int   castonmelee;
 bool   castattacking;
-
-
-//
-// F_StartCast
-//
-extern  gamestate_t     wipegamestate;
-
 
 void F_StartCast (void)
 {
@@ -804,7 +797,7 @@ void F_Drawer (void)
     switch (gameepisode)
     {
     case 1:
-      if ( gamemode == retail )
+      if ( gamemode == GAME_MODE_RETAIL )
         V_DrawPatch (0, 0, 0,
                      W_CacheLumpName("CREDIT", PU_CACHE));
       else

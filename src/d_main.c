@@ -135,11 +135,11 @@ int     eventtail;
 // These were moved from doomstat.c to here.
 
 // Game Mode - identify IWAD as shareware, retail etc.
-GameMode_t gamemode = indetermined;
-GameMission_t gamemission = doom;
+GameMode gamemode = GAME_MODE_INDETERMINED;
+GameMission gamemission = GAME_MISSION_DOOM;
 
 // Language.
-Language_t   language = english;
+Language language = LANGUAGE_ENGLISH;
 
 // Set if homebrew PWAD stuff has been added.
 bool modifiedgame;
@@ -165,7 +165,7 @@ void D_ProcessEvents (void)
   event_t*  ev;
 
   // IF STORE DEMO, DO NOT ACCEPT INPUT
-  if ( ( gamemode == commercial )
+  if ( ( gamemode == GAME_MODE_COMMERCIAL )
        && (W_CheckNumForName("map01") < 0) )
   {
     return;
@@ -191,7 +191,7 @@ void D_ProcessEvents (void)
 //
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
-gamestate_t     wipegamestate = GS_DEMOSCREEN;
+GameState wipegamestate = GAME_STATE_DEMOSCREEN;
 extern  bool setsizeneeded;
 extern  int             showMessages;
 void R_ExecuteSetViewSize (void);
@@ -202,7 +202,7 @@ void D_Display (void)
   static  bool   menuactivestate = false;
   static  bool   inhelpscreensstate = false;
   static  bool   fullscreen = false;
-  static  gamestate_t   oldgamestate = -1;
+  static GameState oldgamestate = -1;
   static  int     borderdrawcount;
   int       nowtime;
   int       tics;
@@ -238,7 +238,7 @@ void D_Display (void)
     wipe = false;
   }
 
-  if (gamestate == GS_LEVEL && gametic)
+  if (gamestate == GAME_STATE_LEVEL && gametic)
   {
     HU_Erase();
   }
@@ -246,7 +246,7 @@ void D_Display (void)
   // do buffered drawing
   switch (gamestate)
   {
-  case GS_LEVEL:
+  case GAME_STATE_LEVEL:
     if (!gametic)
     {
       break;
@@ -267,15 +267,15 @@ void D_Display (void)
     fullscreen = viewheight == 200;
     break;
 
-  case GS_INTERMISSION:
+  case GAME_STATE_INTERMISSION:
     WI_Drawer ();
     break;
 
-  case GS_FINALE:
+  case GAME_STATE_FINALE:
     F_Drawer ();
     break;
 
-  case GS_DEMOSCREEN:
+  case GAME_STATE_DEMOSCREEN:
     D_PageDrawer ();
     break;
   }
@@ -284,31 +284,31 @@ void D_Display (void)
   I_UpdateNoBlit ();
 
   // draw the view directly
-  if (gamestate == GS_LEVEL && !automapactive && gametic)
+  if (gamestate == GAME_STATE_LEVEL && !automapactive && gametic)
   {
     R_RenderPlayerView (&players[displayplayer]);
   }
 
-  if (gamestate == GS_LEVEL && gametic)
+  if (gamestate == GAME_STATE_LEVEL && gametic)
   {
     HU_Drawer ();
   }
 
   // clean up border stuff
-  if (gamestate != oldgamestate && gamestate != GS_LEVEL)
+  if (gamestate != oldgamestate && gamestate != GAME_STATE_LEVEL)
   {
     I_SetPalette (W_CacheLumpName ("PLAYPAL", PU_CACHE));
   }
 
   // see if the border needs to be initially drawn
-  if (gamestate == GS_LEVEL && oldgamestate != GS_LEVEL)
+  if (gamestate == GAME_STATE_LEVEL && oldgamestate != GAME_STATE_LEVEL)
   {
     viewactivestate = false;        // view was not active
     R_FillBackScreen ();    // draw the pattern into the back screen
   }
 
   // see if the border needs to be updated to the screen
-  if (gamestate == GS_LEVEL && !automapactive && scaledviewwidth != 320)
+  if (gamestate == GAME_STATE_LEVEL && !automapactive && scaledviewwidth != 320)
   {
     if (menuactive || menuactivestate || !viewactivestate)
     {
@@ -495,7 +495,7 @@ void D_DoAdvanceDemo (void)
   paused = false;
   gameaction = ga_nothing;
 
-  if ( gamemode == retail )
+  if ( gamemode == GAME_MODE_RETAIL )
   {
     demosequence = (demosequence + 1) % 7;
   }
@@ -507,7 +507,7 @@ void D_DoAdvanceDemo (void)
   switch (demosequence)
   {
   case 0:
-    if ( gamemode == commercial )
+    if ( gamemode == GAME_MODE_COMMERCIAL )
     {
       pagetic = 35 * 11;
     }
@@ -515,9 +515,9 @@ void D_DoAdvanceDemo (void)
     {
       pagetic = 170;
     }
-    gamestate = GS_DEMOSCREEN;
+    gamestate = GAME_STATE_DEMOSCREEN;
     pagename = "TITLEPIC";
-    if ( gamemode == commercial )
+    if ( gamemode == GAME_MODE_COMMERCIAL )
     {
       S_StartMusic(mus_dm2ttl);
     }
@@ -531,15 +531,15 @@ void D_DoAdvanceDemo (void)
     break;
   case 2:
     pagetic = 200;
-    gamestate = GS_DEMOSCREEN;
+    gamestate = GAME_STATE_DEMOSCREEN;
     pagename = "CREDIT";
     break;
   case 3:
     G_DeferedPlayDemo ("demo2");
     break;
   case 4:
-    gamestate = GS_DEMOSCREEN;
-    if ( gamemode == commercial)
+    gamestate = GAME_STATE_DEMOSCREEN;
+    if ( gamemode == GAME_MODE_COMMERCIAL)
     {
       pagetic = 35 * 11;
       pagename = "TITLEPIC";
@@ -549,7 +549,7 @@ void D_DoAdvanceDemo (void)
     {
       pagetic = 200;
 
-      if ( gamemode == retail )
+      if ( gamemode == GAME_MODE_RETAIL )
       {
         pagename = "CREDIT";
       }
@@ -598,20 +598,20 @@ static void D_AddFile(const char* filename)
 typedef struct
 {
   const char* filename;
-  GameMode_t gamemode;
-  Language_t language;
+  GameMode game_mode;
+  Language language;
 } IWadInfo;
 
 static const IWadInfo supported_iwads[] =
 {
-  { "doom2f.wad", commercial, french },
-  { "doom2.wad", commercial, english },
-  { "plutonia.wad", commercial, english },
-  { "tnt.wad", commercial, english },
-  { "doomu.wad", retail, english },
-  { "doom.wad", registered, english },
-  { "doom1.wad", shareware, english },
-  { NULL, commercial, english }
+  { "doom2f.wad", GAME_MODE_COMMERCIAL, LANGUAGE_FRENCH },
+  { "doom2.wad", GAME_MODE_COMMERCIAL, LANGUAGE_ENGLISH },
+  { "plutonia.wad", GAME_MODE_COMMERCIAL, LANGUAGE_ENGLISH },
+  { "tnt.wad", GAME_MODE_COMMERCIAL, LANGUAGE_ENGLISH },
+  { "doomu.wad", GAME_MODE_RETAIL, LANGUAGE_ENGLISH },
+  { "doom.wad", GAME_MODE_REGISTERED, LANGUAGE_ENGLISH },
+  { "doom1.wad", GAME_MODE_SHAREWARE, LANGUAGE_ENGLISH },
+  { NULL, GAME_MODE_COMMERCIAL, LANGUAGE_ENGLISH }
 };
 
 /**
@@ -636,7 +636,7 @@ static void IdentifyVersion()
 
   if (M_CheckParm("-shdev"))
   {
-    gamemode = shareware;
+    gamemode = GAME_MODE_SHAREWARE;
     devparm = true;
     D_AddFile(DEVDATA "doom1.wad");
     D_AddFile(DEVMAPS "data_se/texture1.lmp");
@@ -647,7 +647,7 @@ static void IdentifyVersion()
 
   if (M_CheckParm("-regdev"))
   {
-    gamemode = registered;
+    gamemode = GAME_MODE_REGISTERED;
     devparm = true;
     D_AddFile(DEVDATA "doom.wad");
     D_AddFile(DEVMAPS "data_se/texture1.lmp");
@@ -659,7 +659,7 @@ static void IdentifyVersion()
 
   if (M_CheckParm("-comdev"))
   {
-    gamemode = commercial;
+    gamemode = GAME_MODE_COMMERCIAL;
     devparm = true;
     D_AddFile(DEVDATA "doom2.wad");
     D_AddFile(DEVMAPS "cdata/texture1.lmp");
@@ -675,7 +675,7 @@ static void IdentifyVersion()
     sprintf(filename, "%s/%s", doomwaddir, supported_iwads[i].filename);
     if (M_FileExists(filename))
     {
-      gamemode = supported_iwads[i].gamemode;
+      gamemode = supported_iwads[i].game_mode;
       language = supported_iwads[i].language;
       D_AddFile(filename);
       free(filename);
@@ -685,7 +685,7 @@ static void IdentifyVersion()
   }
 
   printf("Game mode indeterminate.\n");
-  gamemode = indetermined;
+  gamemode = GAME_MODE_INDETERMINED;
 }
 
 //
@@ -803,28 +803,28 @@ void D_DoomMain (void)
 
   switch ( gamemode )
   {
-  case retail:
+  case GAME_MODE_RETAIL:
     sprintf (title,
              "                         "
              "The Ultimate DOOM Startup v%i.%i"
              "                           ",
              VERSION / 100, VERSION % 100);
     break;
-  case shareware:
+  case GAME_MODE_SHAREWARE:
     sprintf (title,
              "                            "
              "DOOM Shareware Startup v%i.%i"
              "                           ",
              VERSION / 100, VERSION % 100);
     break;
-  case registered:
+  case GAME_MODE_REGISTERED:
     sprintf (title,
              "                            "
              "DOOM Registered Startup v%i.%i"
              "                           ",
              VERSION / 100, VERSION % 100);
     break;
-  case commercial:
+  case GAME_MODE_COMMERCIAL:
     sprintf (title,
              "                         "
              "DOOM 2: Hell on Earth v%i.%i"
@@ -902,16 +902,16 @@ void D_DoomMain (void)
     // Map name handling.
     switch (gamemode )
     {
-    case shareware:
-    case retail:
-    case registered:
+    case GAME_MODE_SHAREWARE:
+    case GAME_MODE_RETAIL:
+    case GAME_MODE_REGISTERED:
       sprintf (file, "~"DEVMAPS"E%cM%c.wad",
                myargv[p + 1][0], myargv[p + 2][0]);
       printf("Warping to Episode %s, Map %s.\n",
              myargv[p + 1], myargv[p + 2]);
       break;
 
-    case commercial:
+    case GAME_MODE_COMMERCIAL:
     default:
       p = atoi (myargv[p + 1]);
       if (p < 10)
@@ -997,7 +997,7 @@ void D_DoomMain (void)
   p = M_CheckParm ("-warp");
   if (p && p < myargc - 1)
   {
-    if (gamemode == commercial)
+    if (gamemode == GAME_MODE_COMMERCIAL)
     {
       startmap = atoi (myargv[p + 1]);
     }
@@ -1036,13 +1036,13 @@ void D_DoomMain (void)
     };
     int i;
 
-    if ( gamemode == shareware)
+    if ( gamemode == GAME_MODE_SHAREWARE)
       I_Error("\nYou cannot -file with the shareware "
               "version. Register!");
 
     // Check for fake IWAD with right name,
     // but w/o all the lumps of the registered version.
-    if (gamemode == registered)
+    if (gamemode == GAME_MODE_REGISTERED)
       for (i = 0; i < 23; i++)
         if (W_CheckNumForName(name[i]) < 0)
         {
@@ -1068,17 +1068,17 @@ void D_DoomMain (void)
   // Check and print which version is executed.
   switch ( gamemode )
   {
-  case shareware:
-  case indetermined:
+  case GAME_MODE_SHAREWARE:
+  case GAME_MODE_INDETERMINED:
     printf (
       "===========================================================================\n"
       "                                Shareware!\n"
       "===========================================================================\n"
     );
     break;
-  case registered:
-  case retail:
-  case commercial:
+  case GAME_MODE_REGISTERED:
+  case GAME_MODE_RETAIL:
+  case GAME_MODE_COMMERCIAL:
     printf (
       "===========================================================================\n"
       "                 Commercial product - do not distribute!\n"

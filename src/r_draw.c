@@ -632,7 +632,7 @@ void R_FillBackScreen (void)
     return;
   }
 
-  if ( gamemode == commercial)
+  if ( gamemode == GAME_MODE_COMMERCIAL)
   {
     name = name2;
   }

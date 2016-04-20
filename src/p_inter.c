@@ -466,7 +466,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_MEGA:
-    if (gamemode != commercial)
+    if (gamemode != GAME_MODE_COMMERCIAL)
     {
       return;
     }

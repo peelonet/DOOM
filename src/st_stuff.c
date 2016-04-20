@@ -613,7 +613,7 @@ ST_Responder (event_t* ev)
         plyr->message = STSTR_MUS;
         cht_GetParam(&cheat_mus, buf);
 
-        if (gamemode == commercial)
+        if (gamemode == GAME_MODE_COMMERCIAL)
         {
           musnum = mus_runnin + (buf[0] - '0') * 10 + buf[1] - '0' - 1;
 
@@ -711,7 +711,7 @@ ST_Responder (event_t* ev)
 
       cht_GetParam(&cheat_clev, buf);
 
-      if (gamemode == commercial)
+      if (gamemode == GAME_MODE_COMMERCIAL)
       {
         epsd = 0;
         map = (buf[0] - '0') * 10 + buf[1] - '0';
@@ -734,25 +734,25 @@ ST_Responder (event_t* ev)
       }
 
       // Ohmygod - this is not going to work.
-      if ((gamemode == retail)
+      if ((gamemode == GAME_MODE_RETAIL)
           && ((epsd > 4) || (map > 9)))
       {
         return false;
       }
 
-      if ((gamemode == registered)
+      if ((gamemode == GAME_MODE_REGISTERED)
           && ((epsd > 3) || (map > 9)))
       {
         return false;
       }
 
-      if ((gamemode == shareware)
+      if ((gamemode == GAME_MODE_SHAREWARE)
           && ((epsd > 1) || (map > 9)))
       {
         return false;
       }
 
-      if ((gamemode == commercial)
+      if ((gamemode == GAME_MODE_COMMERCIAL)
           && (( epsd > 1) || (map > 34)))
       {
         return false;

@@ -395,7 +395,7 @@ void HU_Init(void)
   int   j;
   char  buffer[9];
 
-  if (french)
+  if (language == LANGUAGE_FRENCH)
   {
     shiftxform = french_shiftxform;
   }
@@ -450,9 +450,9 @@ void HU_Start(void)
 
   switch ( gamemode )
   {
-  case shareware:
-  case registered:
-  case retail:
+  case GAME_MODE_SHAREWARE:
+  case GAME_MODE_REGISTERED:
+  case GAME_MODE_RETAIL:
     s = HU_TITLE;
     break;
 
@@ -465,7 +465,7 @@ void HU_Start(void)
     break;
   */
 
-  case commercial:
+  case GAME_MODE_COMMERCIAL:
   default:
     s = HU_TITLE2;
     break;
@@ -579,7 +579,7 @@ void HU_Ticker(void)
               message_nottobefuckedwith = true;
               message_on = true;
               message_counter = HU_MSGTIMEOUT;
-              if ( gamemode == commercial )
+              if ( gamemode == GAME_MODE_COMMERCIAL )
               {
                 S_StartSound(0, sfx_radio);
               }
@@ -766,7 +766,7 @@ bool HU_Responder(event_t* ev)
     }
     else
     {
-      if (french)
+      if (language == LANGUAGE_FRENCH)
       {
         c = ForeignTranslation(c);
       }

@@ -29,53 +29,54 @@
 // DOOM version
 enum { VERSION =  110 };
 
-
-// Game mode handling - identify IWAD version
-//  to handle IWAD dependend animations etc.
+/**
+ * Game mode handling: Identify IWAD version to handle IWAD depended animations
+ * etc.
+ */
 typedef enum
 {
-  shareware,  // DOOM 1 shareware, E1, M9
-  registered, // DOOM 1 registered, E3, M27
-  commercial, // DOOM 2 retail, E1 M34
-  // DOOM 2 german edition not handled
-  retail, // DOOM 1 retail, E4, M36
-  indetermined  // Well, no IWAD found.
+  /** DOOM 1 shareware, E1 M9. */
+  GAME_MODE_SHAREWARE,
+  /** DOOM 1 registered, E3, M27. */
+  GAME_MODE_REGISTERED,
+  /** DOOM 2 retail, E1 M34. */
+  GAME_MODE_COMMERCIAL,
+  /** DOOM 2 german edition not handled. */
+  GAME_MODE_RETAIL,
+  /** Well, no IWAD found. */
+  GAME_MODE_INDETERMINED
+} GameMode;
 
-} GameMode_t;
-
-
-// Mission packs - might be useful for TC stuff?
+/**
+ * Mission packs: Might be useful for TC stuff?
+ */
 typedef enum
 {
-  doom,   // DOOM 1
-  doom2,  // DOOM 2
-  pack_tnt, // TNT mission pack
-  pack_plut,  // Plutonia pack
-  none
+  /** DOOM 1. */
+  GAME_MISSION_DOOM,
+  /** DOOM 2. */
+  GAME_MISSION_DOOM2,
+  /** TNT mission pack. */
+  GAME_MISSION_PACK_TNT,
+  /** Plutonia pack. */
+  GAME_MISSION_PACK_PLUTONIA,
+  GAME_MISSION_NONE
+} GameMission;
 
-} GameMission_t;
-
-
-// Identify language to use, software localization.
+/**
+ * Identify language to use, software localization.
+ */
 typedef enum
 {
-  english,
-  french,
-  german,
-  unknown
-
-} Language_t;
-
+  LANGUAGE_ENGLISH,
+  LANGUAGE_FRENCH,
+  LANGUAGE_GERMAN,
+  LANGUAGE_UNKNOWN
+} Language;
 
 // If rangecheck is undefined,
 // most parameter validation debugging code will not be compiled
 #define RANGECHECK
-
-// This one switches between MIT SHM (no proper mouse)
-// and XFree86 DGA (mickey sampling). The original
-// linuxdoom used SHM, which is default.
-//#define X11_DGA   1
-
 
 //
 // For resize of screen, at start of game.
@@ -107,16 +108,17 @@ typedef enum
 // State updates, number of tics / second.
 #define TICRATE   35
 
-// The current state of the game: whether we are
-// playing, gazing at the intermission screen,
-// the game final animation, or a demo.
+/**
+ * The current state of the game: Whether we are playing, gazing at the
+ * intermission screen, the game final animation or a demo.
+ */
 typedef enum
 {
-  GS_LEVEL,
-  GS_INTERMISSION,
-  GS_FINALE,
-  GS_DEMOSCREEN
-} gamestate_t;
+  GAME_STATE_LEVEL,
+  GAME_STATE_INTERMISSION,
+  GAME_STATE_FINALE,
+  GAME_STATE_DEMOSCREEN
+} GameState;
 
 //
 // Difficulty/skill settings/filters.

@@ -93,7 +93,7 @@ void  G_DoSaveGame (void);
 
 
 gameaction_t    gameaction;
-gamestate_t     gamestate;
+GameState gamestate;
 skill_t         gameskill;
 bool   respawnmonsters;
 int             gameepisode;
@@ -484,12 +484,6 @@ void G_BuildTiccmd (ticcmd_t* cmd)
   }
 }
 
-
-//
-// G_DoLoadLevel
-//
-extern  gamestate_t     wipegamestate;
-
 void G_DoLoadLevel (void)
 {
   int             i;
@@ -503,9 +497,9 @@ void G_DoLoadLevel (void)
 
   // DOOM determines the sky texture to be used
   // depending on the current episode, and the game version.
-  if ( (gamemode == commercial)
-       || ( gamemode == pack_tnt )
-       || ( gamemode == pack_plut ) )
+  if ( (gamemode == GAME_MODE_COMMERCIAL)
+       || ( gamemission == GAME_MISSION_PACK_TNT )
+       || ( gamemission == GAME_MISSION_PACK_PLUTONIA ) )
   {
     skytexture = R_TextureNumForName ("SKY3");
     if (gamemap < 12)
@@ -520,12 +514,12 @@ void G_DoLoadLevel (void)
 
   levelstarttic = gametic;        // for time calculation
 
-  if (wipegamestate == GS_LEVEL)
+  if (wipegamestate == GAME_STATE_LEVEL)
   {
     wipegamestate = -1;  // force a wipe
   }
 
-  gamestate = GS_LEVEL;
+  gamestate = GAME_STATE_LEVEL;
 
   for (i = 0 ; i < MAXPLAYERS ; i++)
   {
@@ -565,7 +559,7 @@ void G_DoLoadLevel (void)
 bool G_Responder (event_t* ev)
 {
   // allow spy mode changes even during the demo
-  if (gamestate == GS_LEVEL && ev->type == ev_keydown
+  if (gamestate == GAME_STATE_LEVEL && ev->type == ev_keydown
       && ev->data1 == KEY_F12 && (singledemo || !deathmatch) )
   {
     // spy mode
@@ -583,7 +577,7 @@ bool G_Responder (event_t* ev)
 
   // any other key pops up menu if in demos
   if (gameaction == ga_nothing && !singledemo &&
-      (demoplayback || gamestate == GS_DEMOSCREEN)
+      (demoplayback || gamestate == GAME_STATE_DEMOSCREEN)
      )
   {
     if (ev->type == ev_keydown ||
@@ -596,7 +590,7 @@ bool G_Responder (event_t* ev)
     return false;
   }
 
-  if (gamestate == GS_LEVEL)
+  if (gamestate == GAME_STATE_LEVEL)
   {
     if (HU_Responder (ev))
     {
@@ -612,7 +606,7 @@ bool G_Responder (event_t* ev)
     }
   }
 
-  if (gamestate == GS_FINALE)
+  if (gamestate == GAME_STATE_FINALE)
   {
     if (F_Responder (ev))
     {
@@ -811,22 +805,22 @@ void G_Ticker (void)
   // do main actions
   switch (gamestate)
   {
-  case GS_LEVEL:
+  case GAME_STATE_LEVEL:
     P_Ticker ();
     ST_Ticker ();
     AM_Ticker ();
     HU_Ticker ();
     break;
 
-  case GS_INTERMISSION:
+  case GAME_STATE_INTERMISSION:
     WI_Ticker ();
     break;
 
-  case GS_FINALE:
+  case GAME_STATE_FINALE:
     F_Ticker ();
     break;
 
-  case GS_DEMOSCREEN:
+  case GAME_STATE_DEMOSCREEN:
     D_PageTicker ();
     break;
   }
@@ -1106,7 +1100,7 @@ void G_ExitLevel (void)
 void G_SecretExitLevel (void)
 {
   // IF NO WOLF3D LEVELS, NO SECRET EXIT!
-  if ( (gamemode == commercial)
+  if ( (gamemode == GAME_MODE_COMMERCIAL)
        && (W_CheckNumForName("map31") < 0))
   {
     secretexit = false;
@@ -1135,7 +1129,7 @@ void G_DoCompleted (void)
     AM_Stop ();
   }
 
-  if ( gamemode != commercial)
+  if ( gamemode != GAME_MODE_COMMERCIAL)
     switch (gamemap)
     {
     case 8:
@@ -1150,7 +1144,7 @@ void G_DoCompleted (void)
     }
 
   if ( (gamemap == 8)
-       && (gamemode != commercial) )
+       && (gamemode != GAME_MODE_COMMERCIAL) )
   {
     // victory
     gameaction = ga_victory;
@@ -1158,7 +1152,7 @@ void G_DoCompleted (void)
   }
 
   if ( (gamemap == 9)
-       && (gamemode != commercial) )
+       && (gamemode != GAME_MODE_COMMERCIAL) )
   {
     // exit secret level
     for (i = 0 ; i < MAXPLAYERS ; i++)
@@ -1173,7 +1167,7 @@ void G_DoCompleted (void)
   wminfo.last = gamemap - 1;
 
   // wminfo.next is 0 biased, unlike gamemap
-  if ( gamemode == commercial)
+  if ( gamemode == GAME_MODE_COMMERCIAL)
   {
     if (secretexit)
       switch (gamemap)
@@ -1231,7 +1225,7 @@ void G_DoCompleted (void)
   wminfo.maxitems = totalitems;
   wminfo.maxsecret = totalsecret;
   wminfo.maxfrags = 0;
-  if ( gamemode == commercial )
+  if ( gamemode == GAME_MODE_COMMERCIAL )
   {
     wminfo.partime = 35 * cpars[gamemap - 1];
   }
@@ -1252,7 +1246,7 @@ void G_DoCompleted (void)
             , sizeof(wminfo.plyr[i].frags));
   }
 
-  gamestate = GS_INTERMISSION;
+  gamestate = GAME_STATE_INTERMISSION;
   viewactive = false;
   automapactive = false;
 
@@ -1272,7 +1266,7 @@ void G_WorldDone (void)
     players[consoleplayer].didsecret = true;
   }
 
-  if ( gamemode == commercial )
+  if ( gamemode == GAME_MODE_COMMERCIAL )
   {
     switch (gamemap)
     {
@@ -1294,7 +1288,7 @@ void G_WorldDone (void)
 
 void G_DoWorldDone (void)
 {
-  gamestate = GS_LEVEL;
+  gamestate = GAME_STATE_LEVEL;
   gamemap = wminfo.next + 1;
   G_DoLoadLevel ();
   gameaction = ga_nothing;
@@ -1522,14 +1516,14 @@ G_InitNew
     episode = 1;
   }
 
-  if ( gamemode == retail )
+  if ( gamemode == GAME_MODE_RETAIL )
   {
     if (episode > 4)
     {
       episode = 4;
     }
   }
-  else if ( gamemode == shareware )
+  else if ( gamemode == GAME_MODE_SHAREWARE )
   {
     if (episode > 1)
     {
@@ -1552,7 +1546,7 @@ G_InitNew
   }
 
   if ( (map > 9)
-       && ( gamemode != commercial) )
+       && ( gamemode != GAME_MODE_COMMERCIAL) )
   {
     map = 9;
   }
@@ -1608,7 +1602,7 @@ G_InitNew
   viewactive = true;
 
   // set the sky map for the episode
-  if ( gamemode == commercial)
+  if ( gamemode == GAME_MODE_COMMERCIAL)
   {
     skytexture = R_TextureNumForName ("SKY3");
     if (gamemap < 12)

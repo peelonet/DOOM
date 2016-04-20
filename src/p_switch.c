@@ -110,11 +110,11 @@ void P_InitSwitchList(void)
 
   episode = 1;
 
-  if (gamemode == registered)
+  if (gamemode == GAME_MODE_REGISTERED)
   {
     episode = 2;
   }
-  else if ( gamemode == commercial )
+  else if ( gamemode == GAME_MODE_COMMERCIAL )
   {
     episode = 3;
   }

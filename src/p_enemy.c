@@ -1809,7 +1809,7 @@ void A_BossDeath (mobj_t* mo)
   line_t  junk;
   int   i;
 
-  if ( gamemode == commercial)
+  if ( gamemode == GAME_MODE_COMMERCIAL)
   {
     if (gamemap != 7)
     {
@@ -1929,7 +1929,7 @@ void A_BossDeath (mobj_t* mo)
   }
 
   // victory!
-  if ( gamemode == commercial)
+  if ( gamemode == GAME_MODE_COMMERCIAL)
   {
     if (gamemap == 7)
     {
@@ -2254,7 +2254,7 @@ void A_PlayerScream (mobj_t* mo)
   // Default death sound.
   int   sound = sfx_pldeth;
 
-  if ( (gamemode == commercial)
+  if ( (gamemode == GAME_MODE_COMMERCIAL)
        &&   (mo->health < -50))
   {
     // IF THE PLAYER DIES

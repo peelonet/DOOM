@@ -48,8 +48,8 @@ extern  bool devparm;  // DEBUG: launched with -devparm
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
 //
-extern GameMode_t gamemode;
-extern GameMission_t  gamemission;
+extern GameMode gamemode;
+extern GameMission gamemission;
 
 // Set if homebrew PWAD stuff has been added.
 extern  bool modifiedgame;
@@ -57,7 +57,7 @@ extern  bool modifiedgame;
 
 // -------------------------------------------
 // Language.
-extern  Language_t   language;
+extern Language language;
 
 
 // -------------------------------------------
@@ -177,16 +177,7 @@ extern  bool demorecording;
 // Quit after playing a demo from cmdline.
 extern  bool   singledemo;
 
-
-
-
-//?
-extern  gamestate_t     gamestate;
-
-
-
-
-
+extern GameState gamestate;
 
 //-----------------------------
 // Internal parameters, fixed.
@@ -240,7 +231,7 @@ extern  bool         precache;
 
 // wipegamestate can be set to -1
 //  to force a wipe on the next draw
-extern  gamestate_t     wipegamestate;
+extern GameState wipegamestate;
 
 extern  int             mouseSensitivity;
 //?
