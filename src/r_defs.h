@@ -361,38 +361,38 @@ typedef struct vissprite_s
 
 } vissprite_t;
 
-
-//
-// Sprites are patches with a special naming convention
-//  so they can be recognized by R_InitSprites.
-// The base name is NNNNFx or NNNNFxFx, with
-//  x indicating the rotation, x = 0, 1-7.
-// The sprite and frame specified by a thing_t
-//  is range checked at run time.
-// A sprite is a patch_t that is assumed to represent
-//  a three dimensional object and may have multiple
-//  rotations pre drawn.
-// Horizontal flipping is used to save space,
-//  thus NNNNF2F5 defines a mirrored patch.
-// Some sprites will only have one picture used
-// for all views: NNNNF0
-//
+/**
+ * Sprites are patches with a special naming convention so they can be
+ * recognized by R_InitSprites.
+ *
+ * The base name is NNNNFx or NNNNFxFx, with x indicating the rotation,
+ * x = 0, 1-7.
+ *
+ * The sprite and frame specified by a thing_t is range checked at run
+ * time.
+ *
+ * A sprite is a patch_t that is assumed to represent a three dimensional
+ * object and may have multiple rotations pre drawn.
+ *
+ * Horizontal flipping is used to save space, thus NNNNF2F5 defines a
+ * mirrored patch.
+ *
+ * Some sprites will only have one picture used for all views: NNNNF0.
+ */
 typedef struct
 {
-  // If false use 0 for any position.
-  // Note: as eight entries are available,
-  //  we might as well insert the same name eight times.
-  bool rotate;
-
-  // Lump to use for view angles 0-7.
+  /**
+   * If 0, use 0 for any position.
+   *
+   * Note: As eight entries are available, we might as well insert the
+   * same name eight times.
+   */
+  int32_t rotate;
+  /** Lump to use for view angles 0-7. */
   int16_t lump[8];
-
-  // Flip bit (1 = flip) to use for view angles 0-7.
-  uint8_t  flip[8];
-
-} spriteframe_t;
-
-
+  /** Flip bit (1 = flip) to use for view angles 0-7. */
+  uint8_t flip[8];
+} SpriteFrame;
 
 //
 // A sprite definition:
@@ -401,8 +401,7 @@ typedef struct
 typedef struct
 {
   int32_t         numframes;
-  spriteframe_t*  spriteframes;
-
+  SpriteFrame*  spriteframes;
 } spritedef_t;
 
 

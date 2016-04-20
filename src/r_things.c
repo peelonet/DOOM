@@ -82,7 +82,7 @@ short   screenheightarray[SCREENWIDTH];
 spritedef_t*  sprites;
 int   numsprites;
 
-spriteframe_t sprtemp[29];
+SpriteFrame sprtemp[29];
 int   maxframe;
 char*   spritename;
 
@@ -275,8 +275,8 @@ void R_InitSpriteDefs (char** namelist)
     // allocate space for the frames present and copy sprtemp to it
     sprites[i].numframes = maxframe;
     sprites[i].spriteframes =
-      Z_Malloc (maxframe * sizeof(spriteframe_t), PU_STATIC, NULL);
-    memcpy (sprites[i].spriteframes, sprtemp, maxframe * sizeof(spriteframe_t));
+      Z_Malloc (maxframe * sizeof(SpriteFrame), PU_STATIC, NULL);
+    memcpy (sprites[i].spriteframes, sprtemp, maxframe * sizeof(SpriteFrame));
   }
 
 }
@@ -474,7 +474,7 @@ void R_ProjectSprite (mobj_t* thing)
   int     x2;
 
   spritedef_t*  sprdef;
-  spriteframe_t*  sprframe;
+  SpriteFrame*  sprframe;
   int     lump;
 
   unsigned    rot;
@@ -679,7 +679,7 @@ void R_DrawPSprite (pspdef_t* psp)
   int     x1;
   int     x2;
   spritedef_t*  sprdef;
-  spriteframe_t*  sprframe;
+  SpriteFrame*  sprframe;
   int     lump;
   bool   flip;
   vissprite_t*  vis;

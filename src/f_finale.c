@@ -653,7 +653,7 @@ void V_DrawPatchFlipped (int x, int y, int scrn, patch_t* patch);
 void F_CastDrawer (void)
 {
   spritedef_t*  sprdef;
-  spriteframe_t*  sprframe;
+  SpriteFrame*  sprframe;
   int     lump;
   bool   flip;
   patch_t*    patch;

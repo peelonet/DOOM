@@ -783,7 +783,7 @@ void R_PrecacheLevel (void)
 
   texture_t*    texture;
   thinker_t*    th;
-  spriteframe_t*  sf;
+  SpriteFrame*  sf;
 
   if (demoplayback)
   {
