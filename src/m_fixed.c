@@ -24,54 +24,28 @@
 #include <stdint.h>
 
 #include "i_system.h"
-
 #include "m_fixed.h"
 
-
-
-
-// Fixme. __USE_C_FIXED__ or something.
-
-fixed_t
-FixedMul
-( fixed_t a,
-  fixed_t b )
+fixed_t FixedMul(fixed_t a, fixed_t b)
 {
-  return ((long long) a * (long long) b) >> FRACBITS;
+  return ((int64_t) a * (int64_t) b) >> FRACBITS;
 }
 
-
-
-//
-// FixedDiv, C version.
-//
-
-fixed_t
-FixedDiv
-( fixed_t a,
-  fixed_t b )
+fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
-  if ( (abs(a) >> 14) >= abs(b))
+  if ((abs(a) >> 14) >= abs(b))
   {
     return (a ^ b) < 0 ? INT32_MIN : INT32_MAX;
   }
-  return FixedDiv2 (a, b);
-}
-
-
-
-fixed_t
-FixedDiv2
-( fixed_t a,
-  fixed_t b )
-{
-  double c;
-
-  c = ((double)a) / ((double)b) * FRACUNIT;
-
-  if (c >= 2147483648.0 || c < -2147483648.0)
+  else
   {
-    I_Error("FixedDiv: divide by zero");
+    const double c = ((double) a) / ((double) b) * FRACUNIT;
+
+    if (c >= 2147483648.0 || c < -2147483648.0)
+    {
+      I_Error("FixedDiv: divide by zero");
+    }
+
+    return (fixed_t) c;
   }
-  return (fixed_t) c;
 }
