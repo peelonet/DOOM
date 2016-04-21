@@ -19,6 +19,7 @@
 // DESCRIPTION:  Ceiling aninmation (lowering, crushing, raising)
 //
 //-----------------------------------------------------------------------------
+#include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
 

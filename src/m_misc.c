@@ -24,6 +24,7 @@
 //
 //-----------------------------------------------------------------------------
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -504,7 +505,7 @@ void M_ScreenShot (void)
   {
     lbmname[4] = i / 10 + '0';
     lbmname[5] = i % 10 + '0';
-    if (access(lbmname, 0) == -1)
+    if (!M_FileExists(lbmname))
     {
       break;  // file doesn't exist
     }

@@ -21,6 +21,7 @@
 //  set up initial state and misc. LUTs.
 //
 //-----------------------------------------------------------------------------
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>

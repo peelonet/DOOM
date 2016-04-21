@@ -19,6 +19,7 @@
 // DESCRIPTION: Door animation code (opening/closing)
 //
 //-----------------------------------------------------------------------------
+#include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
 

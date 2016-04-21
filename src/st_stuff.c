@@ -22,6 +22,7 @@
 //  Does palette indicators as well (red pain/berserk, bright pickup)
 //
 //-----------------------------------------------------------------------------
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 

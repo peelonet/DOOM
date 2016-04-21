@@ -20,6 +20,7 @@
 //  Zone Memory Allocation. Neat.
 //
 //-----------------------------------------------------------------------------
+#include <stdlib.h>
 #include <stdint.h>
 
 #include "z_zone.h"
@@ -303,94 +304,6 @@ Z_FreeTags
     }
   }
 }
-
-
-
-//
-// Z_DumpHeap
-// Note: TFileDumpHeap( stdout ) ?
-//
-void
-Z_DumpHeap
-( int   lowtag,
-  int   hightag )
-{
-  memblock_t* block;
-
-  printf ("zone size: %i  location: %p\n",
-          mainzone->size, mainzone);
-
-  printf ("tag range: %i to %i\n",
-          lowtag, hightag);
-
-  for (block = mainzone->blocklist.next ; ; block = block->next)
-  {
-    if (block->tag >= lowtag && block->tag <= hightag)
-      printf ("block:%p    size:%7i    user:%p    tag:%3i\n",
-              block, block->size, block->user, block->tag);
-
-    if (block->next == &mainzone->blocklist)
-    {
-      // all blocks have been hit
-      break;
-    }
-
-    if ( (uint8_t*)block + block->size != (uint8_t*)block->next)
-    {
-      printf ("ERROR: block size does not touch the next block\n");
-    }
-
-    if ( block->next->prev != block)
-    {
-      printf ("ERROR: next block doesn't have proper back link\n");
-    }
-
-    if (!block->user && !block->next->user)
-    {
-      printf ("ERROR: two consecutive free blocks\n");
-    }
-  }
-}
-
-
-//
-// Z_FileDumpHeap
-//
-void Z_FileDumpHeap (FILE* f)
-{
-  memblock_t* block;
-
-  fprintf (f, "zone size: %i  location: %p\n", mainzone->size, mainzone);
-
-  for (block = mainzone->blocklist.next ; ; block = block->next)
-  {
-    fprintf (f, "block:%p    size:%7i    user:%p    tag:%3i\n",
-             block, block->size, block->user, block->tag);
-
-    if (block->next == &mainzone->blocklist)
-    {
-      // all blocks have been hit
-      break;
-    }
-
-    if ( (uint8_t*)block + block->size != (uint8_t*)block->next)
-    {
-      fprintf (f, "ERROR: block size does not touch the next block\n");
-    }
-
-    if ( block->next->prev != block)
-    {
-      fprintf (f, "ERROR: next block doesn't have proper back link\n");
-    }
-
-    if (!block->user && !block->next->user)
-    {
-      fprintf (f, "ERROR: two consecutive free blocks\n");
-    }
-  }
-}
-
-
 
 //
 // Z_CheckHeap

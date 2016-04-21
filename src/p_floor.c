@@ -20,6 +20,7 @@
 //  Floor animation: raising stairs.
 //
 //-----------------------------------------------------------------------------
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <limits.h>

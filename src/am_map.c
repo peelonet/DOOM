@@ -20,6 +20,7 @@
 // DESCRIPTION:  the automap code
 //
 //-----------------------------------------------------------------------------
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <limits.h>
