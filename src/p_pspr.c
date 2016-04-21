@@ -142,42 +142,39 @@ void P_BringUpWeapon (player_t* player)
 {
   statenum_t  newstate;
 
-  if (player->pendingweapon == wp_nochange)
+  if (player->pendingweapon == WEAPON_TYPE_NOCHANGE)
   {
     player->pendingweapon = player->readyweapon;
   }
 
-  if (player->pendingweapon == wp_chainsaw)
+  if (player->pendingweapon == WEAPON_TYPE_CHAINSAW)
   {
     S_StartSound (player->mo, sfx_sawup);
   }
 
   newstate = weaponinfo[player->pendingweapon].upstate;
 
-  player->pendingweapon = wp_nochange;
+  player->pendingweapon = WEAPON_TYPE_NOCHANGE;
   player->psprites[ps_weapon].sy = WEAPONBOTTOM;
 
   P_SetPsprite (player, ps_weapon, newstate);
 }
 
-//
-// P_CheckAmmo
-// Returns true if there is enough ammo to shoot.
-// If not, selects the next weapon to use.
-//
-bool P_CheckAmmo (player_t* player)
+/**
+ * Returns true if there is anough ammo to shoot. If not, selects the next
+ * weapon to use.
+ */
+static bool P_CheckAmmo(player_t* player)
 {
-  ammotype_t    ammo;
-  int     count;
-
-  ammo = weaponinfo[player->readyweapon].ammo;
+  AmmoType type = weaponinfo[player->readyweapon].ammo;
+  int count;
 
   // Minimal amount for one shot varies.
-  if (player->readyweapon == wp_bfg)
+  if (player->readyweapon == WEAPON_TYPE_BFG)
   {
     count = BFGCELLS;
   }
-  else if (player->readyweapon == wp_supershotgun)
+  else if (player->readyweapon == WEAPON_TYPE_SUPERSHOTGUN)
   {
     count = 2;  // Double barrel.
   }
@@ -186,75 +183,70 @@ bool P_CheckAmmo (player_t* player)
     count = 1;  // Regular.
   }
 
-  // Some do not need ammunition anyway.
-  // Return if current ammunition sufficient.
-  if (ammo == am_noammo || player->ammo[ammo] >= count)
+  // Some do not need ammunition anyway. Return if current ammunition
+  // sufficient.
+  if (type == AMMO_TYPE_NOAMMO || player->ammo[type] >= count)
   {
     return true;
   }
 
-  // Out of ammo, pick a weapon to change to.
-  // Preferences are set here.
+  // Out of ammo, pick a weapon to change to. Preferences are set here.
   do
   {
-    if (player->weaponowned[wp_plasma]
-        && player->ammo[am_cell]
-        && (gamemode != GAME_MODE_SHAREWARE) )
+    if (player->weaponowned[WEAPON_TYPE_PLASMA]
+        && player->ammo[AMMO_TYPE_CELL]
+        && gamemode != GAME_MODE_SHAREWARE)
     {
-      player->pendingweapon = wp_plasma;
+      player->pendingweapon = WEAPON_TYPE_PLASMA;
     }
-    else if (player->weaponowned[wp_supershotgun]
-             && player->ammo[am_shell] > 2
-             && (gamemode == GAME_MODE_COMMERCIAL) )
+    else if (player->weaponowned[WEAPON_TYPE_SUPERSHOTGUN]
+             && player->ammo[AMMO_TYPE_SHELL] > 2
+             && gamemode == GAME_MODE_COMMERCIAL)
     {
-      player->pendingweapon = wp_supershotgun;
+      player->pendingweapon = WEAPON_TYPE_SUPERSHOTGUN;
     }
-    else if (player->weaponowned[wp_chaingun]
-             && player->ammo[am_clip])
+    else if (player->weaponowned[WEAPON_TYPE_CHAINGUN]
+             && player->ammo[AMMO_TYPE_CLIP])
     {
-      player->pendingweapon = wp_chaingun;
+      player->pendingweapon = WEAPON_TYPE_CHAINGUN;
     }
-    else if (player->weaponowned[wp_shotgun]
-             && player->ammo[am_shell])
+    else if (player->weaponowned[WEAPON_TYPE_SHOTGUN]
+             && player->ammo[AMMO_TYPE_SHELL])
     {
-      player->pendingweapon = wp_shotgun;
+      player->pendingweapon = WEAPON_TYPE_SHOTGUN;
     }
-    else if (player->ammo[am_clip])
+    else if (player->ammo[AMMO_TYPE_CLIP])
     {
-      player->pendingweapon = wp_pistol;
+      player->pendingweapon = WEAPON_TYPE_PISTOL;
     }
-    else if (player->weaponowned[wp_chainsaw])
+    else if (player->weaponowned[WEAPON_TYPE_CHAINSAW])
     {
-      player->pendingweapon = wp_chainsaw;
+      player->pendingweapon = WEAPON_TYPE_CHAINSAW;
     }
-    else if (player->weaponowned[wp_missile]
-             && player->ammo[am_misl])
+    else if (player->weaponowned[WEAPON_TYPE_MISSILE]
+             && player->ammo[AMMO_TYPE_MISSILE])
     {
-      player->pendingweapon = wp_missile;
+      player->pendingweapon = WEAPON_TYPE_MISSILE;
     }
-    else if (player->weaponowned[wp_bfg]
-             && player->ammo[am_cell] > 40
-             && (gamemode != GAME_MODE_SHAREWARE) )
+    else if (player->weaponowned[WEAPON_TYPE_BFG]
+             && player->ammo[AMMO_TYPE_CELL] > 40
+             && gamemode != GAME_MODE_SHAREWARE)
     {
-      player->pendingweapon = wp_bfg;
+      player->pendingweapon = WEAPON_TYPE_BFG;
     }
     else
     {
       // If everything fails.
-      player->pendingweapon = wp_fist;
+      player->pendingweapon = WEAPON_TYPE_FIST;
     }
-
   }
-  while (player->pendingweapon == wp_nochange);
+  while (player->pendingweapon == WEAPON_TYPE_NOCHANGE);
 
   // Now set appropriate weapon overlay.
-  P_SetPsprite (player,
-                ps_weapon,
-                weaponinfo[player->readyweapon].downstate);
+  P_SetPsprite(player, ps_weapon, weaponinfo[player->readyweapon].downstate);
 
   return false;
 }
-
 
 //
 // P_FireWeapon.
@@ -311,7 +303,7 @@ A_WeaponReady
     P_SetMobjState (player->mo, S_PLAY);
   }
 
-  if (player->readyweapon == wp_chainsaw
+  if (player->readyweapon == WEAPON_TYPE_CHAINSAW
       && psp->state == &states[S_SAW])
   {
     S_StartSound (player->mo, sfx_sawidl);
@@ -319,7 +311,7 @@ A_WeaponReady
 
   // check for change
   //  if player is dead, put the weapon away
-  if (player->pendingweapon != wp_nochange || !player->health)
+  if (player->pendingweapon != WEAPON_TYPE_NOCHANGE || !player->health)
   {
     // change weapon
     //  (pending weapon should allready be validated)
@@ -333,8 +325,8 @@ A_WeaponReady
   if (player->cmd.buttons & BT_ATTACK)
   {
     if ( !player->attackdown
-         || (player->readyweapon != wp_missile
-             && player->readyweapon != wp_bfg) )
+         || (player->readyweapon != WEAPON_TYPE_MISSILE
+             && player->readyweapon != WEAPON_TYPE_BFG) )
     {
       player->attackdown = true;
       P_FireWeapon (player);
@@ -368,7 +360,7 @@ void A_ReFire
   // check for fire
   //  (if a weaponchange is pending, let it go through instead)
   if ( (player->cmd.buttons & BT_ATTACK)
-       && player->pendingweapon == wp_nochange
+       && player->pendingweapon == WEAPON_TYPE_NOCHANGE
        && player->health)
   {
     player->refire++;
@@ -495,7 +487,7 @@ A_Punch
 
   damage = (P_Random () % 10 + 1) << 1;
 
-  if (player->powers[pw_strength])
+  if (player->powers[POWER_TYPE_STRENGTH])
   {
     damage *= 10;
   }

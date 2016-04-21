@@ -40,13 +40,16 @@
 
 #include "s_sound.h"
 
-#include "p_inter.h"
-
-
 #define BONUSADD  6
 
-
-
+/*
+ * Power up durations, how many seconds until expiration, assuming TICRATE is
+ * 35 ticks/seconds.
+ */
+static const int POWER_DURATION_INVULNERABILITY = (30 * TICRATE);
+static const int POWER_DURATION_INVISIBILITY = (60 * TICRATE);
+static const int POWER_DURATION_INFRARED = (120 * TICRATE);
+static const int POWER_DURATION_IRONFEET = (60 * TICRATE);
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
@@ -58,117 +61,102 @@ int clipammo[NUMAMMO] = {10, 4, 20, 1};
 // GET STUFF
 //
 
-//
-// P_GiveAmmo
-// Num is the number of clip loads,
-// not the individual count (0= 1/2 clip).
-// Returns false if the ammo can't be picked up at all
-//
-
-bool
-P_GiveAmmo
-( player_t* player,
-  ammotype_t  ammo,
-  int   num )
+/**
+ * Amount is the number of clip loads, not the invidivual count (0= 1/2 clip).
+ * Returns false if the ammo cannot be picked up at all.
+ */
+static bool P_GiveAmmo(player_t* player, AmmoType type, int amount)
 {
-  int   oldammo;
+  int oldamount;
 
-  if (ammo == am_noammo)
+  if (type == AMMO_TYPE_NOAMMO)
   {
     return false;
   }
 
-  if (!ammo || ammo > NUMAMMO)
+  if (!type || type > NUMAMMO)
   {
-    I_Error ("P_GiveAmmo: bad type %i", ammo);
+    I_Error("P_GiveAmmo: bad type %d", type);
   }
 
-  if ( player->ammo[ammo] == player->maxammo[ammo]  )
+  if (player->ammo[type] == player->maxammo[type])
   {
     return false;
   }
 
-  if (num)
+  if (amount)
   {
-    num *= clipammo[ammo];
-  }
-  else
-  {
-    num = clipammo[ammo] / 2;
+    amount *= clipammo[type];
+  } else {
+    amount = clipammo[type] / 2;
   }
 
-  if (gameskill == sk_baby
-      || gameskill == sk_nightmare)
+  if (gameskill == SKILL_BABY || gameskill == SKILL_NIGHTMARE)
   {
-    // give double ammo in trainer mode,
-    // you'll need in nightmare
-    num <<= 1;
+    // Give double ammo in trainer mode, you'll need it in nightmare. */
+    amount <<= 1;
   }
 
+  oldamount = player->ammo[amount];
+  player->ammo[type] += amount;
 
-  oldammo = player->ammo[ammo];
-  player->ammo[ammo] += num;
-
-  if (player->ammo[ammo] > player->maxammo[ammo])
+  if (player->ammo[type] > player->maxammo[type])
   {
-    player->ammo[ammo] = player->maxammo[ammo];
+    player->ammo[type] = player->maxammo[type];
   }
 
-  // If non zero ammo,
-  // don't change up weapons,
-  // player was lower on purpose.
-  if (oldammo)
+  // If non zero ammo, don't change up weapons, player was lower on purpose.
+  if (oldamount)
   {
     return true;
   }
 
-  // We were down to zero,
-  // so select a new weapon.
-  // Preferences are not user selectable.
-  switch (ammo)
+  // We were down to zero, so select a new weapon. Preferences are not user
+  // selectable. (Yet.)
+  switch (type)
   {
-  case am_clip:
-    if (player->readyweapon == wp_fist)
+  case AMMO_TYPE_CLIP:
+    if (player->readyweapon == WEAPON_TYPE_FIST)
     {
-      if (player->weaponowned[wp_chaingun])
+      if (player->weaponowned[WEAPON_TYPE_CHAINGUN])
       {
-        player->pendingweapon = wp_chaingun;
+        player->pendingweapon = WEAPON_TYPE_CHAINGUN;
       }
       else
       {
-        player->pendingweapon = wp_pistol;
+        player->pendingweapon = WEAPON_TYPE_PISTOL;
       }
     }
     break;
 
-  case am_shell:
-    if (player->readyweapon == wp_fist
-        || player->readyweapon == wp_pistol)
+  case AMMO_TYPE_SHELL:
+    if (player->readyweapon == WEAPON_TYPE_FIST
+        || player->readyweapon == WEAPON_TYPE_PISTOL)
     {
-      if (player->weaponowned[wp_shotgun])
+      if (player->weaponowned[WEAPON_TYPE_SHOTGUN])
       {
-        player->pendingweapon = wp_shotgun;
+        player->pendingweapon = WEAPON_TYPE_SHOTGUN;
       }
     }
     break;
 
-  case am_cell:
-    if (player->readyweapon == wp_fist
-        || player->readyweapon == wp_pistol)
+  case AMMO_TYPE_CELL:
+    if (player->readyweapon == WEAPON_TYPE_FIST
+        || player->readyweapon == WEAPON_TYPE_PISTOL)
     {
-      if (player->weaponowned[wp_plasma])
+      if (player->weaponowned[WEAPON_TYPE_PLASMA])
       {
-        player->pendingweapon = wp_plasma;
+        player->pendingweapon = WEAPON_TYPE_PLASMA;
       }
     }
     break;
 
-  case am_misl:
-    if (player->readyweapon == wp_fist)
+  case AMMO_TYPE_MISSILE:
+    if (player->readyweapon == WEAPON_TYPE_FIST)
     {
-      if (player->weaponowned[wp_missile])
+      if (player->weaponowned[WEAPON_TYPE_MISSILE])
       {
-        player->pendingweapon = wp_missile;
+        player->pendingweapon = WEAPON_TYPE_MISSILE;
       }
     }
   default:
@@ -178,25 +166,17 @@ P_GiveAmmo
   return true;
 }
 
-
-//
-// P_GiveWeapon
-// The weapon name may have a MF_DROPPED flag ored in.
-//
-bool
-P_GiveWeapon
-( player_t* player,
-  weapontype_t  weapon,
-  bool dropped )
+/**
+ * The weapon name may have a MF_DROPPED flag stored in.
+ */
+static bool P_GiveWeapon(player_t* player, WeaponType weapon, bool dropped)
 {
-  bool gaveammo;
-  bool gaveweapon;
+  bool gaveammo = false;
+  bool gaveweapon = false;
 
-  if (netgame
-      && (deathmatch != 2)
-      && !dropped )
+  if (netgame && deathmatch != 2 && !dropped)
   {
-    // leave placed weapons forever on net games
+    // Leave placed weapons forever on net games.
     if (player->weaponowned[weapon])
     {
       return false;
@@ -207,54 +187,44 @@ P_GiveWeapon
 
     if (deathmatch)
     {
-      P_GiveAmmo (player, weaponinfo[weapon].ammo, 5);
+      P_GiveAmmo(player, weaponinfo[weapon].ammo, 5);
     }
     else
     {
-      P_GiveAmmo (player, weaponinfo[weapon].ammo, 2);
+      P_GiveAmmo(player, weaponinfo[weapon].ammo, 2);
     }
     player->pendingweapon = weapon;
 
     if (player == &players[consoleplayer])
     {
-      S_StartSound (NULL, sfx_wpnup);
+      S_StartSound(NULL, sfx_wpnup);
     }
+
     return false;
   }
 
-  if (weaponinfo[weapon].ammo != am_noammo)
+  if (weaponinfo[weapon].ammo != AMMO_TYPE_NOAMMO)
   {
-    // give one clip with a dropped weapon,
-    // two clips with a found weapon
+    // Give one clip with a dropped weapon, two clips with a found weapon.
     if (dropped)
     {
-      gaveammo = P_GiveAmmo (player, weaponinfo[weapon].ammo, 1);
+      gaveammo = P_GiveAmmo(player, weaponinfo[weapon].ammo, 1);
     }
     else
     {
-      gaveammo = P_GiveAmmo (player, weaponinfo[weapon].ammo, 2);
+      gaveammo = P_GiveAmmo(player, weaponinfo[weapon].ammo, 2);
     }
   }
-  else
-  {
-    gaveammo = false;
-  }
 
-  if (player->weaponowned[weapon])
-  {
-    gaveweapon = false;
-  }
-  else
+  if (!player->weaponowned[weapon])
   {
     gaveweapon = true;
     player->weaponowned[weapon] = true;
     player->pendingweapon = weapon;
   }
 
-  return (gaveweapon || gaveammo);
+  return gaveweapon || gaveammo;
 }
-
-
 
 //
 // P_GiveBody
@@ -306,63 +276,51 @@ P_GiveArmor
   return true;
 }
 
-
-
-//
-// P_GiveCard
-//
-void
-P_GiveCard
-( player_t* player,
-  card_t  card )
+static void P_GiveCard(player_t* player, Card card)
 {
-  if (player->cards[card])
+  if (!player->cards[card])
   {
-    return;
+    player->bonuscount = BONUSADD;
+    player->cards[card] = true;
   }
-
-  player->bonuscount = BONUSADD;
-  player->cards[card] = 1;
 }
 
-
-//
-// P_GivePower
-//
-bool
-P_GivePower
-( player_t* player,
-  int /*powertype_t*/ power )
+bool P_GivePower(player_t* player, PowerType power)
 {
-  if (power == pw_invulnerability)
+  if (power == POWER_TYPE_INVULNERABILITY)
   {
-    player->powers[power] = INVULNTICS;
+    player->powers[power] = POWER_DURATION_INVULNERABILITY;
+
     return true;
   }
 
-  if (power == pw_invisibility)
+  if (power == POWER_TYPE_INVISIBILITY)
   {
-    player->powers[power] = INVISTICS;
+    player->powers[power] = POWER_DURATION_INVISIBILITY;
     player->mo->flags |= MF_SHADOW;
+
     return true;
   }
 
-  if (power == pw_infrared)
+  if (power == POWER_TYPE_INFRARED)
   {
-    player->powers[power] = INFRATICS;
+    player->powers[power] = POWER_DURATION_INFRARED;
+
     return true;
   }
 
-  if (power == pw_ironfeet)
+  if (power == POWER_TYPE_IRONFEET)
   {
-    player->powers[power] = IRONTICS;
+    player->powers[power] = POWER_DURATION_IRONFEET;
+
     return true;
   }
 
-  if (power == pw_strength)
+  if (power == POWER_TYPE_STRENGTH)
   {
     P_GiveBody (player, 100);
     player->powers[power] = 1;
+
     return true;
   }
 
@@ -372,10 +330,9 @@ P_GivePower
   }
 
   player->powers[power] = 1;
+
   return true;
 }
-
-
 
 //
 // P_TouchSpecialThing
@@ -480,11 +437,11 @@ P_TouchSpecialThing
   // cards
   // leave cards for everyone
   case SPR_BKEY:
-    if (!player->cards[it_bluecard])
+    if (!player->cards[CARD_BLUE])
     {
       player->message = GOTBLUECARD;
     }
-    P_GiveCard (player, it_bluecard);
+    P_GiveCard (player, CARD_BLUE);
     if (!netgame)
     {
       break;
@@ -492,11 +449,11 @@ P_TouchSpecialThing
     return;
 
   case SPR_YKEY:
-    if (!player->cards[it_yellowcard])
+    if (!player->cards[CARD_YELLOW])
     {
       player->message = GOTYELWCARD;
     }
-    P_GiveCard (player, it_yellowcard);
+    P_GiveCard (player, CARD_YELLOW);
     if (!netgame)
     {
       break;
@@ -504,11 +461,11 @@ P_TouchSpecialThing
     return;
 
   case SPR_RKEY:
-    if (!player->cards[it_redcard])
+    if (!player->cards[CARD_RED])
     {
       player->message = GOTREDCARD;
     }
-    P_GiveCard (player, it_redcard);
+    P_GiveCard (player, CARD_RED);
     if (!netgame)
     {
       break;
@@ -516,11 +473,11 @@ P_TouchSpecialThing
     return;
 
   case SPR_BSKU:
-    if (!player->cards[it_blueskull])
+    if (!player->cards[CARD_BLUE_SKULL])
     {
       player->message = GOTBLUESKUL;
     }
-    P_GiveCard (player, it_blueskull);
+    P_GiveCard (player, CARD_BLUE_SKULL);
     if (!netgame)
     {
       break;
@@ -528,11 +485,11 @@ P_TouchSpecialThing
     return;
 
   case SPR_YSKU:
-    if (!player->cards[it_yellowskull])
+    if (!player->cards[CARD_YELLOW_SKULL])
     {
       player->message = GOTYELWSKUL;
     }
-    P_GiveCard (player, it_yellowskull);
+    P_GiveCard (player, CARD_YELLOW_SKULL);
     if (!netgame)
     {
       break;
@@ -540,11 +497,11 @@ P_TouchSpecialThing
     return;
 
   case SPR_RSKU:
-    if (!player->cards[it_redskull])
+    if (!player->cards[CARD_RED_SKULL])
     {
       player->message = GOTREDSKULL;
     }
-    P_GiveCard (player, it_redskull);
+    P_GiveCard (player, CARD_RED_SKULL);
     if (!netgame)
     {
       break;
@@ -579,7 +536,7 @@ P_TouchSpecialThing
 
   // power ups
   case SPR_PINV:
-    if (!P_GivePower (player, pw_invulnerability))
+    if (!P_GivePower (player, POWER_TYPE_INVULNERABILITY))
     {
       return;
     }
@@ -588,20 +545,20 @@ P_TouchSpecialThing
     break;
 
   case SPR_PSTR:
-    if (!P_GivePower (player, pw_strength))
+    if (!P_GivePower (player, POWER_TYPE_STRENGTH))
     {
       return;
     }
     player->message = GOTBERSERK;
-    if (player->readyweapon != wp_fist)
+    if (player->readyweapon != WEAPON_TYPE_FIST)
     {
-      player->pendingweapon = wp_fist;
+      player->pendingweapon = WEAPON_TYPE_FIST;
     }
     sound = sfx_getpow;
     break;
 
   case SPR_PINS:
-    if (!P_GivePower (player, pw_invisibility))
+    if (!P_GivePower (player, POWER_TYPE_INVISIBILITY))
     {
       return;
     }
@@ -610,7 +567,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_SUIT:
-    if (!P_GivePower (player, pw_ironfeet))
+    if (!P_GivePower (player, POWER_TYPE_IRONFEET))
     {
       return;
     }
@@ -619,7 +576,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_PMAP:
-    if (!P_GivePower (player, pw_allmap))
+    if (!P_GivePower (player, POWER_TYPE_ALLMAP))
     {
       return;
     }
@@ -628,7 +585,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_PVIS:
-    if (!P_GivePower (player, pw_infrared))
+    if (!P_GivePower (player, POWER_TYPE_INFRARED))
     {
       return;
     }
@@ -640,14 +597,14 @@ P_TouchSpecialThing
   case SPR_CLIP:
     if (special->flags & MF_DROPPED)
     {
-      if (!P_GiveAmmo (player, am_clip, 0))
+      if (!P_GiveAmmo (player, AMMO_TYPE_CLIP, 0))
       {
         return;
       }
     }
     else
     {
-      if (!P_GiveAmmo (player, am_clip, 1))
+      if (!P_GiveAmmo (player, AMMO_TYPE_CLIP, 1))
       {
         return;
       }
@@ -656,7 +613,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_AMMO:
-    if (!P_GiveAmmo (player, am_clip, 5))
+    if (!P_GiveAmmo (player, AMMO_TYPE_CLIP, 5))
     {
       return;
     }
@@ -664,7 +621,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_ROCK:
-    if (!P_GiveAmmo (player, am_misl, 1))
+    if (!P_GiveAmmo (player, AMMO_TYPE_MISSILE, 1))
     {
       return;
     }
@@ -672,7 +629,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_BROK:
-    if (!P_GiveAmmo (player, am_misl, 5))
+    if (!P_GiveAmmo (player, AMMO_TYPE_MISSILE, 5))
     {
       return;
     }
@@ -680,7 +637,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_CELL:
-    if (!P_GiveAmmo (player, am_cell, 1))
+    if (!P_GiveAmmo (player, AMMO_TYPE_CELL, 1))
     {
       return;
     }
@@ -688,7 +645,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_CELP:
-    if (!P_GiveAmmo (player, am_cell, 5))
+    if (!P_GiveAmmo (player, AMMO_TYPE_CELL, 5))
     {
       return;
     }
@@ -696,7 +653,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_SHEL:
-    if (!P_GiveAmmo (player, am_shell, 1))
+    if (!P_GiveAmmo (player, AMMO_TYPE_SHELL, 1))
     {
       return;
     }
@@ -704,7 +661,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_SBOX:
-    if (!P_GiveAmmo (player, am_shell, 5))
+    if (!P_GiveAmmo (player, AMMO_TYPE_SHELL, 5))
     {
       return;
     }
@@ -729,7 +686,7 @@ P_TouchSpecialThing
 
   // weapons
   case SPR_BFUG:
-    if (!P_GiveWeapon (player, wp_bfg, false) )
+    if (!P_GiveWeapon (player, WEAPON_TYPE_BFG, false) )
     {
       return;
     }
@@ -738,7 +695,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_MGUN:
-    if (!P_GiveWeapon (player, wp_chaingun, special->flags & MF_DROPPED) )
+    if (!P_GiveWeapon (player, WEAPON_TYPE_CHAINGUN, special->flags & MF_DROPPED) )
     {
       return;
     }
@@ -747,7 +704,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_CSAW:
-    if (!P_GiveWeapon (player, wp_chainsaw, false) )
+    if (!P_GiveWeapon (player, WEAPON_TYPE_CHAINSAW, false) )
     {
       return;
     }
@@ -756,7 +713,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_LAUN:
-    if (!P_GiveWeapon (player, wp_missile, false) )
+    if (!P_GiveWeapon (player, WEAPON_TYPE_MISSILE, false) )
     {
       return;
     }
@@ -765,7 +722,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_PLAS:
-    if (!P_GiveWeapon (player, wp_plasma, false) )
+    if (!P_GiveWeapon (player, WEAPON_TYPE_PLASMA, false) )
     {
       return;
     }
@@ -774,7 +731,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_SHOT:
-    if (!P_GiveWeapon (player, wp_shotgun, special->flags & MF_DROPPED ) )
+    if (!P_GiveWeapon (player, WEAPON_TYPE_SHOTGUN, special->flags & MF_DROPPED ) )
     {
       return;
     }
@@ -783,7 +740,7 @@ P_TouchSpecialThing
     break;
 
   case SPR_SGN2:
-    if (!P_GiveWeapon (player, wp_supershotgun, special->flags & MF_DROPPED ) )
+    if (!P_GiveWeapon (player, WEAPON_TYPE_SUPERSHOTGUN, special->flags & MF_DROPPED ) )
     {
       return;
     }
@@ -959,7 +916,7 @@ P_DamageMobj
   }
 
   player = target->player;
-  if (player && gameskill == sk_baby)
+  if (player && gameskill == SKILL_BABY)
   {
     damage >>= 1;  // take half damage in trainer mode
   }
@@ -972,7 +929,7 @@ P_DamageMobj
       && !(target->flags & MF_NOCLIP)
       && (!source
           || !source->player
-          || source->player->readyweapon != wp_chainsaw))
+          || source->player->readyweapon != WEAPON_TYPE_CHAINSAW))
   {
     ang = R_PointToAngle2 ( inflictor->x,
                             inflictor->y,
@@ -1011,7 +968,7 @@ P_DamageMobj
     // ignore damage in GOD mode, or with INVUL power.
     if ( damage < 1000
          && ( (player->cheats & CF_GODMODE)
-              || player->powers[pw_invulnerability] ) )
+              || player->powers[POWER_TYPE_INVULNERABILITY] ) )
     {
       return;
     }

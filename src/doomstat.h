@@ -65,14 +65,14 @@ extern Language language;
 //
 
 // Defaults for menu, methinks.
-extern  skill_t   startskill;
+extern Skill startskill;
 extern  int             startepisode;
 extern  int   startmap;
 
 extern  bool   autostart;
 
 // Selected by user.
-extern  skill_t         gameskill;
+extern Skill gameskill;
 extern  int   gameepisode;
 extern  int   gamemap;
 

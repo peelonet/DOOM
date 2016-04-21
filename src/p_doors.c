@@ -210,7 +210,7 @@ EV_DoLockedDoor
     {
       return 0;
     }
-    if (!p->cards[it_bluecard] && !p->cards[it_blueskull])
+    if (!p->cards[CARD_BLUE] && !p->cards[CARD_BLUE_SKULL])
     {
       p->message = PD_BLUEO;
       S_StartSound(NULL, sfx_oof);
@@ -224,7 +224,7 @@ EV_DoLockedDoor
     {
       return 0;
     }
-    if (!p->cards[it_redcard] && !p->cards[it_redskull])
+    if (!p->cards[CARD_RED] && !p->cards[CARD_RED_SKULL])
     {
       p->message = PD_REDO;
       S_StartSound(NULL, sfx_oof);
@@ -238,8 +238,8 @@ EV_DoLockedDoor
     {
       return 0;
     }
-    if (!p->cards[it_yellowcard] &&
-        !p->cards[it_yellowskull])
+    if (!p->cards[CARD_YELLOW] &&
+        !p->cards[CARD_YELLOW_SKULL])
     {
       p->message = PD_YELLOWO;
       S_StartSound(NULL, sfx_oof);
@@ -369,7 +369,7 @@ EV_VerticalDoor
       return;
     }
 
-    if (!player->cards[it_bluecard] && !player->cards[it_blueskull])
+    if (!player->cards[CARD_BLUE] && !player->cards[CARD_BLUE_SKULL])
     {
       player->message = PD_BLUEK;
       S_StartSound(NULL, sfx_oof);
@@ -384,8 +384,8 @@ EV_VerticalDoor
       return;
     }
 
-    if (!player->cards[it_yellowcard] &&
-        !player->cards[it_yellowskull])
+    if (!player->cards[CARD_YELLOW] &&
+        !player->cards[CARD_YELLOW_SKULL])
     {
       player->message = PD_YELLOWK;
       S_StartSound(NULL, sfx_oof);
@@ -400,7 +400,7 @@ EV_VerticalDoor
       return;
     }
 
-    if (!player->cards[it_redcard] && !player->cards[it_redskull])
+    if (!player->cards[CARD_RED] && !player->cards[CARD_RED_SKULL])
     {
       player->message = PD_REDK;
       S_StartSound(NULL, sfx_oof);

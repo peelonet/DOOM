@@ -134,101 +134,82 @@ typedef enum
 
 typedef enum
 {
-  sk_baby,
-  sk_easy,
-  sk_medium,
-  sk_hard,
-  sk_nightmare
-} skill_t;
+  SKILL_BABY,
+  SKILL_EASY,
+  SKILL_MEDIUM,
+  SKILL_HARD,
+  SKILL_NIGHTMARE
+} Skill;
 
-
-
-
-//
-// Key cards.
-//
+/**
+ * Key cards.
+ */
 typedef enum
 {
-  it_bluecard,
-  it_yellowcard,
-  it_redcard,
-  it_blueskull,
-  it_yellowskull,
-  it_redskull,
-
+  CARD_BLUE,
+  CARD_YELLOW,
+  CARD_RED,
+  CARD_BLUE_SKULL,
+  CARD_YELLOW_SKULL,
+  CARD_RED_SKULL,
   NUMCARDS
+} Card;
 
-} card_t;
-
-
-
-// The defined weapons,
-//  including a marker indicating
-//  user has not changed weapon.
+/**
+ * The defined weapons, including a marker indicating that the user has not
+ * changed weapon.
+ */
 typedef enum
 {
-  wp_fist,
-  wp_pistol,
-  wp_shotgun,
-  wp_chaingun,
-  wp_missile,
-  wp_plasma,
-  wp_bfg,
-  wp_chainsaw,
-  wp_supershotgun,
+  WEAPON_TYPE_FIST,
+  WEAPON_TYPE_PISTOL,
+  WEAPON_TYPE_SHOTGUN,
+  WEAPON_TYPE_CHAINGUN,
+  WEAPON_TYPE_MISSILE,
+  WEAPON_TYPE_PLASMA,
+  WEAPON_TYPE_BFG,
+  WEAPON_TYPE_CHAINSAW,
+  WEAPON_TYPE_SUPERSHOTGUN,
 
   NUMWEAPONS,
 
-  // No pending weapon change.
-  wp_nochange
+  /** No pending weapon change. */
+  WEAPON_TYPE_NOCHANGE
+} WeaponType;
 
-} weapontype_t;
-
-
-// Ammunition types defined.
+/**
+ * Ammunition types defined.
+ */
 typedef enum
 {
-  am_clip,  // Pistol / chaingun ammo.
-  am_shell, // Shotgun / double barreled shotgun.
-  am_cell,  // Plasma rifle, BFG.
-  am_misl,  // Missile launcher.
+  /** Pistol / chaingun ammo. */
+  AMMO_TYPE_CLIP,
+  /** Shotgun / double barreled shotgun. */
+  AMMO_TYPE_SHELL,
+  /** Plasma rifle / BFG. */
+  AMMO_TYPE_CELL,
+  /** Missile launcher. */
+  AMMO_TYPE_MISSILE,
+
   NUMAMMO,
-  am_noammo // Unlimited for chainsaw / fist.
 
-} ammotype_t;
+  /** Unlimited for chainsaw / fist. */
+  AMMO_TYPE_NOAMMO
+} AmmoType;
 
-
-// Power up artifacts.
+/**
+ * Power up artifacts.
+ */
 typedef enum
 {
-  pw_invulnerability,
-  pw_strength,
-  pw_invisibility,
-  pw_ironfeet,
-  pw_allmap,
-  pw_infrared,
+  POWER_TYPE_INVULNERABILITY,
+  POWER_TYPE_STRENGTH,
+  POWER_TYPE_INVISIBILITY,
+  POWER_TYPE_IRONFEET,
+  POWER_TYPE_ALLMAP,
+  POWER_TYPE_INFRARED,
   NUMPOWERS
-
-} powertype_t;
-
-
-
-//
-// Power up durations,
-//  how many seconds till expiration,
-//  assuming TICRATE is 35 ticks/second.
-//
-typedef enum
-{
-  INVULNTICS  = (30 * TICRATE),
-  INVISTICS = (60 * TICRATE),
-  INFRATICS = (120 * TICRATE),
-  IRONTICS  = (60 * TICRATE)
-
-} powerduration_t;
-
-
-
+} PowerType;
 
 //
 // DOOM keyboard definition.
@@ -298,8 +279,3 @@ typedef enum
 #define KEYP_ENTER      KEY_ENTER
 
 #endif          // __DOOMDEF__
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

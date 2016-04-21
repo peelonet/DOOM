@@ -563,7 +563,7 @@ P_SpawnMobj
   mobj->flags = info->flags;
   mobj->health = info->spawnhealth;
 
-  if (gameskill != sk_nightmare)
+  if (gameskill != SKILL_NIGHTMARE)
   {
     mobj->reactiontime = info->reactiontime;
   }
@@ -837,11 +837,11 @@ void P_SpawnMapThing (mapthing_t* mthing)
     return;
   }
 
-  if (gameskill == sk_baby)
+  if (gameskill == SKILL_BABY)
   {
     bit = 1;
   }
-  else if (gameskill == sk_nightmare)
+  else if (gameskill == SKILL_NIGHTMARE)
   {
     bit = 4;
   }

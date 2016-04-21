@@ -820,7 +820,7 @@ void A_Chase (mobj_t* actor)
   if (actor->flags & MF_JUSTATTACKED)
   {
     actor->flags &= ~MF_JUSTATTACKED;
-    if (gameskill != sk_nightmare && !fastparm)
+    if (gameskill != SKILL_NIGHTMARE && !fastparm)
     {
       P_NewChaseDir (actor);
     }
@@ -843,7 +843,7 @@ void A_Chase (mobj_t* actor)
   // check for missile attack
   if (actor->info->missilestate)
   {
-    if (gameskill < sk_nightmare
+    if (gameskill < SKILL_NIGHTMARE
         && !fastparm && actor->movecount)
     {
       goto nomissile;
@@ -2136,7 +2136,7 @@ void A_BrainSpit (mobj_t* mo)
   static int  easy = 0;
 
   easy ^= 1;
-  if (gameskill <= sk_easy && (!easy))
+  if (gameskill <= SKILL_EASY && (!easy))
   {
     return;
   }

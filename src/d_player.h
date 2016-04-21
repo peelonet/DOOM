@@ -101,11 +101,11 @@ typedef struct player_s
   bool   backpack;
 
   // Frags, kills of other players.
-  int     frags[MAXPLAYERS];
-  weapontype_t  readyweapon;
+  int         frags[MAXPLAYERS];
+  WeaponType  readyweapon;
 
   // Is wp_nochange if not changing.
-  weapontype_t  pendingweapon;
+  WeaponType  pendingweapon;
 
   bool   weaponowned[NUMWEAPONS];
   int     ammo[NUMAMMO];

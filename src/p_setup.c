@@ -611,7 +611,7 @@ P_SetupLevel
 ( int   episode,
   int   map,
   int   playermask,
-  skill_t skill)
+  Skill skill)
 {
   int   i;
   char  lumpname[9];

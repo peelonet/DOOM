@@ -261,7 +261,7 @@ void P_DeathThink (player_t* player)
 void P_PlayerThink (player_t* player)
 {
   ticcmd_t*   cmd;
-  weapontype_t  newweapon;
+  WeaponType newweapon;
 
   // fixme: do this in the cheat code
   if (player->cheats & CF_NOCLIP)
@@ -324,20 +324,20 @@ void P_PlayerThink (player_t* player)
     //  (read: not in the middle of an attack).
     newweapon = (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT;
 
-    if (newweapon == wp_fist
-        && player->weaponowned[wp_chainsaw]
-        && !(player->readyweapon == wp_chainsaw
-             && player->powers[pw_strength]))
+    if (newweapon == WEAPON_TYPE_FIST
+        && player->weaponowned[WEAPON_TYPE_CHAINSAW]
+        && !(player->readyweapon == WEAPON_TYPE_CHAINSAW
+             && player->powers[POWER_TYPE_STRENGTH]))
     {
-      newweapon = wp_chainsaw;
+      newweapon = WEAPON_TYPE_CHAINSAW;
     }
 
     if ( (gamemode == GAME_MODE_COMMERCIAL)
-         && newweapon == wp_shotgun
-         && player->weaponowned[wp_supershotgun]
-         && player->readyweapon != wp_supershotgun)
+         && newweapon == WEAPON_TYPE_SHOTGUN
+         && player->weaponowned[WEAPON_TYPE_SUPERSHOTGUN]
+         && player->readyweapon != WEAPON_TYPE_SUPERSHOTGUN)
     {
-      newweapon = wp_supershotgun;
+      newweapon = WEAPON_TYPE_SUPERSHOTGUN;
     }
 
 
@@ -346,8 +346,8 @@ void P_PlayerThink (player_t* player)
     {
       // Do not go to plasma or BFG in shareware,
       //  even if cheated.
-      if ((newweapon != wp_plasma
-           && newweapon != wp_bfg)
+      if ((newweapon != WEAPON_TYPE_PLASMA
+           && newweapon != WEAPON_TYPE_BFG)
           || (gamemode != GAME_MODE_SHAREWARE) )
       {
         player->pendingweapon = newweapon;
@@ -375,30 +375,30 @@ void P_PlayerThink (player_t* player)
   // Counters, time dependend power ups.
 
   // Strength counts up to diminish fade.
-  if (player->powers[pw_strength])
+  if (player->powers[POWER_TYPE_STRENGTH])
   {
-    player->powers[pw_strength]++;
+    player->powers[POWER_TYPE_STRENGTH]++;
   }
 
-  if (player->powers[pw_invulnerability])
+  if (player->powers[POWER_TYPE_INVULNERABILITY])
   {
-    player->powers[pw_invulnerability]--;
+    player->powers[POWER_TYPE_INVULNERABILITY]--;
   }
 
-  if (player->powers[pw_invisibility])
-    if (! --player->powers[pw_invisibility] )
+  if (player->powers[POWER_TYPE_INVISIBILITY])
+    if (! --player->powers[POWER_TYPE_INVISIBILITY] )
     {
       player->mo->flags &= ~MF_SHADOW;
     }
 
-  if (player->powers[pw_infrared])
+  if (player->powers[POWER_TYPE_INFRARED])
   {
-    player->powers[pw_infrared]--;
+    player->powers[POWER_TYPE_INFRARED]--;
   }
 
-  if (player->powers[pw_ironfeet])
+  if (player->powers[POWER_TYPE_IRONFEET])
   {
-    player->powers[pw_ironfeet]--;
+    player->powers[POWER_TYPE_IRONFEET]--;
   }
 
   if (player->damagecount)
@@ -413,10 +413,10 @@ void P_PlayerThink (player_t* player)
 
 
   // Handling colormaps.
-  if (player->powers[pw_invulnerability])
+  if (player->powers[POWER_TYPE_INVULNERABILITY])
   {
-    if (player->powers[pw_invulnerability] > 4 * 32
-        || (player->powers[pw_invulnerability] & 8) )
+    if (player->powers[POWER_TYPE_INVULNERABILITY] > 4 * 32
+        || (player->powers[POWER_TYPE_INVULNERABILITY] & 8) )
     {
       player->fixedcolormap = INVERSECOLORMAP;
     }
@@ -425,10 +425,10 @@ void P_PlayerThink (player_t* player)
       player->fixedcolormap = 0;
     }
   }
-  else if (player->powers[pw_infrared])
+  else if (player->powers[POWER_TYPE_INFRARED])
   {
-    if (player->powers[pw_infrared] > 4 * 32
-        || (player->powers[pw_infrared] & 8) )
+    if (player->powers[POWER_TYPE_INFRARED] > 4 * 32
+        || (player->powers[POWER_TYPE_INFRARED] & 8) )
     {
       // almost full bright
       player->fixedcolormap = 1;

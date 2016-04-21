@@ -1302,7 +1302,7 @@ void AM_drawWalls(void)
         }
       }
     }
-    else if (plr->powers[pw_allmap])
+    else if (plr->powers[POWER_TYPE_ALLMAP])
     {
       if (!(lines[i].flags & LINE_NEVERSEE))
       {
@@ -1425,7 +1425,7 @@ void AM_drawPlayers(void)
       continue;
     }
 
-    if (p->powers[pw_invisibility])
+    if (p->powers[POWER_TYPE_INVISIBILITY])
     {
       color = 246;  // *close* to black
     }

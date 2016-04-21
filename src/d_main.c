@@ -99,7 +99,7 @@ bool   singletics = false; // debug flag to cancel adaptiveness
 
 extern  bool inhelpscreens;
 
-skill_t   startskill;
+Skill startskill;
 int             startepisode;
 int   startmap;
 bool   autostart;
@@ -954,7 +954,7 @@ void D_DoomMain (void)
   }
 
   // get skill / episode / map from parms
-  startskill = sk_medium;
+  startskill = SKILL_MEDIUM;
   startepisode = 1;
   startmap = 1;
   autostart = false;

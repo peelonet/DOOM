@@ -78,7 +78,7 @@ bool G_CheckDemoStatus (void);
 void  G_ReadDemoTiccmd (ticcmd_t* cmd);
 void  G_WriteDemoTiccmd (ticcmd_t* cmd);
 void  G_PlayerReborn (int player);
-void  G_InitNew (skill_t skill, int episode, int map);
+void  G_InitNew (Skill skill, int episode, int map);
 
 void  G_DoReborn (int playernum);
 
@@ -94,7 +94,7 @@ void  G_DoSaveGame (void);
 
 gameaction_t    gameaction;
 GameState gamestate;
-skill_t         gameskill;
+Skill         gameskill;
 bool   respawnmonsters;
 int             gameepisode;
 int             gamemap;
@@ -901,10 +901,10 @@ void G_PlayerReborn (int player)
   p->usedown = p->attackdown = true;  // don't do anything immediately
   p->playerstate = PST_LIVE;
   p->health = MAXHEALTH;
-  p->readyweapon = p->pendingweapon = wp_pistol;
-  p->weaponowned[wp_fist] = true;
-  p->weaponowned[wp_pistol] = true;
-  p->ammo[am_clip] = 50;
+  p->readyweapon = p->pendingweapon = WEAPON_TYPE_PISTOL;
+  p->weaponowned[WEAPON_TYPE_FIST] = true;
+  p->weaponowned[WEAPON_TYPE_PISTOL] = true;
+  p->ammo[AMMO_TYPE_CLIP] = 50;
 
   for (i = 0 ; i < NUMAMMO ; i++)
   {
@@ -1451,13 +1451,13 @@ void G_DoSaveGame (void)
 // Can be called by the startup code or the menu task,
 // consoleplayer, displayplayer, playeringame[] should be set.
 //
-skill_t d_skill;
+Skill d_skill;
 int     d_episode;
 int     d_map;
 
 void
 G_DeferedInitNew
-( skill_t skill,
+( Skill skill,
   int   episode,
   int   map)
 {
@@ -1489,7 +1489,7 @@ extern  int skytexture;
 
 void
 G_InitNew
-( skill_t skill,
+( Skill skill,
   int   episode,
   int   map )
 {
@@ -1502,9 +1502,9 @@ G_InitNew
   }
 
 
-  if (skill > sk_nightmare)
+  if (skill > SKILL_NIGHTMARE)
   {
-    skill = sk_nightmare;
+    skill = SKILL_NIGHTMARE;
   }
 
 
@@ -1553,7 +1553,7 @@ G_InitNew
 
   M_ClearRandom ();
 
-  if (skill == sk_nightmare || respawnparm )
+  if (skill == SKILL_NIGHTMARE || respawnparm )
   {
     respawnmonsters = true;
   }
@@ -1562,7 +1562,7 @@ G_InitNew
     respawnmonsters = false;
   }
 
-  if (fastparm || (skill == sk_nightmare && gameskill != sk_nightmare) )
+  if (fastparm || (skill == SKILL_NIGHTMARE && gameskill != SKILL_NIGHTMARE) )
   {
     for (i = S_SARG_RUN1 ; i <= S_SARG_PAIN2 ; i++)
     {
@@ -1572,7 +1572,7 @@ G_InitNew
     mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
     mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
   }
-  else if (skill != sk_nightmare && gameskill == sk_nightmare)
+  else if (skill != SKILL_NIGHTMARE && gameskill == SKILL_NIGHTMARE)
   {
     for (i = S_SARG_RUN1 ; i <= S_SARG_PAIN2 ; i++)
     {
@@ -1740,7 +1740,7 @@ void G_DeferedPlayDemo (char* name)
 
 void G_DoPlayDemo (void)
 {
-  skill_t skill;
+  Skill skill;
   int             i, episode, map;
 
   gameaction = ga_nothing;

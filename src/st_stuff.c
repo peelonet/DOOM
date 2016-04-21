@@ -40,7 +40,6 @@
 #include "r_local.h"
 
 #include "p_local.h"
-#include "p_inter.h"
 
 #include "am_map.h"
 #include "m_cheat.h"
@@ -509,6 +508,7 @@ void ST_refreshBackground(void)
 
 }
 
+extern void P_GivePower(player_t*, PowerType);
 
 // Respond to keyboard input events,
 //  intercept cheats.
@@ -665,7 +665,7 @@ ST_Responder (event_t* ev)
           {
             P_GivePower( plyr, i);
           }
-          else if (i != pw_strength)
+          else if (i != POWER_TYPE_STRENGTH)
           {
             plyr->powers[i] = 1;
           }
@@ -686,8 +686,8 @@ ST_Responder (event_t* ev)
       // 'choppers' invulnerability & chainsaw
       else if (cht_CheckCheat(&cheat_choppers, ev->data1))
       {
-        plyr->weaponowned[wp_chainsaw] = true;
-        plyr->powers[pw_invulnerability] = true;
+        plyr->weaponowned[WEAPON_TYPE_CHAINSAW] = true;
+        plyr->powers[POWER_TYPE_INVULNERABILITY] = true;
         plyr->message = STSTR_CHOPPERS;
       }
       // 'mypos' for player position
@@ -944,7 +944,7 @@ void ST_updateFaceWidget(void)
   {
     // invulnerability
     if ((plyr->cheats & CF_GODMODE)
-        || plyr->powers[pw_invulnerability])
+        || plyr->powers[POWER_TYPE_INVULNERABILITY])
     {
       priority = 4;
 
@@ -973,9 +973,7 @@ void ST_updateWidgets(void)
   int   i;
 
   // must redirect the pointer if the ready weapon has changed.
-  //  if (w_ready.data != plyr->readyweapon)
-  //  {
-  if (weaponinfo[plyr->readyweapon].ammo == am_noammo)
+  if (weaponinfo[plyr->readyweapon].ammo == AMMO_TYPE_NOAMMO)
   {
     w_ready.num = &largeammo;
   }
@@ -983,21 +981,7 @@ void ST_updateWidgets(void)
   {
     w_ready.num = &plyr->ammo[weaponinfo[plyr->readyweapon].ammo];
   }
-  //{
-  // static int tic=0;
-  // static int dir=-1;
-  // if (!(tic&15))
-  //   plyr->ammo[weaponinfo[plyr->readyweapon].ammo]+=dir;
-  // if (plyr->ammo[weaponinfo[plyr->readyweapon].ammo] == -100)
-  //   dir = 1;
-  // tic++;
-  // }
   w_ready.data = plyr->readyweapon;
-
-  // if (*w_ready.on)
-  //  STlib_updateNum(&w_ready, true);
-  // refresh weapon change
-  //  }
 
   // update keycard multiple widgets
   for (i = 0; i < 3; i++)
@@ -1065,10 +1049,10 @@ void ST_doPaletteStuff(void)
 
   cnt = plyr->damagecount;
 
-  if (plyr->powers[pw_strength])
+  if (plyr->powers[POWER_TYPE_STRENGTH])
   {
     // slowly fade the berzerk out
-    bzc = 12 - (plyr->powers[pw_strength] >> 6);
+    bzc = 12 - (plyr->powers[POWER_TYPE_STRENGTH] >> 6);
 
     if (bzc > cnt)
     {
@@ -1100,8 +1084,8 @@ void ST_doPaletteStuff(void)
     palette += STARTBONUSPALS;
   }
 
-  else if ( plyr->powers[pw_ironfeet] > 4 * 32
-            || plyr->powers[pw_ironfeet] & 8)
+  else if ( plyr->powers[POWER_TYPE_IRONFEET] > 4 * 32
+            || plyr->powers[POWER_TYPE_IRONFEET] & 8)
   {
     palette = RADIATIONPAL;
   }
