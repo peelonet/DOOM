@@ -44,7 +44,7 @@
 #include "doomstat.h"
 
 
-void  P_SpawnMapThing (mapthing_t*  mthing);
+void  P_SpawnMapThing (MapThing*  mthing);
 
 
 //
@@ -106,9 +106,9 @@ uint8_t*   rejectmatrix;
 // Maintain single and multi player starting spots.
 #define MAX_DEATHMATCH_STARTS 10
 
-mapthing_t  deathmatchstarts[MAX_DEATHMATCH_STARTS];
-mapthing_t* deathmatch_p;
-mapthing_t  playerstarts[MAXPLAYERS];
+MapThing  deathmatchstarts[MAX_DEATHMATCH_STARTS];
+MapThing* deathmatch_p;
+MapThing  playerstarts[MAXPLAYERS];
 
 
 
@@ -121,12 +121,12 @@ void P_LoadVertexes (int lump)
 {
   uint8_t*   data;
   int     i;
-  mapvertex_t*  ml;
+  MapVertex*  ml;
   vertex_t*   li;
 
   // Determine number of lumps:
   //  total lump length / vertex record length.
-  numvertexes = W_LumpLength (lump) / sizeof(mapvertex_t);
+  numvertexes = W_LumpLength (lump) / sizeof(MapVertex);
 
   // Allocate zone memory for buffer.
   vertexes = Z_Malloc (numvertexes * sizeof(vertex_t), PU_LEVEL, 0);
@@ -134,7 +134,7 @@ void P_LoadVertexes (int lump)
   // Load data into cache.
   data = W_CacheLumpNum (lump, PU_STATIC);
 
-  ml = (mapvertex_t*)data;
+  ml = (MapVertex*)data;
   li = vertexes;
 
   // Copy and convert vertex coordinates,
@@ -158,18 +158,18 @@ void P_LoadSegs (int lump)
 {
   uint8_t*   data;
   int     i;
-  mapseg_t*   ml;
+  MapSeg*   ml;
   seg_t*    li;
   line_t*   ldef;
   int     linedef;
   int     side;
 
-  numsegs = W_LumpLength (lump) / sizeof(mapseg_t);
+  numsegs = W_LumpLength (lump) / sizeof(MapSeg);
   segs = Z_Malloc (numsegs * sizeof(seg_t), PU_LEVEL, 0);
   memset (segs, 0, numsegs * sizeof(seg_t));
   data = W_CacheLumpNum (lump, PU_STATIC);
 
-  ml = (mapseg_t*)data;
+  ml = (MapSeg*)data;
   li = segs;
   for (i = 0 ; i < numsegs ; i++, li++, ml++)
   {
@@ -205,14 +205,14 @@ void P_LoadSubsectors (int lump)
 {
   uint8_t*   data;
   int     i;
-  mapsubsector_t* ms;
+  MapSubSector* ms;
   subsector_t*  ss;
 
-  numsubsectors = W_LumpLength (lump) / sizeof(mapsubsector_t);
+  numsubsectors = W_LumpLength (lump) / sizeof(MapSubSector);
   subsectors = Z_Malloc (numsubsectors * sizeof(subsector_t), PU_LEVEL, 0);
   data = W_CacheLumpNum (lump, PU_STATIC);
 
-  ms = (mapsubsector_t*)data;
+  ms = (MapSubSector*)data;
   memset (subsectors, 0, numsubsectors * sizeof(subsector_t));
   ss = subsectors;
 
@@ -234,15 +234,15 @@ void P_LoadSectors (int lump)
 {
   uint8_t*   data;
   int     i;
-  mapsector_t*  ms;
+  MapSector*  ms;
   sector_t*   ss;
 
-  numsectors = W_LumpLength (lump) / sizeof(mapsector_t);
+  numsectors = W_LumpLength (lump) / sizeof(MapSector);
   sectors = Z_Malloc (numsectors * sizeof(sector_t), PU_LEVEL, 0);
   memset (sectors, 0, numsectors * sizeof(sector_t));
   data = W_CacheLumpNum (lump, PU_STATIC);
 
-  ms = (mapsector_t*)data;
+  ms = (MapSector*)data;
   ss = sectors;
   for (i = 0 ; i < numsectors ; i++, ss++, ms++)
   {
@@ -269,14 +269,14 @@ void P_LoadNodes (int lump)
   int   i;
   int   j;
   int   k;
-  mapnode_t*  mn;
+  MapNode*  mn;
   node_t* no;
 
-  numnodes = W_LumpLength (lump) / sizeof(mapnode_t);
+  numnodes = W_LumpLength (lump) / sizeof(MapNode);
   nodes = Z_Malloc (numnodes * sizeof(node_t), PU_LEVEL, 0);
   data = W_CacheLumpNum (lump, PU_STATIC);
 
-  mn = (mapnode_t*)data;
+  mn = (MapNode*)data;
   no = nodes;
 
   for (i = 0 ; i < numnodes ; i++, no++, mn++)
@@ -306,14 +306,14 @@ void P_LoadThings (int lump)
 {
   uint8_t*   data;
   int     i;
-  mapthing_t*   mt;
+  MapThing*   mt;
   int     numthings;
   bool   spawn;
 
   data = W_CacheLumpNum (lump, PU_STATIC);
-  numthings = W_LumpLength (lump) / sizeof(mapthing_t);
+  numthings = W_LumpLength (lump) / sizeof(MapThing);
 
-  mt = (mapthing_t*)data;
+  mt = (MapThing*)data;
   for (i = 0 ; i < numthings ; i++, mt++)
   {
     spawn = true;
@@ -364,17 +364,17 @@ void P_LoadLineDefs (int lump)
 {
   uint8_t*   data;
   int     i;
-  maplinedef_t* mld;
+  MapLineDef* mld;
   line_t*   ld;
   vertex_t*   v1;
   vertex_t*   v2;
 
-  numlines = W_LumpLength (lump) / sizeof(maplinedef_t);
+  numlines = W_LumpLength (lump) / sizeof(MapLineDef);
   lines = Z_Malloc (numlines * sizeof(line_t), PU_LEVEL, 0);
   memset (lines, 0, numlines * sizeof(line_t));
   data = W_CacheLumpNum (lump, PU_STATIC);
 
-  mld = (maplinedef_t*)data;
+  mld = (MapLineDef*)data;
   ld = lines;
   for (i = 0 ; i < numlines ; i++, mld++, ld++)
   {
@@ -461,15 +461,15 @@ void P_LoadSideDefs (int lump)
 {
   uint8_t*   data;
   int     i;
-  mapsidedef_t* msd;
+  MapSideDef* msd;
   side_t*   sd;
 
-  numsides = W_LumpLength (lump) / sizeof(mapsidedef_t);
+  numsides = W_LumpLength (lump) / sizeof(MapSideDef);
   sides = Z_Malloc (numsides * sizeof(side_t), PU_LEVEL, 0);
   memset (sides, 0, numsides * sizeof(side_t));
   data = W_CacheLumpNum (lump, PU_STATIC);
 
-  msd = (mapsidedef_t*)data;
+  msd = (MapSideDef*)data;
   sd = sides;
   for (i = 0 ; i < numsides ; i++, msd++, sd++)
   {

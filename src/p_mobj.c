@@ -42,7 +42,7 @@
 
 
 void G_PlayerReborn (int player);
-void P_SpawnMapThing (mapthing_t* mthing);
+void P_SpawnMapThing (MapThing* mthing);
 
 
 //
@@ -400,7 +400,7 @@ P_NightmareRespawn (mobj_t* mobj)
   fixed_t   z;
   subsector_t*  ss;
   mobj_t*   mo;
-  mapthing_t*   mthing;
+  MapThing*   mthing;
 
   x = mobj->spawnpoint.x << FRACBITS;
   y = mobj->spawnpoint.y << FRACBITS;
@@ -608,7 +608,7 @@ P_SpawnMobj
 //
 // P_RemoveMobj
 //
-mapthing_t  itemrespawnque[ITEMQUESIZE];
+MapThing  itemrespawnque[ITEMQUESIZE];
 int   itemrespawntime[ITEMQUESIZE];
 int   iquehead;
 int   iquetail;
@@ -656,7 +656,7 @@ void P_RespawnSpecials (void)
 
   subsector_t*  ss;
   mobj_t*   mo;
-  mapthing_t*   mthing;
+  MapThing*   mthing;
 
   int     i;
 
@@ -724,7 +724,7 @@ void P_RespawnSpecials (void)
 // Most of the player structure stays unchanged
 //  between levels.
 //
-void P_SpawnPlayer (mapthing_t* mthing)
+void P_SpawnPlayer (MapThing* mthing)
 {
   player_t*   p;
   fixed_t   x;
@@ -798,7 +798,7 @@ void P_SpawnPlayer (mapthing_t* mthing)
 // The fields of the mapthing should
 // already be in host byte order.
 //
-void P_SpawnMapThing (mapthing_t* mthing)
+void P_SpawnMapThing (MapThing* mthing)
 {
   int     i;
   int     bit;
