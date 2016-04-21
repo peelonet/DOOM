@@ -24,9 +24,6 @@
 #ifndef __DOOMDATA__
 #define __DOOMDATA__
 
-// Some global defines, that configure the game.
-#include "doomdef.h"
-
 //
 // Map level types.
 // The following data structures define the persistent format
