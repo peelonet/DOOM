@@ -26,7 +26,7 @@
 #include "doomdef.h"
 
 #include "s_sound.h"
-
+#include "m_fixed.h"
 #include "p_local.h"
 
 

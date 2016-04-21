@@ -25,6 +25,7 @@
 #include <stdint.h>
 
 #include "z_zone.h"
+#include "m_fixed.h"
 #include "p_local.h"
 
 #include "doomstat.h"

@@ -26,6 +26,7 @@
 
 #include "z_zone.h"
 #include "doomdef.h"
+#include "m_fixed.h"
 #include "p_local.h"
 
 #include "s_sound.h"

@@ -32,6 +32,7 @@
 #include "z_zone.h"
 #include "w_wad.h"
 
+#include "m_fixed.h"
 #include "r_local.h"
 
 // Needs access to LFB (guess what).

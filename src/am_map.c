@@ -28,6 +28,7 @@
 #include "z_zone.h"
 #include "doomdef.h"
 #include "st_stuff.h"
+#include "m_fixed.h"
 #include "p_local.h"
 #include "w_wad.h"
 

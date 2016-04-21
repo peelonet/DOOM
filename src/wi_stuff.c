@@ -35,6 +35,7 @@
 
 #include "g_game.h"
 
+#include "m_fixed.h"
 #include "r_local.h"
 #include "s_sound.h"
 

@@ -28,6 +28,7 @@
 #include "doomdef.h"
 #include "d_event.h"
 
+#include "m_fixed.h"
 #include "p_local.h"
 
 #include "doomstat.h"

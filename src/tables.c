@@ -36,14 +36,28 @@
 //-----------------------------------------------------------------------------
 #include <stdint.h>
 
+#include "m_fixed.h"
 #include "tables.h"
 
-int
-SlopeDiv
-( unsigned  num,
-  unsigned  den)
+const int FINEMASK = (FINEANGLES - 1);
+const int ANGLETOFINESHIFT = 19;
+
+// Binary Angle Measument, BAM.
+const int ANG45  = 0x20000000;
+const int ANG90  = 0x40000000;
+const int ANG180 = 0x80000000;
+const int ANG270 = 0xc0000000;
+
+const int SLOPEBITS = 11;
+const int DBITS = (FRACBITS-SLOPEBITS);
+
+
+/**
+ * Utility function called by R_PointToAngle.
+ */
+int SlopeDiv(unsigned int num, unsigned int den)
 {
-  unsigned  ans;
+  unsigned int ans;
 
   if (den < 512)
   {
@@ -56,9 +70,7 @@ SlopeDiv
 }
 
 
-
-
-int finetangent[4096] =
+const int finetangent[4096] =
 {
   -170910304, -56965752, -34178904, -24413316, -18988036, -15535599, -13145455, -11392683,
   -10052327, -8994149, -8137527, -7429880, -6835455, -6329090, -5892567, -5512368,
@@ -574,8 +586,7 @@ int finetangent[4096] =
   11392683, 13145455, 15535599, 18988036, 24413316, 34178904, 56965752, 170910304
 };
 
-
-int finesine[10240] =
+const int finesine[10240] =
 {
   25, 75, 125, 175, 226, 276, 326, 376,
   427, 477, 527, 578, 628, 678, 728, 779,
@@ -1859,9 +1870,7 @@ int finesine[10240] =
   65534, 65535, 65535, 65535, 65535, 65535, 65535, 65535
 };
 
-
-
-angle_t tantoangle[2049] =
+const angle_t tantoangle[2049] =
 {
   0, 333772, 667544, 1001315, 1335086, 1668857, 2002626, 2336395,
   2670163, 3003929, 3337694, 3671457, 4005219, 4338979, 4672736, 5006492,
@@ -2121,4 +2130,3 @@ angle_t tantoangle[2049] =
   535533216, 535700704, 535868128, 536035456, 536202720, 536369888, 536536992, 536704000,
   536870912
 };
-

@@ -28,6 +28,7 @@
 #include "m_random.h"
 
 #include "doomdef.h"
+#include "m_fixed.h"
 #include "p_local.h"
 
 

@@ -26,6 +26,7 @@
 #include "doomdef.h"
 
 #include "i_system.h"
+#include "m_fixed.h"
 #include "p_local.h"
 
 // State.

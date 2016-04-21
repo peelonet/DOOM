@@ -35,6 +35,7 @@
 #include "w_wad.h"
 
 #include "doomdef.h"
+#include "m_fixed.h"
 #include "r_local.h"
 #include "p_local.h"
 
