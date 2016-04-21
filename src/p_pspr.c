@@ -52,43 +52,35 @@
 // plasma cells for a bfg attack
 #define BFGCELLS    40
 
+static fixed_t bulletslope;
 
-//
-// P_SetPsprite
-//
-void
-P_SetPsprite
-( player_t* player,
-  int   position,
-  statenum_t  stnum )
+
+static void P_SetPsprite(player_t* player, int position, statenum_t stnum)
 {
-  pspdef_t* psp;
-  state_t*  state;
-
-  psp = &player->psprites[position];
+  pspdef_t* psp = &player->psprites[position];
+  state_t* state;
 
   do
   {
     if (!stnum)
     {
-      // object removed itself
+      // Object removed itself.
       psp->state = NULL;
       break;
     }
 
     state = &states[stnum];
     psp->state = state;
-    psp->tics = state->tics;  // could be 0
+    psp->tics = state->tics;  // Could be 0.
 
     if (state->misc1)
     {
-      // coordinate set
+      // Coordinate set.
       psp->sx = state->misc1 << FRACBITS;
       psp->sy = state->misc2 << FRACBITS;
     }
 
-    // Call action routine.
-    // Modified handling.
+    // Call action routine. Modified handling.
     if (state->action.acp2)
     {
       state->action.acp2(player, psp);
@@ -99,49 +91,17 @@ P_SetPsprite
     }
 
     stnum = psp->state->nextstate;
-
   }
+  // An initial state of 0 could cycle through.
   while (!psp->tics);
-  // an initial state of 0 could cycle through
 }
 
-
-
-//
-// P_CalcSwing
-//
-fixed_t   swingx;
-fixed_t   swingy;
-
-void P_CalcSwing (player_t* player)
+/**
+ * Starts bringing the pending weapon up from the bottom of the screen.
+ */
+static void P_BringUpWeapon(player_t* player)
 {
-  fixed_t swing;
-  int   angle;
-
-  // OPTIMIZE: tablify this.
-  // A LUT would allow for different modes,
-  //  and add flexibility.
-
-  swing = player->bob;
-
-  angle = (FINEANGLES / 70 * leveltime)&FINEMASK;
-  swingx = FixedMul ( swing, finesine[angle]);
-
-  angle = (FINEANGLES / 70 * leveltime + FINEANGLES / 2)&FINEMASK;
-  swingy = -FixedMul ( swingx, finesine[angle]);
-}
-
-
-
-//
-// P_BringUpWeapon
-// Starts bringing the pending weapon up
-// from the bottom of the screen.
-// Uses player
-//
-void P_BringUpWeapon (player_t* player)
-{
-  statenum_t  newstate;
+  statenum_t newstate;
 
   if (player->pendingweapon == WEAPON_TYPE_NOCHANGE)
   {
@@ -150,7 +110,7 @@ void P_BringUpWeapon (player_t* player)
 
   if (player->pendingweapon == WEAPON_TYPE_CHAINSAW)
   {
-    S_StartSound (player->mo, sfx_sawup);
+    S_StartSound(player->mo, sfx_sawup);
   }
 
   newstate = weaponinfo[player->pendingweapon].upstate;
@@ -158,7 +118,7 @@ void P_BringUpWeapon (player_t* player)
   player->pendingweapon = WEAPON_TYPE_NOCHANGE;
   player->psprites[ps_weapon].sy = WEAPONBOTTOM;
 
-  P_SetPsprite (player, ps_weapon, newstate);
+  P_SetPsprite(player, ps_weapon, newstate);
 }
 
 /**
@@ -249,38 +209,28 @@ static bool P_CheckAmmo(player_t* player)
   return false;
 }
 
-//
-// P_FireWeapon.
-//
-void P_FireWeapon (player_t* player)
+static void P_FireWeapon(player_t* player)
 {
-  statenum_t  newstate;
+  statenum_t newstate;
 
-  if (!P_CheckAmmo (player))
+  if (!P_CheckAmmo(player))
   {
     return;
   }
 
-  P_SetMobjState (player->mo, S_PLAY_ATK1);
+  P_SetMobjState(player->mo, S_PLAY_ATK1);
   newstate = weaponinfo[player->readyweapon].atkstate;
-  P_SetPsprite (player, ps_weapon, newstate);
-  P_NoiseAlert (player->mo, player->mo);
+  P_SetPsprite(player, ps_weapon, newstate);
+  P_NoiseAlert(player->mo, player->mo);
 }
 
-
-
-//
-// P_DropWeapon
-// Player died, so put the weapon away.
-//
-void P_DropWeapon (player_t* player)
+/**
+ * Player died, so put the weapon away.
+ */
+void P_DropWeapon(player_t* player)
 {
-  P_SetPsprite (player,
-                ps_weapon,
-                weaponinfo[player->readyweapon].downstate);
+  P_SetPsprite(player, ps_weapon, weaponinfo[player->readyweapon].downstate);
 }
-
-
 
 //
 // A_WeaponReady
@@ -618,9 +568,6 @@ A_FirePlasma
 // Sets a slope so a near miss is at aproximately
 // the height of the intended target
 //
-fixed_t   bulletslope;
-
-
 void P_BulletSlope (mobj_t* mo)
 {
   angle_t an;
@@ -912,5 +859,3 @@ void P_MovePsprites (player_t* player)
   player->psprites[ps_flash].sx = player->psprites[ps_weapon].sx;
   player->psprites[ps_flash].sy = player->psprites[ps_weapon].sy;
 }
-
-
