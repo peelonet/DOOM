@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <limits.h>
 
 #include "m_bbox.h"
 
@@ -744,7 +745,7 @@ P_TraverseIntercepts
 
   while (count--)
   {
-    dist = MAXINT;
+    dist = INT_MAX;
     for (scan = intercepts ; scan < intercept_p ; scan++)
     {
       if (scan->frac < dist)
@@ -764,7 +765,7 @@ P_TraverseIntercepts
       return false;  // don't bother going farther
     }
 
-    in->frac = MAXINT;
+    in->frac = INT_MAX;
   }
 
   return true;    // everything was traversed
