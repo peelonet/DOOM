@@ -24,6 +24,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "doomdef.h"
 #include "doomstat.h"
 #include "sounds.h"
 #include "w_wad.h"

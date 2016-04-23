@@ -15,7 +15,6 @@ link_libraries(
 set(
   DOOM_SOURCES_LIST
   src/am_map.c
-  src/d_items.c
   src/d_main.c
   src/d_net.c
   src/dstrings.c

@@ -1333,9 +1333,19 @@ typedef struct
 
 extern mobjinfo_t mobjinfo[NUMMOBJTYPES];
 
+/**
+ * Weapon info: Sprite frames, ammunition use.
+ */
+typedef struct
+{
+  AmmoType   ammo;
+  statenum_t upstate;
+  statenum_t downstate;
+  statenum_t readystate;
+  statenum_t atkstate;
+  statenum_t flashstate;
+} WeaponInfo;
+
+extern const WeaponInfo weaponinfo[NUMWEAPONS];
+
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

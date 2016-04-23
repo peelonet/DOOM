@@ -25,12 +25,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-// Data.
+#include "doomdef.h"
 #include "sounds.h"
 #include "m_fixed.h"
-
 #include "info.h"
-
 #include "p_mobj.h"
 
 char* sprnames[NUMSPRITES] =
@@ -4804,3 +4802,99 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
   }
 };
 
+//
+// PSPRITE ACTIONS for waepons.
+// This struct controls the weapon animations.
+//
+// Each entry is:
+//   ammo/amunition type
+//  upstate
+//  downstate
+// readystate
+// atkstate, i.e. attack/fire/hit frame
+// flashstate, muzzle flash
+//
+const WeaponInfo weaponinfo[NUMWEAPONS] =
+{
+  {
+    // fist
+    AMMO_TYPE_NOAMMO,
+    S_PUNCHUP,
+    S_PUNCHDOWN,
+    S_PUNCH,
+    S_PUNCH1,
+    S_NULL
+  },
+  {
+    // pistol
+    AMMO_TYPE_CLIP,
+    S_PISTOLUP,
+    S_PISTOLDOWN,
+    S_PISTOL,
+    S_PISTOL1,
+    S_PISTOLFLASH
+  },
+  {
+    // shotgun
+    AMMO_TYPE_SHELL,
+    S_SGUNUP,
+    S_SGUNDOWN,
+    S_SGUN,
+    S_SGUN1,
+    S_SGUNFLASH1
+  },
+  {
+    // chaingun
+    AMMO_TYPE_CLIP,
+    S_CHAINUP,
+    S_CHAINDOWN,
+    S_CHAIN,
+    S_CHAIN1,
+    S_CHAINFLASH1
+  },
+  {
+    // missile launcher
+    AMMO_TYPE_MISSILE,
+    S_MISSILEUP,
+    S_MISSILEDOWN,
+    S_MISSILE,
+    S_MISSILE1,
+    S_MISSILEFLASH1
+  },
+  {
+    // plasma rifle
+    AMMO_TYPE_CELL,
+    S_PLASMAUP,
+    S_PLASMADOWN,
+    S_PLASMA,
+    S_PLASMA1,
+    S_PLASMAFLASH1
+  },
+  {
+    // bfg 9000
+    AMMO_TYPE_CELL,
+    S_BFGUP,
+    S_BFGDOWN,
+    S_BFG,
+    S_BFG1,
+    S_BFGFLASH1
+  },
+  {
+    // chainsaw
+    AMMO_TYPE_NOAMMO,
+    S_SAWUP,
+    S_SAWDOWN,
+    S_SAW,
+    S_SAW1,
+    S_NULL
+  },
+  {
+    // super shotgun
+    AMMO_TYPE_SHELL,
+    S_DSGUNUP,
+    S_DSGUNDOWN,
+    S_DSGUN,
+    S_DSGUN1,
+    S_DSGUNFLASH1
+  },
+};

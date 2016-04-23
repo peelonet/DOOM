@@ -32,6 +32,7 @@
 #include <netdb.h>
 #include <sys/ioctl.h>
 
+#include "doomdef.h"
 #include "i_system.h"
 #include "d_event.h"
 #include "d_net.h"
