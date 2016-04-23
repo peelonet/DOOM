@@ -375,8 +375,10 @@ void M_LoadDefaults (void)
               *defaults[i].location = parm;
             }
             else
-              *defaults[i].location =
-                (int) newstring;
+            {
+              // TODO: FIXME: Find a proper solution for this.
+              //*defaults[i].location = (int) newstring;
+            }
             break;
           }
       }

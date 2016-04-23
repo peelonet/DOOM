@@ -46,7 +46,6 @@ extern const int ANG180;
 extern const int ANG270;
 
 extern const int SLOPEBITS;
-extern const int DBITS;
 
 // Effective size is 10240.
 extern const fixed_t finesine[5 * FINEANGLES / 4];

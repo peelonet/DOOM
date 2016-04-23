@@ -470,7 +470,7 @@ void* W_CacheLumpNum(int lump, int tag)
     Z_ChangeTag(lumpcache[lump], tag);
   }
 
-  return lumpcache[lump];
+  return result;
 }
 
 //

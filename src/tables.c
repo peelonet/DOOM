@@ -49,7 +49,6 @@ const int ANG180 = 0x80000000;
 const int ANG270 = 0xc0000000;
 
 const int SLOPEBITS = 11;
-const int DBITS = (FRACBITS-SLOPEBITS);
 
 
 /**

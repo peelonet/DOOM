@@ -188,9 +188,6 @@ R_DrawColumnInCache
   int   count;
   int   position;
   uint8_t* source;
-  uint8_t* dest;
-
-  dest = (uint8_t*)cache + 3;
 
   while (patch->topdelta != 0xff)
   {
