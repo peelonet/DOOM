@@ -33,7 +33,7 @@
 #include "w_wad.h"
 
 #include "m_fixed.h"
-#include "r_local.h"
+#include "r_main.h"
 
 // Needs access to LFB (guess what).
 #include "v_video.h"

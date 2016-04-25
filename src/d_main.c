@@ -60,7 +60,8 @@
 #include "am_map.h"
 
 #include "p_setup.h"
-#include "r_local.h"
+#include "r_main.h"
+#include "r_draw.h"
 
 #include "d_main.h"
 

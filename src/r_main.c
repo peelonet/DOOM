@@ -33,12 +33,13 @@
 
 #include "m_bbox.h"
 
-#include "r_local.h"
 #include "r_sky.h"
-
-
-
-
+#include "r_defs.h"
+#include "r_main.h"
+#include "r_bsp.h"
+#include "r_things.h"
+#include "r_plane.h"
+#include "r_draw.h"
 
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW   2048

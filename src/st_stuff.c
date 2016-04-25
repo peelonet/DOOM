@@ -38,8 +38,9 @@
 
 #include "st_stuff.h"
 #include "st_lib.h"
-#include "r_local.h"
 
+#include "d_player.h"
+#include "r_main.h"
 #include "p_local.h"
 
 #include "am_map.h"

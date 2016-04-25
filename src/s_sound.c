@@ -34,6 +34,8 @@
 #include "w_wad.h"
 
 #include "doomdef.h"
+#include "r_defs.h"
+#include "r_main.h"
 #include "p_local.h"
 
 #include "doomstat.h"

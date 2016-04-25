@@ -37,7 +37,6 @@
 
 #include "st_stuff.h"
 #include "st_lib.h"
-#include "r_local.h"
 
 
 // in AM_map.c

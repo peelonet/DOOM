@@ -31,6 +31,10 @@
 
 #include "m_random.h"
 #include "m_fixed.h"
+#include "p_mobj.h"
+#include "d_player.h"
+#include "r_defs.h"
+#include "r_main.h"
 #include "p_local.h"
 #include "s_sound.h"
 

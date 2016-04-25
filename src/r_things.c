@@ -34,7 +34,12 @@
 #include "w_wad.h"
 
 #include "m_fixed.h"
-#include "r_local.h"
+#include "r_defs.h"
+#include "r_draw.h"
+#include "r_bsp.h"
+#include "r_things.h"
+#include "r_main.h"
+#include "r_segs.h"
 
 #include "doomstat.h"
 

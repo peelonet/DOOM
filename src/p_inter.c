@@ -36,6 +36,8 @@
 
 #include "am_map.h"
 
+#include "r_defs.h"
+#include "r_main.h"
 #include "p_local.h"
 
 #include "s_sound.h"

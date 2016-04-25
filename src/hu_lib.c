@@ -29,8 +29,8 @@
 #include "m_swap.h"
 
 #include "hu_lib.h"
-#include "r_local.h"
 #include "r_draw.h"
+#include "r_main.h"
 
 // boolean : whether the screen is always erased
 #define noterased viewwindowx

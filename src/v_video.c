@@ -29,7 +29,6 @@
 
 #include "i_system.h"
 #include "m_fixed.h"
-#include "r_local.h"
 
 #include "doomdef.h"
 #include "doomdata.h"

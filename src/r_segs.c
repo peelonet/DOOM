@@ -31,8 +31,12 @@
 #include "doomdef.h"
 #include "doomstat.h"
 
-#include "r_local.h"
+#include "r_main.h"
+#include "r_bsp.h"
 #include "r_sky.h"
+#include "r_draw.h"
+#include "r_plane.h"
+#include "r_things.h"
 
 
 // OPTIMIZE: closed two sided lines as single sided

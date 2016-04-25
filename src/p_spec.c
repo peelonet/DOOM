@@ -40,7 +40,7 @@
 #include "m_random.h"
 #include "w_wad.h"
 
-#include "r_local.h"
+#include "r_defs.h"
 #include "p_local.h"
 
 #include "g_game.h"

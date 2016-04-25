@@ -53,6 +53,8 @@
 #include "w_wad.h"
 
 #include "p_local.h"
+#include "r_main.h"
+#include "r_draw.h"
 
 #include "s_sound.h"
 

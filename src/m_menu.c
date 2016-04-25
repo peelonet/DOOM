@@ -38,8 +38,7 @@
 #include "v_video.h"
 #include "w_wad.h"
 
-#include "r_local.h"
-
+#include "r_main.h"
 
 #include "hu_stuff.h"
 

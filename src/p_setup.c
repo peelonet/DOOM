@@ -38,6 +38,10 @@
 #include "w_wad.h"
 
 #include "doomdef.h"
+#include "p_mobj.h"
+#include "r_defs.h"
+#include "r_main.h"
+#include "r_things.h"
 #include "p_local.h"
 
 #include "s_sound.h"

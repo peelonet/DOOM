@@ -31,6 +31,9 @@
 #include "m_bbox.h"
 
 #include "doomdef.h"
+#include "p_mobj.h"
+#include "r_defs.h"
+#include "r_main.h"
 #include "p_local.h"
 
 // State.

@@ -30,6 +30,10 @@
 #include "i_system.h"
 
 #include "doomdef.h"
+#include "p_mobj.h"
+#include "d_player.h"
+#include "r_defs.h"
+#include "r_main.h"
 #include "p_local.h"
 
 #include "s_sound.h"

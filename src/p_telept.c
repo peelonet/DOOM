@@ -27,6 +27,9 @@
 
 #include "s_sound.h"
 #include "m_fixed.h"
+#include "p_mobj.h"
+#include "d_player.h"
+#include "r_defs.h"
 #include "p_local.h"
 
 
