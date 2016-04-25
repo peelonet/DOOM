@@ -418,22 +418,13 @@ V_GetBlock
   }
 }
 
-
-
-
-//
-// V_Init
-//
-void V_Init (void)
+void V_Init()
 {
-  int   i;
-  uint8_t* base;
+  const size_t size = SCREENWIDTH * SCREENHEIGHT * 4;
+  uint8_t* base = (uint8_t*) malloc(size);
 
-  // stick these in low dos memory on PCs
-
-  base = I_AllocLow (SCREENWIDTH * SCREENHEIGHT * 4);
-
-  for (i = 0 ; i < 4 ; i++)
+  memset(base, 0, size);
+  for (int i = 0; i < 4; ++i)
   {
     screens[i] = base + i * SCREENWIDTH * SCREENHEIGHT;
   }

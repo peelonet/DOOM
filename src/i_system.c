@@ -132,15 +132,6 @@ void I_WaitVBL(int count)
 #endif
 }
 
-uint8_t* I_AllocLow(int length)
-{
-  uint8_t* mem;
-
-  mem = (uint8_t*)malloc (length);
-  memset (mem, 0, length);
-  return mem;
-}
-
 void I_Error(const char* format, ...)
 {
   va_list ap;
