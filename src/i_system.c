@@ -141,24 +141,18 @@ uint8_t* I_AllocLow(int length)
   return mem;
 }
 
-
-//
-// I_Error
-//
-extern bool demorecording;
-
-void I_Error (char* error, ...)
+void I_Error(const char* format, ...)
 {
-  va_list argptr;
+  va_list ap;
 
   // Message first.
-  va_start (argptr, error);
-  fprintf (stderr, "Error: ");
-  vfprintf (stderr, error, argptr);
-  fprintf (stderr, "\n");
-  va_end (argptr);
+  va_start(ap, format);
+  fprintf(stderr, "Error: ");
+  vfprintf(stderr, format, ap);
+  fprintf(stderr, "\n");
+  va_end(ap);
 
-  fflush( stderr );
+  fflush(stderr);
 
   // Shutdown. Here might be other errors.
   if (demorecording)
@@ -166,8 +160,12 @@ void I_Error (char* error, ...)
     G_CheckDemoStatus();
   }
 
-  D_QuitNetGame ();
+  D_QuitNetGame();
   I_ShutdownGraphics();
 
-  exit(-1);
+#if defined(DEBUG)
+  abort();
+#else
+  exit(EXIT_FAILURE);
+#endif
 }

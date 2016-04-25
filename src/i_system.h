@@ -78,13 +78,6 @@ uint8_t* I_AllocLow (int length);
 
 void I_Tactile (int on, int off, int total);
 
+void I_Error(const char* format, ...);
 
-void I_Error (char* error, ...);
-
-
-#endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------
+#endif /* !__I_SYSTEM__ */
