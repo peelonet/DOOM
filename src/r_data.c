@@ -688,78 +688,56 @@ void R_InitData (void)
   printf ("\nInitColormaps");
 }
 
-
-
-//
-// R_FlatNumForName
-// Retrieval, get a flat number for a flat name.
-//
-int R_FlatNumForName (char* name)
+/**
+ * Retrieval, get a flat number for a flat name.
+ */
+int R_FlatNumForName(const char* name)
 {
-  int   i;
-  char  namet[9];
+  const int index = W_CheckNumForName(name);
 
-  i = W_CheckNumForName (name);
-
-  if (i == -1)
+  if (index < 0)
   {
-    namet[8] = 0;
-    memcpy (namet, name, 8);
-    I_Error ("R_FlatNumForName: %s not found", namet);
+    I_Error("R_FlatNumForName: %s not found", name);
   }
-  return i - firstflat;
+
+  return index - firstflat;
 }
 
-
-
-
-//
-// R_CheckTextureNumForName
-// Check whether texture is available.
-// Filter out NoTexture indicator.
-//
-int R_CheckTextureNumForName (char* name)
+/**
+ * Check whether texture is available. Filter out NoTexture indicator.
+ */
+int R_CheckTextureNumForName(const char* name)
 {
-  int   i;
-
   // "NoTexture" marker.
   if (name[0] == '-')
   {
     return 0;
   }
-
-  for (i = 0 ; i < numtextures ; i++)
-    if (!strncasecmp (textures[i]->name, name, 8) )
+  for (int i = 0; i < numtextures; ++i)
+  {
+    if (!strncasecmp(textures[i]->name, name, 8))
     {
       return i;
     }
+  }
 
   return -1;
 }
 
-
-
-//
-// R_TextureNumForName
-// Calls R_CheckTextureNumForName,
-//  aborts with error message.
-//
-int R_TextureNumForName (char* name)
+/**
+ * Calls R_CheckTextureNumForName, aborts with error message.
+ */
+int R_TextureNumForName(const char* name)
 {
-  int   i;
+  const int index = R_CheckTextureNumForName(name);
 
-  i = R_CheckTextureNumForName (name);
-
-  if (i == -1)
+  if (index < 0)
   {
-    I_Error ("R_TextureNumForName: %s not found",
-             name);
+    I_Error("R_TextureNumForName: %s not found", name);
   }
-  return i;
+
+  return index;
 }
-
-
-
 
 //
 // R_PrecacheLevel
