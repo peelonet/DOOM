@@ -26,6 +26,8 @@
 #include <string.h>
 #include <limits.h>
 
+#include <SDL_endian.h>
+
 #include "doomdef.h"
 #include "m_swap.h"
 

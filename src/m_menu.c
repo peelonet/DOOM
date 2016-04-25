@@ -27,6 +27,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <SDL_endian.h>
+
 #include "doomdef.h"
 #include "dstrings.h"
 

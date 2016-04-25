@@ -27,6 +27,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <SDL_endian.h>
+
 #include "i_system.h"
 #include "m_fixed.h"
 

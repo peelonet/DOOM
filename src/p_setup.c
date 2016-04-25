@@ -27,6 +27,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <SDL_endian.h>
+
 #include "z_zone.h"
 
 #include "m_swap.h"

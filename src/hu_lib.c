@@ -23,6 +23,8 @@
 #include <stdint.h>
 #include <ctype.h>
 
+#include <SDL_endian.h>
+
 #include "doomdef.h"
 
 #include "v_video.h"

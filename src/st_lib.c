@@ -24,6 +24,8 @@
 #include <stdint.h>
 #include <ctype.h>
 
+#include <SDL_endian.h>
+
 #include "doomdef.h"
 
 #include "z_zone.h"

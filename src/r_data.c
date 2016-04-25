@@ -28,6 +28,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <SDL_endian.h>
+
 #include "i_system.h"
 #include "z_zone.h"
 

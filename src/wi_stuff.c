@@ -25,6 +25,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include <SDL_endian.h>
+
 #include "z_zone.h"
 
 #include "m_random.h"

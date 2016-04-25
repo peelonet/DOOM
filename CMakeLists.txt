@@ -36,7 +36,6 @@ set(
   src/m_menu.c
   src/m_misc.c
   src/m_random.c
-  src/m_swap.c
   src/p_ceilng.c
   src/p_doors.c
   src/p_enemy.c

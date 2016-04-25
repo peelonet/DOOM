@@ -26,6 +26,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <SDL_endian.h>
+
 // Functions.
 #include "i_system.h"
 #include "m_swap.h"
