@@ -63,10 +63,10 @@ memzone_t*  mainzone;
 //
 void Z_Init (void)
 {
+  static const size_t size = 16 * 1024 * 1024;
   memblock_t* block;
-  int   size;
 
-  mainzone = (memzone_t*)I_ZoneBase (&size);
+  mainzone = (memzone_t*) malloc(size);
   mainzone->size = size;
 
   // set the entire zone to one free block

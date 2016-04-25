@@ -39,12 +39,6 @@
 
 #include "i_system.h"
 
-
-
-
-int mb_used = 6;
-
-
 void
 I_Tactile
 ( int on,
@@ -60,20 +54,6 @@ ticcmd_t* I_BaseTiccmd(void)
 {
   return &emptycmd;
 }
-
-
-int  I_GetHeapSize (void)
-{
-  return mb_used * 1024 * 1024;
-}
-
-uint8_t* I_ZoneBase (int*  size)
-{
-  *size = mb_used * 1024 * 1024;
-  return (uint8_t*) malloc (*size);
-}
-
-
 
 //
 // I_GetTime
