@@ -57,16 +57,15 @@
 // a patch or sprite is composed of zero or more columns.
 //
 
-
-
-//
-// Texture definition.
-// Each texture is composed of one or more patches,
-// with patches being lumps stored in the WAD.
-// The lumps are referenced by number, and patched
-// into the rectangular texture space using origin
-// and possibly other attributes.
-//
+/**
+ * Texture definition.
+ *
+ * Each texture is composed of one or more patches, with patches being lumps
+ * stored in the WAD.
+ *
+ * The lumps are referenced by number, and patched into the rectangular texture
+ * space using origin and possibly other attributes.
+ */
 typedef struct
 {
   int16_t originx;
@@ -74,7 +73,7 @@ typedef struct
   int16_t patch;
   int16_t stepdir;
   int16_t colormap;
-} mappatch_t;
+} MapPatch;
 
 /**
  * Texture definition.
@@ -84,13 +83,13 @@ typedef struct
  */
 typedef struct
 {
-  char        name[8];
-  int8_t      masked;
-  int16_t     width;
-  int16_t     height;
-  int         obsolete;
-  int16_t     patchcount;
-  mappatch_t  patches[1];
+  char     name[8];
+  int32_t  masked;
+  int16_t  width;
+  int16_t  height;
+  int32_t  obsolete;
+  int16_t  patchcount;
+  MapPatch patches[1];
 } MapTexture;
 
 
@@ -109,7 +108,7 @@ typedef struct
 
 
 // A maptexturedef_t describes a rectangular texture,
-//  which is composed of one or more mappatch_t structures
+//  which is composed of one or more MapPatch structures
 //  that arrange graphic patches.
 typedef struct
 {
@@ -432,7 +431,7 @@ void R_InitTextures (void)
 {
   MapTexture* mtexture;
   texture_t*    texture;
-  mappatch_t*   mpatch;
+  MapPatch*   mpatch;
   texpatch_t*   patch;
 
   int     i;
